@@ -1,14 +1,13 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+
+import PublicRoutes from "./routes/Routes";
+
+import './App.scss';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-          <h1>My Trello</h1>
-        <img src={logo} className="App-logo" alt="logo" />
-      </header>
+        <PublicRoutes />
     </div>
   );
 }
