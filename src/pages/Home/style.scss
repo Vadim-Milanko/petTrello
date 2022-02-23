@@ -8,45 +8,6 @@
   background: linear-gradient(0deg, #fff, #eae6ff 100%);
   overflow-x: hidden;
 
-  &__header {
-    position: fixed;
-    top: 0;
-    right: 0;
-    left: 0;
-    z-index: 1030;
-
-    &__navigation {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 16px;
-
-      &__rightNav{
-        display: flex;
-        align-items: center;
-      }
-
-      &__link {
-        display: inline-block;
-        text-decoration: none;
-        color: #0065ff;
-        padding: 0.25rem 0.5rem;
-        font-size: 1.09375rem;
-        line-height: 1.5;
-        border-radius: 0.2rem;
-      }
-    }
-  }
-  .btn-signup {
-    background-color: #0065ff;
-    color: #fff;
-    display: inline-block;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: middle;
-    border: 1px solid transparent;
-  }
-
   &__info {
     display: flex;
     flex-direction: column;
