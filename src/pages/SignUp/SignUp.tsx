@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import { Link } from "react-router-dom";
 import { Card, TextField } from '@material-ui/core';
-import Alert from '@material-ui/lab/Alert';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import { FormikProps, useFormik} from "formik";
 import * as Yup from "yup";
+
+import { chekOnRegistred } from "../../utils/signUp";
 
 import logo from '../../assets/images/Trello_logo.svg';
 
@@ -47,7 +48,6 @@ const SignUp: React.FC = (): JSX.Element => {
   const onSubmit = async (values: IUser) => {
     try {
       const user = await registerUser(values)
-      console.log('bla')
     } catch (err) {
       console.log(err);
     }
@@ -74,18 +74,12 @@ const SignUp: React.FC = (): JSX.Element => {
     return users;
   }
 
-  const chekOnRegistred = (currentUsers: IUser[], newUser: IUser): boolean => {
-    const duplicateEmail = currentUsers.find(user => user.email === newUser.email);
-
-    return typeof(duplicateEmail) !== 'undefined';
-  }
-
-  const registerUser = async (userPayload: ICreateUserValues) => {
+  const registerUser = async (userPayload: ICreateUserValues): Promise<void> => {
     const usersFromDb = await getUsers();
 
     const isAlreadyRegistred = chekOnRegistred(usersFromDb, userPayload);
 
-    const result = await api.registerUser(userPayload);
+    const registrationResult = isAlreadyRegistred ? 'show error toast' : await api.registerUser(userPayload);
   }
 
   return (
@@ -93,9 +87,6 @@ const SignUp: React.FC = (): JSX.Element => {
       <img className='signUpWrap__mainLogo' src={logo} alt="logo"/>
       <section className='signUpWrap__innerSection'>
         <Card className={classes.root}>
-          {/*{*/}
-          {/*  true ? <Alert severity="success" closeText='close'>Success registration!</Alert> : null*/}
-          {/*}*/}
           <p>Register an account</p>
           <form className='signUpWrap__innerSection__form' onSubmit={formik.handleSubmit}>
             <div className='form-control'>

@@ -28,8 +28,6 @@ class Api implements IApi {
 
         async registerUser(userData): Promise<any> {
             const result = await request.patch(FETCH_URLS.users, userData)
-            console.log(userData);
-            console.log(result);
 
             return result;
     }
