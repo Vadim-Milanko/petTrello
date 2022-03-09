@@ -1,3 +1,5 @@
+@import "src/assets/sass/glob";
+
 .header {
   position: fixed;
   top: 0;
@@ -19,7 +21,7 @@
     &__link {
       display: inline-block;
       text-decoration: none;
-      color: #0065ff;
+      color: $c-link;
       padding: 0.25rem 0.5rem;
       font-size: 1.09375rem;
       line-height: 1.5;
@@ -29,8 +31,8 @@
 }
 
 .btn-signup {
-  background-color: #0065ff;
-  color: #fff;
+  background-color: $c-btn;
+  color: $c-white;
   display: inline-block;
   text-align: center;
   white-space: nowrap;

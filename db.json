@@ -1,5 +1,10 @@
 {
   "users": [
-    { "id": 1, "email": "vadim.milanko@gmail.com", "login": "vmila", "password": "password123" }
+    {
+      "id": 1,
+      "email": "vadim.milanko@gmail.com",
+      "login": "vmila",
+      "password": "password123"
+    }
   ]
 }

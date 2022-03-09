@@ -1,34 +1,51 @@
+@import "src/assets/sass/glob";
+
 .signUpWrap {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  background-color: #F9FAFC;
+  padding-top: 110px;
+  background-color: $bg-main;
+  height: 610px;
 
   &__mainLogo {
     display: block;
     height: 43px;
     width: 100%;
-    margin-top: 40px;
     margin-bottom: 40px;
   }
 
   &__innerSection {
+    &__card {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 400px;
+      height: 100%;
+    }
 
     &__form {
       display: flex;
       flex-direction: column;
+
+      &__button{
+        margin-bottom: 17px;
+        height: 35px;
+        width: 100%;
+      }
     }
   }
 }
 
 .link {
   text-decoration: none;
-  color: #0052CC;
+  color: $c-link;
   text-align: center;
   font-size: 14px;
   display: block;
   padding: 0;
+  margin-bottom: 16px;
     &:hover {
       text-decoration: underline;
     }
@@ -37,8 +54,10 @@
 .form-control {
   margin-bottom: 17px;
   text-align: left;
+
+  &__error {
+    color: $c-error;
+  }
 }
 
-.error {
-  color: red;
-}
+

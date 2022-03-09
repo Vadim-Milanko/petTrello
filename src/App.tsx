@@ -1,13 +1,13 @@
 import React from 'react';
 
-import PublicRoutes from "./routes/Routes";
+import PublicRoutes from './routes/Routes';
 
 import './App.scss';
 
-function App() {
+function App(): JSX.Element {
   return (
     <div className="App">
-        <PublicRoutes />
+      <PublicRoutes />
     </div>
   );
 }
