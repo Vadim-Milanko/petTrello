@@ -1,18 +1,20 @@
 import axios from 'axios';
+
 import { BASE_URL, VALIDATION_MESSAGES } from './constants';
 import { FETCH_URLS } from '../pages/SignUp/constants';
 import { chekOnRegistred } from '../utils/signUp';
 import { IUser } from '../pages/SignUp/SignUp';
+
+export interface IServerResponse {
+  hasError: boolean;
+  message: string;
+}
 
 export interface IUsersApi {
     fetchUsers():Promise<IUser[]>;
     registerUser(userData: IUser): Promise<IServerResponse>
 }
 
-export interface IServerResponse {
-    hasError: boolean;
-    message: string;
-}
 const request = axios.create({
   baseURL: BASE_URL,
 });

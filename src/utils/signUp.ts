@@ -1,5 +1,7 @@
-export const chekOnRegistred = (currentUsers: IUser[], newUser: IUser): boolean => {
-  const duplicateEmail = currentUsers.find(user => user.email === newUser.email);
+import { IUser } from '../pages/SignUp/SignUp';
 
-  return typeof(duplicateEmail) !== 'undefined';
-}
+export const chekOnRegistred = (currentUsers: IUser[], newUser: IUser): boolean => {
+  const duplicateEmail = currentUsers.find((user) => user.email === newUser.email);
+
+  return typeof (duplicateEmail) !== 'undefined';
+};

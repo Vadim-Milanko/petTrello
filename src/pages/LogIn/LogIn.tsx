@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { FormikProps, useFormik } from "formik";
-import { Card, TextField } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import React, { useState } from 'react';
+import { useFormik } from 'formik';
+import { Card, TextField } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 
-import { IUser } from "../SignUp/SignUp";
-import { logInSchema } from "../../utils/validationSchema";
-import logo from "../../assets/images/Trello_logo.svg";
+import { IUser } from '../SignUp/SignUp';
+import { logInSchema } from '../../utils/validationSchema';
+import logo from '../../assets/images/Trello_logo.svg';
 
 import '../SignUp/style.scss';
 
@@ -14,15 +14,17 @@ const initialValues = {
   password: '',
 };
 
+type authFormFields = 'email' | 'password';
+
 const logInFormInfo = [
   {
     id: 'outlined-email',
-    name: 'email',
+    name: 'email' as authFormFields,
     placeholder: 'Email',
   },
   {
     id: 'outlined-password',
-    name: 'password',
+    name: 'password' as authFormFields,
     placeholder: 'Password',
   },
 ];
@@ -36,24 +38,24 @@ export interface IUsers {
   users: IUser[];
 }
 
-export type errorLabels = 'email' | 'password';
-
 function LogIn(): JSX.Element {
   const [isLogin, setIsLogin] = useState<boolean>(false);
 
+  console.log(isLogin, setIsLogin);
+
   const onSubmit = async (values: ILoginUserData) => {
     try {
-      console.log(isLogin);
+      console.log(values);
     } catch (err) {
       console.log(err);
     }
-  }
+  };
 
-  const formik: FormikProps<ILoginUserData> = useFormik<ILoginUserData>({
+  const formik = useFormik<ILoginUserData>({
     initialValues,
     onSubmit,
     validationSchema: logInSchema,
-  })
+  });
 
   return (
     <div className="signUpWrap">
@@ -63,7 +65,7 @@ function LogIn(): JSX.Element {
           <p>Login Trello</p>
           <form className="signUpWrap__innerSection__form" onSubmit={formik.handleSubmit}>
             {
-              logInFormInfo.map(input => {
+              logInFormInfo.map((input) => {
                 const {
                   id,
                   name,
@@ -78,17 +80,17 @@ function LogIn(): JSX.Element {
                       placeholder={placeholder}
                       variant="outlined"
                       onChange={formik.handleChange}
-                      value={formik.values[name as errorLabels]}
+                      value={formik.values[name]}
                       onBlur={formik.handleBlur}
                     />
-                    {formik.touched[name as errorLabels] && formik.errors[name as errorLabels]
+                    {formik.touched[name] && formik.errors[name]
                       ? (
                         <div className="form-control__error">
-                          {formik.errors[name as errorLabels]}
+                          {formik.errors[name]}
                         </div>
                       ) : null}
                   </div>
-                )
+                );
               })
             }
             <button

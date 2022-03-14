@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Card, TextField } from '@material-ui/core';
-import { FormikProps, useFormik } from 'formik';
+import { Card } from '@material-ui/core';
+import { useFormik } from 'formik';
 
 import api from '../../api/Api';
 import { signUpSchema } from '../../utils/validationSchema';
-import CustomToast from "../../components/CustomToast/CustomToast";
+import CustomToast from '../../components/CustomToast';
+import CustomForm from '../../components/CustomForm';
+import CustomButton from '../../components/CustomButton';
 import logo from '../../assets/images/Trello_logo.svg';
 
 import './style.scss';
@@ -16,20 +18,22 @@ const initialValues = {
   password: '',
 };
 
+type authFormFields = 'login' | 'email' | 'password';
+
 const signUpFormInfo = [
   {
     id: 'outlined-login',
-    name: 'login',
+    name: 'login' as authFormFields,
     placeholder: 'Login',
   },
   {
     id: 'outlined-email',
-    name: 'email',
+    name: 'email' as authFormFields,
     placeholder: 'Email',
   },
   {
     id: 'outlined-password',
-    name: 'password',
+    name: 'password' as authFormFields,
     placeholder: 'Password',
   },
 ];
@@ -45,23 +49,17 @@ export interface IRegisterResponse {
   message: string;
 }
 
-type errorLabels = 'login' | 'email' | 'password';
-
 function SignUp(): JSX.Element {
-  const [active, setActive] = useState(false);
+  const [isVisible, setIsVisible] = useState<boolean>(false);
   const [registerResponse, setRegisterResponse] = useState<IRegisterResponse | null>(null);
 
   const onSubmit = async (values: IUser) => {
-    try {
-      const user = await api.registerUser(values);
-      setRegisterResponse(user);
-      setActive(true);
-    } catch (err) {
-      console.log(err);
-    }
+    const user = await api.registerUser(values);
+    setRegisterResponse(user);
+    setIsVisible(true);
   };
 
-  const formik: FormikProps<IUser> = useFormik<IUser>({
+  const formik = useFormik<IUser>({
     initialValues,
     onSubmit,
     validationSchema: signUpSchema,
@@ -73,51 +71,28 @@ function SignUp(): JSX.Element {
       <section className="signUpWrap__innerSection">
         <Card className="signUpWrap__innerSection__card">
           <p>Register an account</p>
-          <form className="signUpWrap__innerSection__form" onSubmit={formik.handleSubmit}>
-            {signUpFormInfo.map(input => {
-              const {
-                id,
-                name,
-                placeholder,
-              } = input;
-
-              return (
-                <div key={id} className="form-control">
-                  <TextField
-                    id={id}
-                    name={name}
-                    placeholder={placeholder}
-                    variant="outlined"
-                    onChange={formik.handleChange}
-                    value={formik.values[name as errorLabels]}
-                    onBlur={formik.handleBlur}
-                  />
-                  {formik.touched[name as errorLabels] && formik.errors[name as errorLabels]
-                    ? (
-                      <div className="form-control__error">
-                        {formik.errors[name as errorLabels]}
-                      </div>
-                    ) : null}
-                </div>
-              );
-            })}
-            <button
+          <CustomForm
+            formInfo={signUpFormInfo}
+            formik={formik}
+          >
+            <CustomButton
               className="signUpWrap__innerSection__form__button"
-              type="submit"
-              disabled={false}
-            >
-              Continue
-            </button>
-          </form>
+              isDisabled={false}
+              text="Continue"
+            />
+          </CustomForm>
           <Link className="link" to="/login">Already have an account? Login</Link>
         </Card>
       </section>
       {
-        active
-          ? <CustomToast
-            response={registerResponse}
-            setToastVisible={setActive}
+        isVisible
+          ? (
+            <CustomToast
+              response={registerResponse}
+              setToastVisible={setIsVisible}
+              message={registerResponse?.message}
             />
+          )
           : null
       }
     </div>

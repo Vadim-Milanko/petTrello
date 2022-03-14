@@ -33,6 +33,10 @@ module.exports = {
   ],
   rules: {
     'react/jsx-filename-extension': [2, { extensions: ['.js', '.jsx', '.ts', '.tsx'] }],
+    'no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': ['error'],
+    'class-methods-use-this': 'off',
+    'import/prefer-default-export': 'off',
 
     'import/extensions': ['error', {
       js: 'never',
@@ -41,5 +45,12 @@ module.exports = {
       tsx: 'never',
       scss: 'always',
     }],
+  },
+  settings: {
+    'import/resolver': {
+      node: {
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+      },
+    },
   },
 };
