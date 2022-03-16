@@ -1,19 +1,26 @@
-import React from 'react';
+import React, { MouseEvent } from 'react';
+
+type buttonType = 'submit' | 'button' | 'reset' | 'menu';
 
 interface IProps {
-  className: string;
+  buttonClassName: string;
   isDisabled: boolean;
   text: string;
+  type: buttonType;
+  onClick?: (event: MouseEvent<HTMLButtonElement> | undefined) => void;
 }
 
 function CustomButton(props: IProps): JSX.Element {
-  const { className, isDisabled, text } = props;
+  const {
+    buttonClassName, isDisabled, text, type = 'submit', onClick = () => {},
+  } = props;
 
   return (
     <button
-      className={className}
-      type="submit"
+      className={buttonClassName}
+      type={type}
       disabled={isDisabled}
+      onClick={onClick}
     >
       {text}
     </button>

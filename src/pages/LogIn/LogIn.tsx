@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useFormik } from 'formik';
-import { Card, TextField } from '@material-ui/core';
+import { Card } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 
 import { IUser } from '../SignUp/SignUp';
+import CustomForm from '../../components/CustomForm';
+import CustomButton from '../../components/CustomButton';
 import { logInSchema } from '../../utils/validationSchema';
 import logo from '../../assets/images/Trello_logo.svg';
 
@@ -38,8 +40,13 @@ export interface IUsers {
   users: IUser[];
 }
 
-function LogIn(): JSX.Element {
-  const [isLogin, setIsLogin] = useState<boolean>(false);
+interface IProps {
+  isLogin: boolean;
+  setIsLogin: (status: boolean) => void;
+}
+
+function LogIn(props: IProps): JSX.Element {
+  const { isLogin, setIsLogin } = props;
 
   console.log(isLogin, setIsLogin);
 
@@ -63,44 +70,23 @@ function LogIn(): JSX.Element {
       <section className="signUpWrap__innerSection">
         <Card className="signUpWrap__innerSection__card">
           <p>Login Trello</p>
-          <form className="signUpWrap__innerSection__form" onSubmit={formik.handleSubmit}>
-            {
-              logInFormInfo.map((input) => {
-                const {
-                  id,
-                  name,
-                  placeholder,
-                } = input;
-
-                return (
-                  <div key={id} className="form-control">
-                    <TextField
-                      id={id}
-                      name={name}
-                      placeholder={placeholder}
-                      variant="outlined"
-                      onChange={formik.handleChange}
-                      value={formik.values[name]}
-                      onBlur={formik.handleBlur}
-                    />
-                    {formik.touched[name] && formik.errors[name]
-                      ? (
-                        <div className="form-control__error">
-                          {formik.errors[name]}
-                        </div>
-                      ) : null}
-                  </div>
-                );
-              })
-            }
-            <button
-              className="signUpWrap__innerSection__form__button"
+          <CustomForm
+            formClassName="signUpWrap__innerSection__form"
+            formInfo={logInFormInfo}
+            values={formik.values}
+            handleBlur={formik.handleBlur}
+            handleSubmit={formik.handleSubmit}
+            handleChange={formik.handleChange}
+            touched={formik.touched}
+            errors={formik.errors}
+          >
+            <CustomButton
+              buttonClassName="signUpWrap__innerSection__form__button"
+              isDisabled={false}
+              text="Login"
               type="submit"
-              disabled={false}
-            >
-              Login
-            </button>
-          </form>
+            />
+          </CustomForm>
           <Link className="link" to="/signup">Register an account</Link>
         </Card>
       </section>

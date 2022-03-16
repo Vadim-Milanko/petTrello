@@ -1,29 +1,47 @@
-import React from 'react';
+import React, { FormEvent } from 'react';
 import { TextField } from '@material-ui/core';
-import { FormikProps } from 'formik';
+import { FormikErrors, FormikTouched } from 'formik';
 
 import ValidationText from './ValidationText';
+import { authFormFields, IUser } from '../pages/SignUp/SignUp';
+import { ILoginUserData } from "../pages/LogIn/LogIn";
 
 interface IInputInfo {
   id: string;
-  name: string;
+  name: authFormFields;
   placeholder: string;
 }
 
 export interface IProps {
-  formInfo: IInputInfo[];
-  formik: FormikProps<any>;
   children: JSX.Element;
+  formClassName: string;
+  formInfo: IInputInfo[];
+  values: IUser | ILoginUserData;
+  handleBlur: (e: FocusEvent) => void;
+  handleSubmit: () => void;
+  handleChange: (value: FormEvent) => void;
+  touched: FormikTouched<IUser>;
+  errors: FormikErrors<IUser>;
 }
 
 function CustomForm(props: IProps): JSX.Element {
-  const { formInfo, formik, children } = props;
+  const {
+    formClassName,
+    formInfo,
+    children,
+    values,
+    handleBlur,
+    handleSubmit,
+    handleChange,
+    touched,
+    errors,
+  } = props;
 
   return (
-    <form className="signUpWrap__innerSection__form" onSubmit={formik.handleSubmit}>
+    <form className={formClassName} onSubmit={handleSubmit}>
       {formInfo.map((input) => {
         const { id, name, placeholder } = input;
-        const { values, handleBlur, handleChange } = formik;
+        const isVisibleValidation = touched[name] && errors[name];
 
         return (
           <div key={id} className="form-control">
@@ -37,9 +55,9 @@ function CustomForm(props: IProps): JSX.Element {
               onBlur={handleBlur}
             />
             <ValidationText
-              className="form-control__error"
-              formik={formik}
-              name={name}
+              validationClassName="form-control__error"
+              visible={isVisibleValidation}
+              errorText={errors[name]}
             />
           </div>
         );

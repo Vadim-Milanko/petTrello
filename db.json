@@ -7,10 +7,22 @@
       "password": "password123"
     },
     {
-      "login": "vadim.milanqail.com",
-      "email": "milanformqqe95@gmail.com",
+      "login": "asd",
+      "email": "milanforme1195@gmail.com",
       "password": "qdqw",
       "id": 2
+    },
+    {
+      "login": "asd",
+      "email": "milanforme11915@gmail.com",
+      "password": "qdqw",
+      "id": 3
+    },
+    {
+      "login": "asd",
+      "email": "milanforme111915@gmail.com",
+      "password": "qdqw",
+      "id": 4
     }
   ]
 }

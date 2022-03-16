@@ -11,6 +11,7 @@ import CustomButton from '../../components/CustomButton';
 import logo from '../../assets/images/Trello_logo.svg';
 
 import './style.scss';
+import { Redirect } from "react-router";
 
 const initialValues = {
   login: '',
@@ -18,7 +19,7 @@ const initialValues = {
   password: '',
 };
 
-type authFormFields = 'login' | 'email' | 'password';
+export type authFormFields = 'login' | 'email' | 'password';
 
 const signUpFormInfo = [
   {
@@ -49,7 +50,17 @@ export interface IRegisterResponse {
   message: string;
 }
 
-function SignUp(): JSX.Element {
+interface IProps {
+  isLogin: boolean;
+  setIsLogin: (status: boolean) => void;
+}
+
+function SignUp(props: IProps): JSX.Element {
+  const { isLogin, setIsLogin } = props;
+
+  console.log(isLogin);
+  console.log(setIsLogin);
+
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [registerResponse, setRegisterResponse] = useState<IRegisterResponse | null>(null);
 
@@ -57,6 +68,7 @@ function SignUp(): JSX.Element {
     const user = await api.registerUser(values);
     setRegisterResponse(user);
     setIsVisible(true);
+    setIsLogin(true);
   };
 
   const formik = useFormik<IUser>({
@@ -65,6 +77,7 @@ function SignUp(): JSX.Element {
     validationSchema: signUpSchema,
   });
 
+  console.log(isLogin);
   return (
     <div className="signUpWrap">
       <img className="signUpWrap__mainLogo" src={logo} alt="logo" />
@@ -72,13 +85,20 @@ function SignUp(): JSX.Element {
         <Card className="signUpWrap__innerSection__card">
           <p>Register an account</p>
           <CustomForm
+            formClassName="signUpWrap__innerSection__form"
             formInfo={signUpFormInfo}
-            formik={formik}
+            values={formik.values}
+            handleBlur={formik.handleBlur}
+            handleSubmit={formik.handleSubmit}
+            handleChange={formik.handleChange}
+            touched={formik.touched}
+            errors={formik.errors}
           >
             <CustomButton
-              className="signUpWrap__innerSection__form__button"
+              buttonClassName="signUpWrap__innerSection__form__button"
               isDisabled={false}
               text="Continue"
+              type="submit"
             />
           </CustomForm>
           <Link className="link" to="/login">Already have an account? Login</Link>

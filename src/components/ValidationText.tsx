@@ -1,22 +1,25 @@
 import React from 'react';
-import { FormikProps } from 'formik';
+
+type visibleType = string | boolean | undefined;
 
 interface IProps {
-  className: string;
-  formik: FormikProps<any>;
-  name: string;
+  validationClassName: string;
+  errorText: string | undefined;
+  visible: visibleType;
 }
 
 function ValidationText(props: IProps): JSX.Element {
-  const { className, formik: { touched, errors }, name } = props;
+  const {
+    validationClassName, visible = false, errorText = '',
+  } = props;
 
   return (
     <div>
       {
-        touched[name] && errors[name]
+        visible
           ? (
-            <div className={className}>
-              {errors[name]}
+            <div className={validationClassName}>
+              {errorText}
             </div>
           ) : null
       }
