@@ -1,18 +1,26 @@
 import React, { MouseEvent } from 'react';
 
-type buttonType = 'submit' | 'button' | 'reset' | 'menu';
+export type buttonType = 'submit' | 'button' | 'reset' | undefined;
 
 interface IProps {
   buttonClassName: string;
   isDisabled: boolean;
   text: string;
   type: buttonType;
-  onClick?: (event: MouseEvent<HTMLButtonElement> | undefined) => void;
+  onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
 }
 
-function CustomButton(props: IProps): JSX.Element {
+const defaultProps = {
+  onClick: () => {},
+};
+
+function CustomButton(props: IProps & typeof defaultProps): JSX.Element {
   const {
-    buttonClassName, isDisabled, text, type = 'submit', onClick = () => {},
+    buttonClassName,
+    isDisabled,
+    text,
+    type,
+    onClick,
   } = props;
 
   return (
@@ -26,5 +34,7 @@ function CustomButton(props: IProps): JSX.Element {
     </button>
   );
 }
+
+CustomButton.defaultProps = defaultProps;
 
 export default CustomButton;

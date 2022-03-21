@@ -3,12 +3,12 @@ import { TextField } from '@material-ui/core';
 import { FormikErrors, FormikTouched } from 'formik';
 
 import ValidationText from './ValidationText';
-import { authFormFields, IUser } from '../pages/SignUp/SignUp';
-import { ILoginUserData } from "../pages/LogIn/LogIn";
+import { authFormFields as signUpAuth, IUser } from '../pages/SignUp/SignUp';
+import { authFormFields as loginAuth, ILoginUserData } from '../pages/LogIn/LogIn';
 
 interface IInputInfo {
   id: string;
-  name: authFormFields;
+  name: signUpAuth | loginAuth;
   placeholder: string;
 }
 
@@ -17,7 +17,7 @@ export interface IProps {
   formClassName: string;
   formInfo: IInputInfo[];
   values: IUser | ILoginUserData;
-  handleBlur: (e: FocusEvent) => void;
+  handleBlur: (event: FocusEvent) => void;
   handleSubmit: () => void;
   handleChange: (value: FormEvent) => void;
   touched: FormikTouched<IUser>;

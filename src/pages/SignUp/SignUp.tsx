@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Card } from '@material-ui/core';
 import { useFormik } from 'formik';
+import { createBrowserHistory } from 'history';
 
 import api from '../../api/Api';
 import { signUpSchema } from '../../utils/validationSchema';
@@ -11,7 +12,6 @@ import CustomButton from '../../components/CustomButton';
 import logo from '../../assets/images/Trello_logo.svg';
 
 import './style.scss';
-import { Redirect } from "react-router";
 
 const initialValues = {
   login: '',
@@ -45,30 +45,34 @@ export interface IUser {
   password: string;
 }
 
-export interface IRegisterResponse {
+export interface IServerResponse {
   hasError: boolean;
   message: string;
 }
 
 interface IProps {
-  isLogin: boolean;
   setIsLogin: (status: boolean) => void;
 }
 
 function SignUp(props: IProps): JSX.Element {
-  const { isLogin, setIsLogin } = props;
+  const { setIsLogin } = props;
 
-  console.log(isLogin);
-  console.log(setIsLogin);
+  const history = createBrowserHistory();
 
   const [isVisible, setIsVisible] = useState<boolean>(false);
-  const [registerResponse, setRegisterResponse] = useState<IRegisterResponse | null>(null);
+  const [registerResponse, setRegisterResponse] = useState<IServerResponse | null>(null);
 
   const onSubmit = async (values: IUser) => {
-    const user = await api.registerUser(values);
-    setRegisterResponse(user);
+    const userResponse = await api.registerUser(values);
+    setRegisterResponse(userResponse);
     setIsVisible(true);
-    setIsLogin(true);
+
+    if (!userResponse.hasError) {
+      setTimeout(() => {
+        setIsLogin(true);
+        history.push('/dashboard');
+      }, 2500);
+    }
   };
 
   const formik = useFormik<IUser>({
@@ -77,7 +81,6 @@ function SignUp(props: IProps): JSX.Element {
     validationSchema: signUpSchema,
   });
 
-  console.log(isLogin);
   return (
     <div className="signUpWrap">
       <img className="signUpWrap__mainLogo" src={logo} alt="logo" />

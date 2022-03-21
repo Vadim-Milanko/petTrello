@@ -2,16 +2,20 @@ import React, { memo } from 'react';
 import { Alert } from '@material-ui/lab';
 import { Snackbar } from '@material-ui/core';
 
-import { IRegisterResponse } from '../pages/SignUp/SignUp';
+import { IServerResponse } from '../pages/SignUp/SignUp';
 
 export interface IProps {
   message: string | undefined;
   setToastVisible: (isVisible: boolean) => void;
-  response: IRegisterResponse | null ;
+  response: IServerResponse | null ;
 }
 
 const CustomToast: React.FC<IProps> = memo((props: IProps): JSX.Element => {
-  const { setToastVisible, message, response } = props;
+  const {
+    setToastVisible,
+    message,
+    response,
+  } = props;
 
   const closeToast = () => setToastVisible(false);
 

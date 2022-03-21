@@ -1,7 +1,11 @@
 import { IUser } from '../pages/SignUp/SignUp';
+import { ILoginUserData } from '../pages/LogIn/LogIn';
 
-export const chekOnRegistred = (currentUsers: IUser[], newUser: IUser): boolean => {
-  const duplicateEmail = currentUsers.find((user) => user.email === newUser.email);
+// eslint-disable-next-line max-len
+export const checkOnRegistered = (currentUsers: IUser[], newUser: IUser | ILoginUserData): IUser | ILoginUserData | undefined => currentUsers.find((user) => user.email === newUser.email);
 
-  return typeof (duplicateEmail) !== 'undefined';
+export const getIsUserExist = (currentUsers: IUser[], newUser: IUser | ILoginUserData): any => {
+  const user = checkOnRegistered(currentUsers, newUser);
+
+  return user?.password === newUser.password;
 };

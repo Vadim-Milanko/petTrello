@@ -37,6 +37,9 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': ['error'],
     'class-methods-use-this': 'off',
     'import/prefer-default-export': 'off',
+    'react/jsx-one-expression-per-line': 'off',
+    'jsx-a11y/no-static-element-interactions': 'off',
+    'jsx-a11y/click-events-have-key-events': 'off',
 
     'import/extensions': ['error', {
       js: 'never',

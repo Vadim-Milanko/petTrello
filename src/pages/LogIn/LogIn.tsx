@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import { Card } from '@material-ui/core';
 import { Link } from 'react-router-dom';
+import { createBrowserHistory } from 'history';
 
-import { IUser } from '../SignUp/SignUp';
+import api from '../../api/Api';
 import CustomForm from '../../components/CustomForm';
 import CustomButton from '../../components/CustomButton';
+import { IServerResponse } from '../SignUp/SignUp';
+import CustomToast from '../../components/CustomToast';
 import { logInSchema } from '../../utils/validationSchema';
 import logo from '../../assets/images/Trello_logo.svg';
 
@@ -16,7 +19,7 @@ const initialValues = {
   password: '',
 };
 
-type authFormFields = 'email' | 'password';
+export type authFormFields = 'email' | 'password';
 
 const logInFormInfo = [
   {
@@ -36,25 +39,28 @@ export interface ILoginUserData {
   password: string;
 }
 
-export interface IUsers {
-  users: IUser[];
-}
-
 interface IProps {
-  isLogin: boolean;
   setIsLogin: (status: boolean) => void;
 }
 
 function LogIn(props: IProps): JSX.Element {
-  const { isLogin, setIsLogin } = props;
+  const { setIsLogin } = props;
 
-  console.log(isLogin, setIsLogin);
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [loginResponse, setLoginResponse] = useState<IServerResponse | null>(null);
 
-  const onSubmit = async (values: ILoginUserData) => {
-    try {
-      console.log(values);
-    } catch (err) {
-      console.log(err);
+  const history = createBrowserHistory();
+
+  const onSubmit = async (userData: ILoginUserData) => {
+    const loginUserResponse = await api.loginUser(userData);
+    setLoginResponse(loginResponse);
+    setIsVisible(true);
+
+    if (!loginUserResponse.hasError) {
+      setTimeout(() => {
+        setIsLogin(true);
+        history.push('/dashboard');
+      }, 2500);
     }
   };
 
@@ -90,6 +96,17 @@ function LogIn(props: IProps): JSX.Element {
           <Link className="link" to="/signup">Register an account</Link>
         </Card>
       </section>
+      {
+        isVisible
+          ? (
+            <CustomToast
+              message={loginResponse?.message}
+              setToastVisible={setIsVisible}
+              response={loginResponse}
+            />
+          )
+          : null
+      }
     </div>
   );
 }
