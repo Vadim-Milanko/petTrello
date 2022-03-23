@@ -40,7 +40,7 @@ const signUpFormInfo = [
 ];
 
 export interface IUser {
-  login: string;
+  login?: string;
   email: string;
   password: string;
 }

@@ -10,17 +10,13 @@ interface IProps {
   onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
 }
 
-const defaultProps = {
-  onClick: () => {},
-};
-
-function CustomButton(props: IProps & typeof defaultProps): JSX.Element {
+function CustomButton(props: IProps): JSX.Element {
   const {
     buttonClassName,
     isDisabled,
     text,
     type,
-    onClick,
+    onClick = () => {},
   } = props;
 
   return (
@@ -34,7 +30,5 @@ function CustomButton(props: IProps & typeof defaultProps): JSX.Element {
     </button>
   );
 }
-
-CustomButton.defaultProps = defaultProps;
 
 export default CustomButton;

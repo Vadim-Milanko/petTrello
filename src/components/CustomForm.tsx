@@ -1,10 +1,10 @@
 import React, { FormEvent } from 'react';
-import { TextField } from '@material-ui/core';
+import { TextField, TextFieldProps } from '@material-ui/core';
 import { FormikErrors, FormikTouched } from 'formik';
 
 import ValidationText from './ValidationText';
 import { authFormFields as signUpAuth, IUser } from '../pages/SignUp/SignUp';
-import { authFormFields as loginAuth, ILoginUserData } from '../pages/LogIn/LogIn';
+import { authFormFields as loginAuth } from '../pages/LogIn/LogIn';
 
 interface IInputInfo {
   id: string;
@@ -16,8 +16,8 @@ export interface IProps {
   children: JSX.Element;
   formClassName: string;
   formInfo: IInputInfo[];
-  values: IUser | ILoginUserData;
-  handleBlur: (event: FocusEvent) => void;
+  values: IUser;
+  handleBlur: (event: TextFieldProps) => void;
   handleSubmit: () => void;
   handleChange: (value: FormEvent) => void;
   touched: FormikTouched<IUser>;

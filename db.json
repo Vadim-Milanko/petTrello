@@ -5,42 +5,6 @@
       "email": "vadim.milanko@gmail.com",
       "login": "vmila",
       "password": "password123"
-    },
-    {
-      "login": "asd",
-      "email": "milanforme1195@gmail.com",
-      "password": "qdqw",
-      "id": 2
-    },
-    {
-      "login": "asd",
-      "email": "milanforme11915@gmail.com",
-      "password": "qdqw",
-      "id": 3
-    },
-    {
-      "login": "asd",
-      "email": "milanforme111915@gmail.com",
-      "password": "qdqw",
-      "id": 4
-    },
-    {
-      "login": "qwd",
-      "email": "milanform11e95@gmail.com",
-      "password": "ASDAD",
-      "id": 5
-    },
-    {
-      "login": "1",
-      "email": "vmila@softservinc.com",
-      "password": "ASDAD",
-      "id": 6
-    },
-    {
-      "login": "11",
-      "email": "vm1ila@softservinc.com",
-      "password": "ASDAD",
-      "id": 7
     }
   ]
 }

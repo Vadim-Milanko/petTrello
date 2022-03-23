@@ -40,6 +40,8 @@ module.exports = {
     'react/jsx-one-expression-per-line': 'off',
     'jsx-a11y/no-static-element-interactions': 'off',
     'jsx-a11y/click-events-have-key-events': 'off',
+    'react/require-default-props': 'off',
+    'react/button-has-type': 'off',
 
     'import/extensions': ['error', {
       js: 'never',
