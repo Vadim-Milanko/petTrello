@@ -7,12 +7,12 @@ import { createBrowserHistory } from 'history';
 import api from '../../api/Api';
 import CustomForm from '../../components/CustomForm';
 import CustomButton from '../../components/CustomButton';
-import CustomToast from '../../components/CustomToast';
 import { logInSchema } from '../../utils/validationSchema';
 import logo from '../../assets/images/Trello_logo.svg';
+import { AppContext } from '../../context';
 
 import '../SignUp/style.scss';
-import { AppContext } from '../../context';
+import { setUserToLS } from '../../utils/localStorage';
 
 const initialValues = {
   email: '',
@@ -39,30 +39,35 @@ export interface ILoginUserData {
   password: string;
 }
 
-interface IProps {
-  setIsLogin: (status: boolean) => void;
-}
-
-function LogIn(props: IProps): JSX.Element {
-  const { setIsLogin } = props;
-
-  const {
-    ui: { isToastActive, setIsToastActive },
-    user: { serverResponse, setServerResponse },
-  } = useContext(AppContext);
+function LogIn(): JSX.Element {
+  const { storeState, setStoreState } = useContext(AppContext);
 
   const history = createBrowserHistory();
 
   const onSubmit = async (userData: ILoginUserData) => {
     const loginUserResponse = await api.loginUser(userData);
-    setServerResponse(serverResponse);
-    setIsToastActive(true);
 
-    if (!loginUserResponse.hasError) {
-      setTimeout(() => {
-        setIsLogin(true);
-        history.push('/dashboard');
-      }, 2500);
+    const {
+      message,
+      hasError,
+      currentUser,
+      currentUser: { login, email },
+    } = loginUserResponse;
+    setStoreState({
+      ...storeState,
+      ui: {
+        isToastActive: true,
+        message,
+      },
+      user: {
+        login,
+        email,
+      },
+    });
+
+    if (!hasError) {
+      setUserToLS('user', currentUser);
+      history.push('/dashboard');
     }
   };
 
@@ -98,17 +103,6 @@ function LogIn(props: IProps): JSX.Element {
           <Link className="link" to="/signup">Register an account</Link>
         </Card>
       </section>
-      {
-        isToastActive
-          ? (
-            <CustomToast
-              message={serverResponse?.message}
-              setToastVisible={setIsToastActive}
-              response={serverResponse}
-            />
-          )
-          : null
-      }
     </div>
   );
 }

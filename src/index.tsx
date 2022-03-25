@@ -7,9 +7,20 @@ import AppContextProvider from './context';
 
 import './index.scss';
 
+export const initialStore = {
+  user: {
+    login: '',
+    email: '',
+  },
+  ui: {
+    isToastActive: false,
+    message: '',
+  },
+};
+
 ReactDOM.render(
   <BrowserRouter>
-    <AppContextProvider>
+    <AppContextProvider store={initialStore}>
       <App />
     </AppContextProvider>
   </BrowserRouter>,

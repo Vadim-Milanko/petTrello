@@ -6,18 +6,13 @@ import Home from '../pages/Home/Home';
 import LogIn from '../pages/LogIn/LogIn';
 import SignUp from '../pages/SignUp/SignUp';
 
-interface IProps {
-  setIsLogin: (status: boolean) => void;
-}
-
-function PublicRoutes(props: IProps): JSX.Element {
-  const { setIsLogin } = props;
+function PublicRoutes(): JSX.Element {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/home" element={<Home />} />
-      <Route path="/login" element={<LogIn setIsLogin={setIsLogin} />} />
-      <Route path="/signup" element={<SignUp setIsLogin={setIsLogin} />} />
+      <Route path="/login" element={<LogIn />} />
+      <Route path="/signup" element={<SignUp />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

@@ -1,27 +1,33 @@
-import React, { memo } from 'react';
+import React, { memo, useContext } from 'react';
 import { Alert } from '@material-ui/lab';
 import { Snackbar } from '@material-ui/core';
 
-import { IServerResponse } from '../pages/SignUp/SignUp';
+import { AppContext } from '../context';
 
 export interface IProps {
   message: string | undefined;
-  setToastVisible: (isVisible: boolean) => void;
-  response: IServerResponse | null ;
+  toastSeverity: boolean;
 }
 
 const CustomToast: React.FC<IProps> = memo((props: IProps): JSX.Element => {
   const {
-    setToastVisible,
     message,
-    response,
+    toastSeverity,
   } = props;
 
-  const closeToast = () => setToastVisible(false);
+  const { storeState, setStoreState } = useContext(AppContext);
+
+  const closeToast = () => setStoreState({
+    ...storeState,
+    ui: {
+      ...storeState.ui,
+      isToastActive: false,
+    },
+  });
 
   return (
     <Snackbar open autoHideDuration={3000} onClose={closeToast}>
-      <Alert onClose={closeToast} severity={response?.hasError ? 'warning' : 'success'}>
+      <Alert onClose={closeToast} severity={toastSeverity ? 'success' : 'warning'}>
         {message}
       </Alert>
     </Snackbar>

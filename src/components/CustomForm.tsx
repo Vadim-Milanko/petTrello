@@ -3,7 +3,7 @@ import { TextField, TextFieldProps } from '@material-ui/core';
 import { FormikErrors, FormikTouched } from 'formik';
 
 import ValidationText from './ValidationText';
-import { authFormFields as signUpAuth, IUser } from '../pages/SignUp/SignUp';
+import { authFormFields as signUpAuth, IUserFields } from '../pages/SignUp/SignUp';
 import { authFormFields as loginAuth } from '../pages/LogIn/LogIn';
 
 interface IInputInfo {
@@ -16,12 +16,12 @@ export interface IProps {
   children: JSX.Element;
   formClassName: string;
   formInfo: IInputInfo[];
-  values: IUser;
+  values: IUserFields;
   handleBlur: (event: TextFieldProps) => void;
   handleSubmit: () => void;
   handleChange: (value: FormEvent) => void;
-  touched: FormikTouched<IUser>;
-  errors: FormikErrors<IUser>;
+  touched: FormikTouched<IUserFields>;
+  errors: FormikErrors<IUserFields>;
 }
 
 function CustomForm(props: IProps): JSX.Element {

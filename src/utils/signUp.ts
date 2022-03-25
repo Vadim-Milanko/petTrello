@@ -1,11 +1,21 @@
-import { IUser } from '../pages/SignUp/SignUp';
-import { ILoginUserData } from '../pages/LogIn/LogIn';
+import { IUserFields } from '../pages/SignUp/SignUp';
+import { IUser } from '../context';
 
 // eslint-disable-next-line max-len
-export const checkOnRegistered = (currentUsers: IUser[], newUser: IUser | ILoginUserData): IUser | ILoginUserData | undefined => currentUsers.find((user) => user.email === newUser.email);
+export const checkOnRegistered = (dbUsers: IUserFields[], newUser: IUserFields | IUser) => dbUsers.find((user) => user.email === newUser.email);
 
-export const getIsUserExist = (currentUsers: IUser[], newUser: IUser | ILoginUserData): any => {
-  const user = checkOnRegistered(currentUsers, newUser);
+export const getIsUserExist = (dbUsers: IUserFields[], newUser: IUserFields): any => {
+  const user = checkOnRegistered(dbUsers, newUser);
 
   return user?.password === newUser.password;
+};
+
+export const getUserByEmail = (dbUsers: IUserFields[], userEmail: string): IUser => {
+  const userByEmail = dbUsers.filter((user) => user.email === userEmail);
+  const [{ login = '', email = '' }] = userByEmail;
+
+  return {
+    login,
+    email,
+  };
 };

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Card } from '@material-ui/core';
 import { useFormik } from 'formik';
@@ -6,12 +6,13 @@ import { createBrowserHistory } from 'history';
 
 import api from '../../api/Api';
 import { signUpSchema } from '../../utils/validationSchema';
-import CustomToast from '../../components/CustomToast';
 import CustomForm from '../../components/CustomForm';
 import CustomButton from '../../components/CustomButton';
 import logo from '../../assets/images/Trello_logo.svg';
 
 import './style.scss';
+import { AppContext } from '../../context';
+import { setUserToLS } from '../../utils/localStorage';
 
 const initialValues = {
   login: '',
@@ -39,43 +40,43 @@ const signUpFormInfo = [
   },
 ];
 
-export interface IUser {
+export interface IUserFields {
   login?: string;
   email: string;
-  password: string;
+  password?: string;
 }
 
-export interface IServerResponse {
-  hasError: boolean;
-  message: string;
-}
-
-interface IProps {
-  setIsLogin: (status: boolean) => void;
-}
-
-function SignUp(props: IProps): JSX.Element {
-  const { setIsLogin } = props;
-
+function SignUp(): JSX.Element {
   const history = createBrowserHistory();
 
-  const [isVisible, setIsVisible] = useState<boolean>(false);
-  const [registerResponse, setRegisterResponse] = useState<IServerResponse | null>(null);
+  const { storeState, setStoreState } = useContext(AppContext);
 
-  const onSubmit = async (values: IUser) => {
+  const onSubmit = async (values: IUserFields) => {
     const userResponse = await api.registerUser(values);
-    setRegisterResponse(userResponse);
-    setIsVisible(true);
+    const {
+      currentUser,
+      currentUser: { login, email },
+    } = userResponse;
+
+    setStoreState({
+      ...storeState,
+      ui: {
+        isToastActive: true,
+        message: userResponse.message,
+      },
+      user: {
+        login,
+        email,
+      },
+    });
 
     if (!userResponse.hasError) {
-      setTimeout(() => {
-        setIsLogin(true);
-        history.push('/dashboard');
-      }, 2500);
+      setUserToLS('user', currentUser);
+      history.push('/dashboard');
     }
   };
 
-  const formik = useFormik<IUser>({
+  const formik = useFormik<IUserFields>({
     initialValues,
     onSubmit,
     validationSchema: signUpSchema,
@@ -107,17 +108,6 @@ function SignUp(props: IProps): JSX.Element {
           <Link className="link" to="/login">Already have an account? Login</Link>
         </Card>
       </section>
-      {
-        isVisible
-          ? (
-            <CustomToast
-              response={registerResponse}
-              setToastVisible={setIsVisible}
-              message={registerResponse?.message}
-            />
-          )
-          : null
-      }
     </div>
   );
 }

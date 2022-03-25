@@ -42,6 +42,7 @@ module.exports = {
     'jsx-a11y/click-events-have-key-events': 'off',
     'react/require-default-props': 'off',
     'react/button-has-type': 'off',
+    'react/jsx-no-constructed-context-values': 'off',
 
     'import/extensions': ['error', {
       js: 'never',

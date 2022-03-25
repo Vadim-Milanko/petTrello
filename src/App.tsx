@@ -1,23 +1,40 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 
 import PrivateRoutes from './routes/PrivateRoutes';
 import PublicRoutes from './routes/PublicRoutes';
+import Header from './components/Header/Header';
+import CustomToast from './components/CustomToast';
 
 import './App.scss';
-import Header from './components/Header/Header';
+import { AppContext } from './context';
+import { getUserFromLS } from './utils/localStorage';
 
 function App(): JSX.Element {
-  const [isLogin, setIsLogin] = useState<boolean>(false);
+  const { storeState } = useContext(AppContext);
 
-  console.log(isLogin);
+  const isHasUserInLS = getUserFromLS('user');
+
+  const { ui: { isToastActive, message }, user: { login, email } } = storeState;
+  const toastSeverity = (login.length > 0 && email.length > 0);
+
   return (
     <div className="App">
-      <Header isLogin={isLogin} setIsLogin={setIsLogin} />
+      <Header />
       {
-          isLogin
-            ? <PrivateRoutes />
-            : <PublicRoutes setIsLogin={setIsLogin} />
-        }
+        isHasUserInLS
+          ? <PrivateRoutes />
+          : <PublicRoutes />
+      }
+      {
+        isToastActive
+          ? (
+            <CustomToast
+              message={message}
+              toastSeverity={toastSeverity}
+            />
+          )
+          : null
+      }
     </div>
   );
 }

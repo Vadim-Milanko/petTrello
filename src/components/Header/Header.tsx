@@ -1,20 +1,21 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 
+import { AppContext } from '../../context';
+import { initialStore } from '../../index';
+import { clearUserFromLS, getUserFromLS } from '../../utils/localStorage';
 import logo from '../../assets/images/Trello_logo.svg';
 
 import './style.scss';
 
-interface IProps {
-  isLogin: boolean;
-  setIsLogin: (status: boolean) => void;
-}
+function Header(): JSX.Element {
+  const { setStoreState } = useContext(AppContext);
 
-function Header(props: IProps): JSX.Element {
-  const { isLogin, setIsLogin } = props;
+  const isHasUserInLS = getUserFromLS('user');
 
   const logOut = () => {
-    setIsLogin(false);
+    clearUserFromLS();
+    setStoreState(initialStore);
   };
 
   return (
@@ -22,7 +23,7 @@ function Header(props: IProps): JSX.Element {
       <nav className="header__navigation">
         <Link to="/home"><img src={logo} alt="logo" /></Link>
         {
-          isLogin
+          isHasUserInLS
             ? (
               <div className="header__navigation__rightNav">
                 <Link className="header__navigation__link" to="/" onClick={logOut}>LogOut</Link>

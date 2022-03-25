@@ -2,19 +2,21 @@ import axios from 'axios';
 
 import { BASE_URL, VALIDATION_MESSAGES } from './constants';
 import { FETCH_URLS } from '../pages/SignUp/constants';
-import { checkOnRegistered, getIsUserExist } from '../utils/signUp';
-import { IUser } from '../pages/SignUp/SignUp';
+import { getIsUserExist, getUserByEmail, checkOnRegistered } from '../utils/signUp';
+import { IUserFields } from '../pages/SignUp/SignUp';
+import { IUser } from '../context';
 import { ILoginUserData } from '../pages/LogIn/LogIn';
 
 export interface IServerResponse {
-  hasError: boolean;
+  hasError: boolean | null;
   message: string;
+  currentUser: IUser;
 }
 
 export interface IUsersApi {
-    fetchUsers():Promise<IUser[]>;
+    fetchUsers():Promise<IUserFields[]>;
     loginUser(userData: ILoginUserData): Promise<IServerResponse>;
-    registerUser(userData: IUser): Promise<IServerResponse>;
+    registerUser(userData: IUserFields): Promise<IServerResponse>;
 }
 
 const request = axios.create({
@@ -22,7 +24,7 @@ const request = axios.create({
 });
 
 class UsersApi implements IUsersApi {
-  async fetchUsers() : Promise<IUser[]> {
+  async fetchUsers() : Promise<IUserFields[]> {
     let response;
 
     try {
@@ -39,33 +41,49 @@ class UsersApi implements IUsersApi {
       const usersFromDb = await this.fetchUsers();
       const isSuccessLogin = getIsUserExist(usersFromDb, userData);
       if (isSuccessLogin) {
+        const user = getUserByEmail(usersFromDb, userData.email);
+
         return {
           hasError: false,
           message: VALIDATION_MESSAGES.SUCCESS_LOGIN_USER,
+          currentUser: user,
         };
       }
       return {
         hasError: true,
         message: VALIDATION_MESSAGES.FAILED_LOGIN_USER,
+        currentUser: {
+          login: '',
+          email: '',
+        },
       };
     } catch (error) {
       console.log(error);
       return {
         hasError: true,
         message: VALIDATION_MESSAGES.FAILED_MASSAGE,
+        currentUser: {
+          login: '',
+          email: '',
+        },
       };
     }
   }
 
-  async registerUser(userData: IUser): Promise<IServerResponse> {
+  async registerUser(userData: IUserFields): Promise<IServerResponse> {
     try {
       const usersFromDb = await this.fetchUsers();
       const user = checkOnRegistered(usersFromDb, userData);
+      const { login = '', email } = userData;
 
       if (user) {
         return {
           hasError: true,
           message: VALIDATION_MESSAGES.USER_ALREADY_EXISTS,
+          currentUser: {
+            login: '',
+            email: '',
+          },
         };
       }
       await request.post(FETCH_URLS.users, userData);
@@ -73,12 +91,20 @@ class UsersApi implements IUsersApi {
       return {
         hasError: false,
         message: VALIDATION_MESSAGES.SUCCESS_CREATE_USER,
+        currentUser: {
+          login,
+          email,
+        },
       };
     } catch (error) {
       console.log(error);
       return {
         hasError: true,
         message: VALIDATION_MESSAGES.FAILED_MASSAGE,
+        currentUser: {
+          login: '',
+          email: '',
+        },
       };
     }
   }
