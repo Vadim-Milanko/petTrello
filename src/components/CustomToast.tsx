@@ -4,31 +4,28 @@ import { Snackbar } from '@material-ui/core';
 
 import { AppContext } from '../context';
 
-export interface IProps {
-  message: string | undefined;
-  toastSeverity: boolean;
-}
+type severityType = 'success' | 'warning';
 
-const CustomToast: React.FC<IProps> = memo((props: IProps): JSX.Element => {
-  const {
-    message,
-    toastSeverity,
-  } = props;
-
+const CustomToast: React.FC = memo((): JSX.Element => {
   const { storeState, setStoreState } = useContext(AppContext);
 
   const closeToast = () => setStoreState({
     ...storeState,
     ui: {
-      ...storeState.ui,
-      isToastActive: false,
+      toast: {
+        ...storeState.ui.toast,
+        isActive: false,
+      },
+      loader: {
+        ...storeState.ui.loader,
+      },
     },
   });
 
   return (
     <Snackbar open autoHideDuration={3000} onClose={closeToast}>
-      <Alert onClose={closeToast} severity={toastSeverity ? 'success' : 'warning'}>
-        {message}
+      <Alert onClose={closeToast} severity={storeState.ui.toast.severity as severityType}>
+        {storeState.ui.toast.message}
       </Alert>
     </Snackbar>
   );

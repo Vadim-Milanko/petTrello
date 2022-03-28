@@ -10,6 +10,7 @@ import { ILoginUserData } from '../pages/LogIn/LogIn';
 export interface IServerResponse {
   hasError: boolean | null;
   message: string;
+  severity: string;
   currentUser: IUser;
 }
 
@@ -46,12 +47,14 @@ class UsersApi implements IUsersApi {
         return {
           hasError: false,
           message: VALIDATION_MESSAGES.SUCCESS_LOGIN_USER,
+          severity: 'success',
           currentUser: user,
         };
       }
       return {
         hasError: true,
         message: VALIDATION_MESSAGES.FAILED_LOGIN_USER,
+        severity: 'warning',
         currentUser: {
           login: '',
           email: '',
@@ -62,6 +65,7 @@ class UsersApi implements IUsersApi {
       return {
         hasError: true,
         message: VALIDATION_MESSAGES.FAILED_MASSAGE,
+        severity: 'warning',
         currentUser: {
           login: '',
           email: '',
@@ -80,6 +84,7 @@ class UsersApi implements IUsersApi {
         return {
           hasError: true,
           message: VALIDATION_MESSAGES.USER_ALREADY_EXISTS,
+          severity: 'warning',
           currentUser: {
             login: '',
             email: '',
@@ -91,6 +96,7 @@ class UsersApi implements IUsersApi {
       return {
         hasError: false,
         message: VALIDATION_MESSAGES.SUCCESS_CREATE_USER,
+        severity: 'success',
         currentUser: {
           login,
           email,
@@ -101,6 +107,7 @@ class UsersApi implements IUsersApi {
       return {
         hasError: true,
         message: VALIDATION_MESSAGES.FAILED_MASSAGE,
+        severity: 'warning',
         currentUser: {
           login: '',
           email: '',

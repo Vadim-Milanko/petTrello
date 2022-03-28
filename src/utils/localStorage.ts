@@ -6,10 +6,10 @@ export const setUserToLS = (key: string, value: IUser) => {
   localStorage.setItem(key, stringifiedValue);
 };
 
-export const getUserFromLS = (key: string) =>
+export const getUserFromLS = () =>
   // @ts-ignore
   // eslint-disable-next-line implicit-arrow-linebreak
-  JSON.parse(localStorage.getItem(key));
+  JSON.parse(localStorage.getItem('user'));
 
 export const clearUserFromLS = () => {
   localStorage.clear();

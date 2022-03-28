@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { AppContext } from '../../context';
 import { initialStore } from '../../index';
@@ -10,12 +10,14 @@ import './style.scss';
 
 function Header(): JSX.Element {
   const { setStoreState } = useContext(AppContext);
+  const navigate = useNavigate();
 
-  const isHasUserInLS = getUserFromLS('user');
+  const isHasUserInLS = getUserFromLS();
 
   const logOut = () => {
     clearUserFromLS();
     setStoreState(initialStore);
+    navigate('/home');
   };
 
   return (

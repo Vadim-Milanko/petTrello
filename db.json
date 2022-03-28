@@ -7,34 +7,16 @@
       "password": "password123"
     },
     {
-      "login": "a",
+      "login": "vm",
       "email": "vmila@softservinc.com",
       "password": "ASDAD",
       "id": 2
     },
     {
-      "login": "1",
+      "login": "11",
       "email": "vmila1@softservinc.com",
       "password": "ASDAD",
       "id": 3
-    },
-    {
-      "login": "1",
-      "email": "vmila2@softservinc.com",
-      "password": "121",
-      "id": 4
-    },
-    {
-      "login": "1",
-      "email": "vmila!@softservinc.com",
-      "password": "ASDAD",
-      "id": 5
-    },
-    {
-      "login": "vaom",
-      "email": "vmila@sof1tservinc.com",
-      "password": "1",
-      "id": 6
     }
   ]
 }

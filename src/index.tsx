@@ -13,8 +13,14 @@ export const initialStore = {
     email: '',
   },
   ui: {
-    isToastActive: false,
-    message: '',
+    toast: {
+      isActive: false,
+      message: '',
+      severity: '',
+    },
+    loader: {
+      isActive: false,
+    },
   },
 };
 

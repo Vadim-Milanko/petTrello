@@ -9,7 +9,7 @@ function NotFound(): JSX.Element {
     <div className="notFoundWrapper">
       <img src={errorImg} alt="404" className="notFoundWrapper__img" />
       <NavLink to="/" className="notFoundWrapper__button">
-        <button type="submit" className="notFoundWrapper__button">Back to Main Page</button>
+        <button type="submit" className="notFoundWrapper__button">Back to Dashboard</button>
       </NavLink>
     </div>
   );

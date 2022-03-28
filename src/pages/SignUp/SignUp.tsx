@@ -1,18 +1,17 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Card } from '@material-ui/core';
 import { useFormik } from 'formik';
-import { createBrowserHistory } from 'history';
 
 import api from '../../api/Api';
 import { signUpSchema } from '../../utils/validationSchema';
 import CustomForm from '../../components/CustomForm';
 import CustomButton from '../../components/CustomButton';
 import logo from '../../assets/images/Trello_logo.svg';
-
-import './style.scss';
 import { AppContext } from '../../context';
 import { setUserToLS } from '../../utils/localStorage';
+
+import './style.scss';
 
 const initialValues = {
   login: '',
@@ -47,7 +46,7 @@ export interface IUserFields {
 }
 
 function SignUp(): JSX.Element {
-  const history = createBrowserHistory();
+  const navigate = useNavigate();
 
   const { storeState, setStoreState } = useContext(AppContext);
 
@@ -55,24 +54,41 @@ function SignUp(): JSX.Element {
     const userResponse = await api.registerUser(values);
     const {
       currentUser,
-      currentUser: { login, email },
+      severity,
     } = userResponse;
 
     setStoreState({
       ...storeState,
       ui: {
-        isToastActive: true,
-        message: userResponse.message,
+        toast: {
+          isActive: true,
+          message: userResponse.message,
+          severity,
+        },
+        loader: {
+          isActive: true,
+        },
       },
-      user: {
-        login,
-        email,
-      },
+      user: currentUser,
     });
 
     if (!userResponse.hasError) {
       setUserToLS('user', currentUser);
-      history.push('/dashboard');
+      navigate('/dashboard');
+    } else {
+      setStoreState({
+        ...storeState,
+        ui: {
+          toast: {
+            isActive: true,
+            message: userResponse.message,
+            severity,
+          },
+          loader: {
+            isActive: false,
+          },
+        },
+      });
     }
   };
 

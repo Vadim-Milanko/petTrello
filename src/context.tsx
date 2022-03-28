@@ -4,11 +4,20 @@ export interface IUser {
   login: string;
   email: string;
 }
-// change to IUser
+
+interface IToast {
+  isActive: boolean;
+  message: string;
+  severity: string;
+}
+
+interface ILoader {
+  isActive: boolean;
+}
 
 interface IUi {
-  isToastActive: boolean;
-  message: string;
+  toast: IToast;
+  loader: ILoader;
 }
 
 export interface IAppStore {

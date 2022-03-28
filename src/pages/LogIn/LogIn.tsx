@@ -1,8 +1,7 @@
 import React, { useContext } from 'react';
 import { useFormik } from 'formik';
 import { Card } from '@material-ui/core';
-import { Link } from 'react-router-dom';
-import { createBrowserHistory } from 'history';
+import { Link, useNavigate } from 'react-router-dom';
 
 import api from '../../api/Api';
 import CustomForm from '../../components/CustomForm';
@@ -10,9 +9,9 @@ import CustomButton from '../../components/CustomButton';
 import { logInSchema } from '../../utils/validationSchema';
 import logo from '../../assets/images/Trello_logo.svg';
 import { AppContext } from '../../context';
+import { setUserToLS } from '../../utils/localStorage';
 
 import '../SignUp/style.scss';
-import { setUserToLS } from '../../utils/localStorage';
 
 const initialValues = {
   email: '',
@@ -42,7 +41,7 @@ export interface ILoginUserData {
 function LogIn(): JSX.Element {
   const { storeState, setStoreState } = useContext(AppContext);
 
-  const history = createBrowserHistory();
+  const navigate = useNavigate();
 
   const onSubmit = async (userData: ILoginUserData) => {
     const loginUserResponse = await api.loginUser(userData);
@@ -50,24 +49,42 @@ function LogIn(): JSX.Element {
     const {
       message,
       hasError,
+      severity,
       currentUser,
-      currentUser: { login, email },
     } = loginUserResponse;
+
     setStoreState({
       ...storeState,
       ui: {
-        isToastActive: true,
-        message,
+        toast: {
+          isActive: true,
+          message,
+          severity,
+        },
+        loader: {
+          isActive: true,
+        },
       },
-      user: {
-        login,
-        email,
-      },
+      user: currentUser,
     });
 
     if (!hasError) {
       setUserToLS('user', currentUser);
-      history.push('/dashboard');
+      navigate('/dashboard');
+    } else {
+      setStoreState({
+        ...storeState,
+        ui: {
+          toast: {
+            isActive: true,
+            message: loginUserResponse.message,
+            severity,
+          },
+          loader: {
+            isActive: false,
+          },
+        },
+      });
     }
   };
 
