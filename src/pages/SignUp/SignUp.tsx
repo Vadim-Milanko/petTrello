@@ -57,21 +57,20 @@ function SignUp(): JSX.Element {
     } = userResponse;
     const severity = hasError ? 'warning' : 'success';
 
-    dispatch({
-      ui: {
-        toast: {
-          isActive: true,
-          message: userResponse.message,
-          severity,
-        },
-        loader: {
-          isActive: true,
-        },
-      },
-      user: currentUser,
-    });
-
     if (!userResponse.hasError) {
+      dispatch({
+        ui: {
+          toast: {
+            isActive: true,
+            message: userResponse.message,
+            severity,
+          },
+          loader: {
+            isActive: true,
+          },
+        },
+        user: currentUser,
+      });
       setUserToLS('user', currentUser);
       navigate('/dashboard');
     } else {

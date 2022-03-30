@@ -35,6 +35,12 @@
       "email": "vmila12@softservinc.com",
       "password": "ASDAD",
       "id": 6
+    },
+    {
+      "login": "1",
+      "email": "2vmila@softservinc.com",
+      "password": "ASDAD",
+      "id": 7
     }
   ]
 }

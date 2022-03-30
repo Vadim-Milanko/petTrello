@@ -51,21 +51,20 @@ function LogIn(): JSX.Element {
     } = loginUserResponse;
     const severity = hasError ? 'warning' : 'success';
 
-    dispatch({
-      ui: {
-        toast: {
-          isActive: true,
-          message,
-          severity,
-        },
-        loader: {
-          isActive: true,
-        },
-      },
-      user: currentUser,
-    });
-
     if (!hasError) {
+      dispatch({
+        ui: {
+          toast: {
+            isActive: true,
+            message,
+            severity,
+          },
+          loader: {
+            isActive: true,
+          },
+        },
+        user: currentUser,
+      });
       setUserToLS('user', currentUser);
       navigate('/dashboard');
     } else {
