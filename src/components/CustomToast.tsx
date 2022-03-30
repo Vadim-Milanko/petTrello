@@ -1,19 +1,19 @@
-import React, { memo, useContext } from 'react';
+import React, { memo } from 'react';
 import { Alert } from '@material-ui/lab';
 import { Snackbar } from '@material-ui/core';
 
-import { AppContext } from '../context';
+import { useCustomSelector } from '../hooks/useCustomSelector';
+import { IToast, IUi } from '../store/initialStore';
+import { useCustomDispatch } from '../hooks/useCustomDispatch';
 
 type severityType = 'success' | 'warning';
 
 const CustomToast: React.FC = memo((): JSX.Element => {
-  const { storeState, setStoreState } = useContext(AppContext);
+  const ui = useCustomSelector<IUi>((store) => store.ui);
+  const { isActive, severity, message } = useCustomSelector<IToast>((store) => store.ui.toast);
+  const dispatch = useCustomDispatch();
 
-  const { ui } = storeState;
-  const { toast: { isActive, severity, message } } = ui;
-
-  const closeToast = () => setStoreState({
-    ...storeState,
+  const closeToast = () => dispatch({
     ui: {
       ...ui,
       toast: {

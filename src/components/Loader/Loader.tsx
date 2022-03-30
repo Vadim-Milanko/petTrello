@@ -1,11 +1,11 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { AppContext } from '../../context';
+import { useCustomSelector } from '../../hooks/useCustomSelector';
 
 import './style.scss';
 
 function Loader(): JSX.Element {
-  const { storeState: { ui: { loader: { isActive } } } } = useContext(AppContext);
+  const isActive = useCustomSelector<boolean>((store) => store.ui.loader.isActive);
 
   return (
     <div className={`loader-wrap ${isActive ? 'visible' : ''}`}>
