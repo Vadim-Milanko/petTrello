@@ -1,4 +1,4 @@
-import { IUser } from '../context';
+import { IUser } from '../store/initialStore';
 
 export const setUserToLS = (key: string, value: IUser) => {
   const stringifiedValue = JSON.stringify(value);
@@ -6,10 +6,8 @@ export const setUserToLS = (key: string, value: IUser) => {
   localStorage.setItem(key, stringifiedValue);
 };
 
-export const getUserFromLS = () =>
-  // @ts-ignore
-  // eslint-disable-next-line implicit-arrow-linebreak
-  JSON.parse(localStorage.getItem('user'));
+// @ts-ignore
+export const getUserFromLS = () => JSON.parse(localStorage.getItem('user'));
 
 export const clearUserFromLS = () => {
   localStorage.clear();

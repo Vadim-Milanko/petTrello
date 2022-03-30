@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useFormik } from 'formik';
 import { Card } from '@material-ui/core';
 import { Link, useNavigate } from 'react-router-dom';
@@ -8,8 +8,8 @@ import CustomForm from '../../components/CustomForm';
 import CustomButton from '../../components/CustomButton';
 import { logInSchema } from '../../utils/validationSchema';
 import logo from '../../assets/images/Trello_logo.svg';
-import { AppContext } from '../../context';
 import { setUserToLS } from '../../utils/localStorage';
+import { useCustomDispatch } from '../../hooks/useCustomDispatch';
 
 import '../SignUp/style.scss';
 
@@ -39,22 +39,19 @@ export interface ILoginUserData {
 }
 
 function LogIn(): JSX.Element {
-  const { storeState, setStoreState } = useContext(AppContext);
-
+  const dispatch = useCustomDispatch();
   const navigate = useNavigate();
 
   const onSubmit = async (userData: ILoginUserData) => {
     const loginUserResponse = await api.loginUser(userData);
-
     const {
       message,
       hasError,
-      severity,
       currentUser,
     } = loginUserResponse;
+    const severity = hasError ? 'warning' : 'success';
 
-    setStoreState({
-      ...storeState,
+    dispatch({
       ui: {
         toast: {
           isActive: true,
@@ -72,8 +69,7 @@ function LogIn(): JSX.Element {
       setUserToLS('user', currentUser);
       navigate('/dashboard');
     } else {
-      setStoreState({
-        ...storeState,
+      dispatch({
         ui: {
           toast: {
             isActive: true,

@@ -1,21 +1,22 @@
-import React, { useContext } from 'react';
+import React, { useEffect } from 'react';
 
 import PrivateRoutes from './routes/PrivateRoutes';
 import PublicRoutes from './routes/PublicRoutes';
 import Header from './components/Header/Header';
 import CustomToast from './components/CustomToast';
-import { AppContext } from './context';
 import { getUserFromLS } from './utils/localStorage';
 import Loader from './components/Loader/Loader';
+import { useCustomDispatch } from './hooks/useCustomDispatch';
 
 import './App.scss';
 
 function App(): JSX.Element {
-  const { storeState } = useContext(AppContext);
-
+  const dispatch = useCustomDispatch();
   const isHasUserInLS = getUserFromLS();
 
-  const { ui: { toast: { isActive } } } = storeState;
+  useEffect(() => {
+    dispatch({ user: isHasUserInLS });
+  }, []);
 
   return (
     <div className="App">
@@ -28,13 +29,7 @@ function App(): JSX.Element {
           ? <PrivateRoutes />
           : <PublicRoutes />
       }
-      {
-        isActive
-          ? (
-            <CustomToast />
-          )
-          : null
-      }
+      <CustomToast />
     </div>
   );
 }

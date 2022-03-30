@@ -9,25 +9,30 @@ type severityType = 'success' | 'warning';
 const CustomToast: React.FC = memo((): JSX.Element => {
   const { storeState, setStoreState } = useContext(AppContext);
 
+  const { ui } = storeState;
+  const { toast: { isActive, severity, message } } = ui;
+
   const closeToast = () => setStoreState({
     ...storeState,
     ui: {
+      ...ui,
       toast: {
-        ...storeState.ui.toast,
+        ...ui.toast,
         isActive: false,
-      },
-      loader: {
-        ...storeState.ui.loader,
       },
     },
   });
 
   return (
-    <Snackbar open autoHideDuration={3000} onClose={closeToast}>
-      <Alert onClose={closeToast} severity={storeState.ui.toast.severity as severityType}>
-        {storeState.ui.toast.message}
-      </Alert>
-    </Snackbar>
+    <div>
+      {isActive ? (
+        <Snackbar open autoHideDuration={3000} onClose={closeToast}>
+          <Alert onClose={closeToast} severity={severity as severityType}>
+            {message}
+          </Alert>
+        </Snackbar>
+      ) : null}
+    </div>
   );
 });
 

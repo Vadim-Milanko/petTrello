@@ -1,31 +1,8 @@
 import React, { useState, createContext } from 'react';
 
-export interface IUser {
-  login: string;
-  email: string;
-}
+import { IAppStore } from './store/initialStore';
 
-interface IToast {
-  isActive: boolean;
-  message: string;
-  severity: string;
-}
-
-interface ILoader {
-  isActive: boolean;
-}
-
-interface IUi {
-  toast: IToast;
-  loader: ILoader;
-}
-
-export interface IAppStore {
-  user: IUser;
-  ui: IUi;
-}
-
-interface IProps {
+export interface IProps {
   children: JSX.Element;
   store: IAppStore;
 }

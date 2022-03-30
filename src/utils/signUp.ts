@@ -1,5 +1,5 @@
 import { IUserFields } from '../pages/SignUp/SignUp';
-import { IUser } from '../context';
+import { IUser } from '../store/initialStore';
 
 // eslint-disable-next-line max-len
 export const checkOnRegistered = (dbUsers: IUserFields[], newUser: IUserFields | IUser) => dbUsers.find((user) => user.email === newUser.email);

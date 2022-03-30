@@ -4,25 +4,9 @@ import { BrowserRouter } from 'react-router-dom';
 
 import App from './App';
 import AppContextProvider from './context';
+import { initialStore } from './store/initialStore';
 
 import './index.scss';
-
-export const initialStore = {
-  user: {
-    login: '',
-    email: '',
-  },
-  ui: {
-    toast: {
-      isActive: false,
-      message: '',
-      severity: '',
-    },
-    loader: {
-      isActive: false,
-    },
-  },
-};
 
 ReactDOM.render(
   <BrowserRouter>
