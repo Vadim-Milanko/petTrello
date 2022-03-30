@@ -3,15 +3,15 @@ import { Alert } from '@material-ui/lab';
 import { Snackbar } from '@material-ui/core';
 
 import { useCustomSelector } from '../hooks/useCustomSelector';
-import { IToast, IUi } from '../store/initialStore';
+import { IUi } from '../store/initialStore';
 import { useCustomDispatch } from '../hooks/useCustomDispatch';
 
 type severityType = 'success' | 'warning';
 
 const CustomToast: React.FC = memo((): JSX.Element => {
-  const ui = useCustomSelector<IUi>((store) => store.ui);
-  const { isActive, severity, message } = useCustomSelector<IToast>((store) => store.ui.toast);
   const dispatch = useCustomDispatch();
+  const ui = useCustomSelector<IUi>((store) => store.ui);
+  const { isActive, severity, message } = ui.toast;
 
   const closeToast = () => dispatch({
     ui: {
