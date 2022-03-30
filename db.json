@@ -1,0 +1,46 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "email": "vadim.milanko@gmail.com",
+      "login": "vmila",
+      "password": "password123"
+    },
+    {
+      "login": "vm",
+      "email": "vmila@softservinc.com",
+      "password": "ASDAD",
+      "id": 2
+    },
+    {
+      "login": "11",
+      "email": "vmila1@softservinc.com",
+      "password": "ASDAD",
+      "id": 3
+    },
+    {
+      "login": "1",
+      "email": "vmila21@softservinc.com",
+      "password": "ASDAD",
+      "id": 4
+    },
+    {
+      "login": "1",
+      "email": "vm2ila@softservinc.com",
+      "password": "ASDAD",
+      "id": 5
+    },
+    {
+      "login": "1",
+      "email": "vmila12@softservinc.com",
+      "password": "ASDAD",
+      "id": 6
+    },
+    {
+      "login": "1",
+      "email": "2vmila@softservinc.com",
+      "password": "ASDAD",
+      "id": 7
+    }
+  ]
+}

@@ -1,14 +1,35 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from 'react';
 
-function App() {
+import PrivateRoutes from './routes/PrivateRoutes';
+import PublicRoutes from './routes/PublicRoutes';
+import Header from './components/Header/Header';
+import CustomToast from './components/CustomToast';
+import { getUserFromLS } from './utils/localStorage';
+import Loader from './components/Loader/Loader';
+import { useCustomDispatch } from './hooks/useCustomDispatch';
+
+import './App.scss';
+
+function App(): JSX.Element {
+  const dispatch = useCustomDispatch();
+  const isHasUserInLS = getUserFromLS();
+
+  useEffect(() => {
+    dispatch({ user: isHasUserInLS });
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-          <h1>My Trello</h1>
-        <img src={logo} className="App-logo" alt="logo" />
-      </header>
+      <Header />
+      {
+        !isHasUserInLS ? <Loader /> : null
+      }
+      {
+        isHasUserInLS
+          ? <PrivateRoutes />
+          : <PublicRoutes />
+      }
+      <CustomToast />
     </div>
   );
 }
