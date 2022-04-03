@@ -1,0 +1,38 @@
+.popoverWindow {
+  width: 275px;
+  height: 460px;
+
+  &__title {
+    text-align: center;
+    color: #5e6c84;
+    line-height: 40px;
+    margin: 0 20px;
+    font-size: 14px;
+    border-bottom: 1px solid rgba(9, 30, 66, 0.13);
+  }
+
+  &__img {
+    display: block;
+    margin: 10px auto 30px  ;
+  }
+}
+
+.addBoardBtn {
+  width: 100%;
+  margin-top: 10px;
+  height: 32px;
+  background-color: #0079bf;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  border-radius: 3px;
+
+  &:hover {
+    background-color: #1ca8e8;
+  }
+}
+
+.form {
+  margin-left: 20px;
+  width: 240px;
+}

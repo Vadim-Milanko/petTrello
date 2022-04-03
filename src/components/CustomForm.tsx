@@ -5,28 +5,35 @@ import { FormikErrors, FormikTouched } from 'formik';
 import ValidationText from './ValidationText';
 import { authFormFields as signUpAuth, IUserFields } from '../pages/SignUp/SignUp';
 import { authFormFields as loginAuth } from '../pages/LogIn/LogIn';
+import { IBoardData, popoverFormFields } from './PopoverWindow/PopoverWindow';
 
 interface IInputInfo {
   id: string;
-  name: signUpAuth | loginAuth;
+  name: signUpAuth | loginAuth | popoverFormFields;
   placeholder: string;
 }
 
+type FormTouchedType = FormikTouched<IUserFields | IBoardData>;
+type FormErrorsType = FormikErrors<IUserFields | IBoardData>;
+
 export interface IProps {
-  children: JSX.Element;
+  children: JSX.Element | JSX.Element[];
   formClassName: string;
+  inputClassName?: string;
   formInfo: IInputInfo[];
-  values: IUserFields;
+  values: IUserFields | IBoardData;
   handleBlur: (event: TextFieldProps) => void;
   handleSubmit: () => void;
   handleChange: (value: FormEvent) => void;
-  touched: FormikTouched<IUserFields>;
-  errors: FormikErrors<IUserFields>;
+  touched: FormTouchedType;
+  errors: FormErrorsType;
+  focus?: boolean;
 }
 
 function CustomForm(props: IProps): JSX.Element {
   const {
     formClassName,
+    inputClassName,
     formInfo,
     children,
     values,
@@ -35,6 +42,7 @@ function CustomForm(props: IProps): JSX.Element {
     handleChange,
     touched,
     errors,
+    focus = false,
   } = props;
 
   return (
@@ -46,6 +54,7 @@ function CustomForm(props: IProps): JSX.Element {
         return (
           <div key={id} className="form-control">
             <TextField
+              className={inputClassName}
               id={id}
               name={name}
               placeholder={placeholder}
@@ -53,6 +62,7 @@ function CustomForm(props: IProps): JSX.Element {
               onChange={handleChange}
               value={values[name]}
               onBlur={handleBlur}
+              autoFocus={focus}
             />
             <ValidationText
               validationClassName="form-control__error"

@@ -1,0 +1,50 @@
+.dashboard {
+  display: flex;
+  justify-content: center;
+  height: 948px;
+  background-image: linear-gradient(to right top, #f4d9e8, #edd0e9, #e2c8eb, #d2c2ef, #bdbdf3, #afc2f8, #a0c8fb, #91cdfc, #97dbfd, #a5e8fc, #b8f4fb, #cffffc);
+
+  &__workspace {
+    margin-top: 100px;
+    width: 825px;
+
+    &__title {
+      display: flex;
+    }
+
+    &__header {
+      display: flex;
+      align-items: center;
+
+      &__logo {
+        width: 40px;
+        height: 40px;
+      }
+
+      &__title {
+        margin-left: 10px;
+      }
+    }
+  }
+}
+
+.boardCreator {
+  display: flex;
+  margin-top: 30px;
+  width: 100%;
+}
+
+.addBoardCard {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  width: 194px;
+  height: 96px;
+  background-image: linear-gradient(to right top, #d6d6d6, #d7d6dd, #d6d7e5, #d4d8ec, #d0d9f4, #cbdbf5, #c7dcf5, #c3def5, #c5dfed, #cbdfe5, #d2dee0, #dadcdc);
+  border-radius: 20px;
+
+  &:hover {
+    background-image: linear-gradient(to right top, #c7d6d6, #bdd5d9, #b3d4df, #add1e5, #abceec, #add0ef, #afd3f1, #b1d5f4, #b7def3, #c2e6f2, #d0edf2, #dff4f4);
+  }
+}
