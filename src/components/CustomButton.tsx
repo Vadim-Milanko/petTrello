@@ -3,7 +3,7 @@ import React, { MouseEvent } from 'react';
 export type buttonType = 'submit' | 'button' | 'reset' | undefined;
 
 interface IProps {
-  buttonClassName: string;
+  className: string;
   isDisabled: boolean;
   text: string;
   type: buttonType;
@@ -12,7 +12,7 @@ interface IProps {
 
 function CustomButton(props: IProps): JSX.Element {
   const {
-    buttonClassName,
+    className,
     isDisabled,
     text,
     type,
@@ -21,7 +21,7 @@ function CustomButton(props: IProps): JSX.Element {
 
   return (
     <button
-      className={buttonClassName}
+      className={className}
       type={type}
       disabled={isDisabled}
       onClick={onClick}

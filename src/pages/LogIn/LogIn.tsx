@@ -3,7 +3,7 @@ import { useFormik } from 'formik';
 import { Card } from '@material-ui/core';
 import { Link, useNavigate } from 'react-router-dom';
 
-import api from '../../api/Api';
+import authApi from '../../api/Auth';
 import CustomForm from '../../components/CustomForm';
 import CustomButton from '../../components/CustomButton';
 import { logInSchema } from '../../utils/validationSchema';
@@ -16,6 +16,7 @@ import '../SignUp/style.scss';
 const initialValues = {
   email: '',
   password: '',
+  id: '',
 };
 
 export type authFormFields = 'email' | 'password';
@@ -36,6 +37,7 @@ const logInFormInfo = [
 export interface ILoginUserData {
   email: string;
   password: string;
+  id: string;
 }
 
 function LogIn(): JSX.Element {
@@ -43,7 +45,7 @@ function LogIn(): JSX.Element {
   const navigate = useNavigate();
 
   const onSubmit = async (userData: ILoginUserData) => {
-    const loginUserResponse = await api.loginUser(userData);
+    const loginUserResponse = await authApi.loginUser(userData);
     const {
       message,
       hasError,
@@ -106,7 +108,7 @@ function LogIn(): JSX.Element {
             errors={formik.errors}
           >
             <CustomButton
-              buttonClassName="signUpWrap__innerSection__form__button"
+              className="signUpWrap__innerSection__form__button"
               isDisabled={false}
               text="Login"
               type="submit"

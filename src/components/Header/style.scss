@@ -21,7 +21,7 @@
     &__link {
       display: inline-block;
       text-decoration: none;
-      color: $c-link;
+      color: $c-blue-400;
       padding: 0.25rem 0.5rem;
       font-size: 1.09375rem;
       line-height: 1.5;
@@ -31,7 +31,7 @@
 }
 
 .btn-signup {
-  background-color: $c-btn;
+  background-color: $c-blue-400;
   color: $c-white;
   display: inline-block;
   text-align: center;

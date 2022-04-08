@@ -12,10 +12,11 @@ export const getIsUserExist = (dbUsers: IUserFields[], newUser: IUserFields): an
 
 export const getUserByEmail = (dbUsers: IUserFields[], userEmail: string): IUser => {
   const userByEmail = dbUsers.filter((user) => user.email === userEmail);
-  const [{ login = '', email = '' }] = userByEmail;
+  const [{ login = '', email = '', id = '' }] = userByEmail;
 
   return {
     login,
     email,
+    id,
   };
 };

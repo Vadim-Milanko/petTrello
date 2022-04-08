@@ -1,7 +1,13 @@
 $c-white: #FFFFFF;
+$c-grey: #5e6c84;
+$c-blue-200: #1ca8e8;
+$c-blue-400: #0065ff;
+
 $c-error: #D52C16;
-$c-link: #0052CC;
-$c-btn: #0065ff;
 
 $bg-main: #F9FAFC;
 $bg-notFound: #2196F3;
+$bg-dashboard: linear-gradient(to right top, #f4d9e8, #edd0e9, #e2c8eb, #d2c2ef, #bdbdf3, #afc2f8, #a0c8fb, #91cdfc, #97dbfd, #a5e8fc, #b8f4fb, #cffffc);
+$bg-boardCard: #5e6c84;
+$bg-createCard: linear-gradient(to right top, #d6d6d6, #d7d6dd, #d6d7e5, #d4d8ec, #d0d9f4, #cbdbf5, #c7dcf5, #c3def5, #c5dfed, #cbdfe5, #d2dee0, #dadcdc);
+$bg-hover-createCard: linear-gradient(to right top, #c7d6d6, #bdd5d9, #b3d4df, #add1e5, #abceec, #add0ef, #afd3f1, #b1d5f4, #b7def3, #c2e6f2, #d0edf2, #dff4f4);

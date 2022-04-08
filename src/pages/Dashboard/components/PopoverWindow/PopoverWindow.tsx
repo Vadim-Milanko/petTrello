@@ -1,34 +1,51 @@
 import React from 'react';
 import { useFormik } from 'formik';
 
-import CustomForm from '../CustomForm';
-import boardPreview from '../../assets/images/board-preview-skeleton.svg';
-import { newBoardSchema } from '../../utils/validationSchema';
-import CustomButton from '../CustomButton';
+import CustomForm from '../../../../components/CustomForm';
+import boardPreview from '../../../../assets/images/board-preview-skeleton.svg';
+import { newBoardSchema } from '../../../../utils/validationSchema';
+import CustomButton from '../../../../components/CustomButton';
 
 import './style.scss';
+import boardApi from '../../../../api/Board';
+import { useCustomDispatch } from '../../../../hooks/useCustomDispatch';
+import { useCustomSelector } from '../../../../hooks/useCustomSelector';
+import { IBoard } from '../../../../store/initialStore';
 
 const initialValues = {
-  boardTitle: '',
+  title: '',
 };
 
-export type popoverFormFields = 'boardTitle';
+export type popoverFormFields = 'title';
 
 const popoverFormInfo = [
   {
     id: 'outlined-email',
-    name: 'boardTitle' as popoverFormFields,
+    name: 'title' as popoverFormFields,
     placeholder: 'Board title*',
   },
 ];
 
 export interface IBoardData {
-  boardTitle: string;
+  title: string;
 }
 
 function PopoverWindow(): JSX.Element {
-  const onSubmit = (boardData: IBoardData) => {
-    console.log(boardData);
+  const dispatch = useCustomDispatch();
+  const boards = useCustomSelector<IBoard[]>((store) => store.boards);
+
+  const onSubmit = async (boardData: IBoardData) => {
+    const boardResponse = await boardApi.addBoard(boardData);
+    const { hasError, currentBoard } = boardResponse;
+
+    if (!hasError) {
+      dispatch({
+        boards: [
+          ...boards,
+          currentBoard,
+        ],
+      });
+    }
   };
 
   const formik = useFormik<IBoardData>({
@@ -41,7 +58,7 @@ function PopoverWindow(): JSX.Element {
     <div className="popoverWindow">
       <p className="popoverWindow__title">Create Board</p>
       <img className="popoverWindow__img" src={boardPreview} alt="board preview" />
-      <CustomForm
+      <CustomForm <any>
         formClassName="signUpWrap__innerSection__form popoverWindow-input form"
         formInfo={popoverFormInfo}
         values={formik.values}
@@ -50,14 +67,15 @@ function PopoverWindow(): JSX.Element {
         handleChange={formik.handleChange}
         touched={formik.touched}
         errors={formik.errors}
+        focus
       >
         <p>
           You can add a few more boards to the workspace - 10 boards.
           In the free version, workspaces can have up to 10 open boards. To add more, subscribe.
         </p>
         <CustomButton
-          buttonClassName="addBoardBtn"
-          isDisabled={false}
+          className="addBoardBtn"
+          isDisabled={!formik.values.title.length}
           text="Create"
           type="submit"
         />

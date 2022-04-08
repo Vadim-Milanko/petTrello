@@ -1,10 +1,12 @@
+@import "src/assets/sass/glob";
+
 .popoverWindow {
   width: 275px;
   height: 460px;
 
   &__title {
     text-align: center;
-    color: #5e6c84;
+    color: $c-grey;
     line-height: 40px;
     margin: 0 20px;
     font-size: 14px;
@@ -21,14 +23,14 @@
   width: 100%;
   margin-top: 10px;
   height: 32px;
-  background-color: #0079bf;
+  background-color: $c-blue-200;
   border: none;
-  color: #ffffff;
+  color: $c-white;
   cursor: pointer;
   border-radius: 3px;
 
   &:hover {
-    background-color: #1ca8e8;
+    background-color: $c-blue-400;
   }
 }
 

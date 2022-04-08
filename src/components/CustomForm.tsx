@@ -5,7 +5,7 @@ import { FormikErrors, FormikTouched } from 'formik';
 import ValidationText from './ValidationText';
 import { authFormFields as signUpAuth, IUserFields } from '../pages/SignUp/SignUp';
 import { authFormFields as loginAuth } from '../pages/LogIn/LogIn';
-import { IBoardData, popoverFormFields } from './PopoverWindow/PopoverWindow';
+import { IBoardData, popoverFormFields } from '../pages/Dashboard/components/PopoverWindow/PopoverWindow';
 
 interface IInputInfo {
   id: string;
@@ -16,7 +16,7 @@ interface IInputInfo {
 type FormTouchedType = FormikTouched<IUserFields | IBoardData>;
 type FormErrorsType = FormikErrors<IUserFields | IBoardData>;
 
-export interface IProps {
+export interface IProps<T> {
   children: JSX.Element | JSX.Element[];
   formClassName: string;
   inputClassName?: string;
@@ -30,7 +30,7 @@ export interface IProps {
   focus?: boolean;
 }
 
-function CustomForm(props: IProps): JSX.Element {
+function CustomForm<T>(props: IProps<T>): JSX.Element {
   const {
     formClassName,
     inputClassName,
@@ -60,12 +60,12 @@ function CustomForm(props: IProps): JSX.Element {
               placeholder={placeholder}
               variant="outlined"
               onChange={handleChange}
-              value={values[name]}
+              value={values[name].trim()}
               onBlur={handleBlur}
               autoFocus={focus}
             />
             <ValidationText
-              validationClassName="form-control__error"
+              className="form-control__error"
               visible={isVisibleValidation}
               errorText={errors[name]}
             />

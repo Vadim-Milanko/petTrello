@@ -1,0 +1,15 @@
+@import "src/assets/sass/glob";
+
+.createCard {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 210px;
+  height: 112px;
+  background-image: $bg-createCard;
+  border-radius: 20px;
+
+  &:hover {
+    background-image: $bg-hover-createCard;
+  }
+}
