@@ -43,6 +43,7 @@ function PopoverWindow(props: IProps): JSX.Element {
     const boardResponse = await boardApi.addBoard(boardData);
     const { hasError, currentBoard } = boardResponse;
 
+    const a = 1;
     if (!hasError) {
       dispatch({
         boards: [
