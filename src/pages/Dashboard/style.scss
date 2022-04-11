@@ -8,7 +8,7 @@
 
   &__workspace {
     margin-top: 100px;
-    width: 825px;
+    width: 800px;
 
     &__title {
       display: flex;
@@ -32,6 +32,7 @@
 
 .boardCreator {
   display: flex;
-  margin-top: 30px;
+  flex-wrap: wrap;
+  margin-top: 10px;
   width: 100%;
 }

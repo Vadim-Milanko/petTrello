@@ -16,6 +16,6 @@ export const logInSchema = Yup.object({
 });
 
 export const newBoardSchema = Yup.object({
-  boardTitle: Yup.string().required('👋\n'
+  title: Yup.string().required('👋\n'
     + 'Enter a name for the board.'),
 });

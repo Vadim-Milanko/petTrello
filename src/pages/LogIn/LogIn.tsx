@@ -97,7 +97,7 @@ function LogIn(): JSX.Element {
       <section className="signUpWrap__innerSection">
         <Card className="signUpWrap__innerSection__card">
           <p>Login Trello</p>
-          <CustomForm
+          <CustomForm<ILoginUserData>
             formClassName="signUpWrap__innerSection__form"
             formInfo={logInFormInfo}
             values={formik.values}

@@ -9,9 +9,14 @@ export interface IBoardResponse {
   currentBoard: IBoardData;
 }
 
+export interface IDeleteResponse {
+  isDeleteSuccess: boolean;
+}
+
 export interface IBoardApi {
   fetchBoards(): Promise<IBoard[]>
   addBoard(boardData: IBoardData): Promise<IBoardResponse>;
+  deleteBoard(id: string): Promise<IDeleteResponse>;
 }
 
 const request = axios.create({
@@ -33,11 +38,11 @@ class BoardApi implements IBoardApi {
 
   async addBoard(boardData: IBoardData): Promise<IBoardResponse> {
     try {
-      await request.post(FETCH_URLS.boards, boardData);
+      const postedBoard = await request.post(FETCH_URLS.boards, boardData);
 
       return {
         hasError: false,
-        currentBoard: boardData,
+        currentBoard: postedBoard.data,
       };
     } catch (error) {
       return {
@@ -45,6 +50,26 @@ class BoardApi implements IBoardApi {
         currentBoard: {
           title: '',
         },
+      };
+    }
+  }
+
+  async deleteBoard(id: string): Promise<IDeleteResponse> {
+    try {
+      const deleteUrl = `${BASE_URL}/${FETCH_URLS.boards}/${id}`;
+      const deleteResponse = await request.delete(deleteUrl);
+
+      if (deleteResponse.status === 200) {
+        return {
+          isDeleteSuccess: true,
+        };
+      }
+      return {
+        isDeleteSuccess: false,
+      };
+    } catch (error) {
+      return {
+        isDeleteSuccess: false,
       };
     }
   }

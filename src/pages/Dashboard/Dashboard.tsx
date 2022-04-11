@@ -29,11 +29,11 @@ function Dashboard(): JSX.Element {
     getBoards();
   }, []);
 
-  const handleClick = (event: MouseEvent<HTMLDivElement>) => {
+  const openPopover = (event: MouseEvent<HTMLDivElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
+  const closePopover = () => {
     setAnchorEl(null);
   };
 
@@ -50,18 +50,11 @@ function Dashboard(): JSX.Element {
         </div>
         <div className="boardCreator">
           {
-            boards.map((board, index) => {
-              const { title } = board;
-              const key = index + title;
-
-              return (
-                <BoardCard key={key} title={title} />
-              );
-            })
+            boards.map((board) => (<BoardCard key={board.id} title={board.title} id={board.id} />))
           }
           <CreateCard
             id={id}
-            handleClick={handleClick}
+            handleClick={openPopover}
           />
         </div>
 
@@ -69,7 +62,7 @@ function Dashboard(): JSX.Element {
           id={id}
           open={open}
           anchorEl={anchorEl}
-          onClose={handleClose}
+          onClose={closePopover}
           anchorOrigin={{
             vertical: 'center',
             horizontal: 'right',
@@ -79,7 +72,7 @@ function Dashboard(): JSX.Element {
             horizontal: 'left',
           }}
         >
-          <PopoverWindow />
+          <PopoverWindow closePopover={closePopover} />
         </Popover>
       </section>
     </div>

@@ -103,7 +103,7 @@ function SignUp(): JSX.Element {
       <section className="signUpWrap__innerSection">
         <Card className="signUpWrap__innerSection__card">
           <p>Register an account</p>
-          <CustomForm
+          <CustomForm<IUserFields>
             formClassName="signUpWrap__innerSection__form"
             formInfo={signUpFormInfo}
             values={formik.values}

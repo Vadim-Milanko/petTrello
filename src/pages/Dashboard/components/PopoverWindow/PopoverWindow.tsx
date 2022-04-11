@@ -5,12 +5,12 @@ import CustomForm from '../../../../components/CustomForm';
 import boardPreview from '../../../../assets/images/board-preview-skeleton.svg';
 import { newBoardSchema } from '../../../../utils/validationSchema';
 import CustomButton from '../../../../components/CustomButton';
-
-import './style.scss';
 import boardApi from '../../../../api/Board';
 import { useCustomDispatch } from '../../../../hooks/useCustomDispatch';
 import { useCustomSelector } from '../../../../hooks/useCustomSelector';
 import { IBoard } from '../../../../store/initialStore';
+
+import './style.scss';
 
 const initialValues = {
   title: '',
@@ -30,7 +30,12 @@ export interface IBoardData {
   title: string;
 }
 
-function PopoverWindow(): JSX.Element {
+interface IProps {
+  closePopover: () => void;
+}
+
+function PopoverWindow(props: IProps): JSX.Element {
+  const { closePopover } = props;
   const dispatch = useCustomDispatch();
   const boards = useCustomSelector<IBoard[]>((store) => store.boards);
 
@@ -45,6 +50,7 @@ function PopoverWindow(): JSX.Element {
           currentBoard,
         ],
       });
+      closePopover();
     }
   };
 
@@ -58,7 +64,7 @@ function PopoverWindow(): JSX.Element {
     <div className="popoverWindow">
       <p className="popoverWindow__title">Create Board</p>
       <img className="popoverWindow__img" src={boardPreview} alt="board preview" />
-      <CustomForm <any>
+      <CustomForm<IBoardData>
         formClassName="signUpWrap__innerSection__form popoverWindow-input form"
         formInfo={popoverFormInfo}
         values={formik.values}

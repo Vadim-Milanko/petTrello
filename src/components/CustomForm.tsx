@@ -3,30 +3,24 @@ import { TextField, TextFieldProps } from '@material-ui/core';
 import { FormikErrors, FormikTouched } from 'formik';
 
 import ValidationText from './ValidationText';
-import { authFormFields as signUpAuth, IUserFields } from '../pages/SignUp/SignUp';
-import { authFormFields as loginAuth } from '../pages/LogIn/LogIn';
-import { IBoardData, popoverFormFields } from '../pages/Dashboard/components/PopoverWindow/PopoverWindow';
 
-interface IInputInfo {
+interface IInputInfo<T> {
   id: string;
-  name: signUpAuth | loginAuth | popoverFormFields;
+  name: keyof T;
   placeholder: string;
 }
-
-type FormTouchedType = FormikTouched<IUserFields | IBoardData>;
-type FormErrorsType = FormikErrors<IUserFields | IBoardData>;
 
 export interface IProps<T> {
   children: JSX.Element | JSX.Element[];
   formClassName: string;
   inputClassName?: string;
-  formInfo: IInputInfo[];
-  values: IUserFields | IBoardData;
+  formInfo: IInputInfo<T>[];
+  values: T;
   handleBlur: (event: TextFieldProps) => void;
   handleSubmit: () => void;
   handleChange: (value: FormEvent) => void;
-  touched: FormTouchedType;
-  errors: FormErrorsType;
+  touched: FormikTouched<T>;
+  errors: FormikErrors<T>;
   focus?: boolean;
 }
 
@@ -50,24 +44,28 @@ function CustomForm<T>(props: IProps<T>): JSX.Element {
       {formInfo.map((input) => {
         const { id, name, placeholder } = input;
         const isVisibleValidation = touched[name] && errors[name];
+        const isInputFilled = ((values[name] as unknown as string).trim() !== '');
+        const inputValue = isInputFilled
+          ? values[name] as unknown as string
+          : (values[name] as unknown as string).trim();
 
         return (
           <div key={id} className="form-control">
             <TextField
               className={inputClassName}
               id={id}
-              name={name}
+              name={name as string}
               placeholder={placeholder}
               variant="outlined"
               onChange={handleChange}
-              value={values[name].trim()}
+              value={inputValue}
               onBlur={handleBlur}
               autoFocus={focus}
             />
             <ValidationText
               className="form-control__error"
-              visible={isVisibleValidation}
-              errorText={errors[name]}
+              visible={!!isVisibleValidation}
+              errorText={errors[name] as unknown as string}
             />
           </div>
         );
