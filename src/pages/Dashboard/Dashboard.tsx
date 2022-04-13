@@ -13,6 +13,7 @@ import { useCustomDispatch } from '../../hooks/useCustomDispatch';
 import './style.scss';
 
 function Dashboard(): JSX.Element {
+  const [isEdit, setIsEdit] = useState<boolean>(false);
   const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
   const boards = useCustomSelector<IBoard[]>((store) => store.boards);
   const dispatch = useCustomDispatch();
@@ -50,7 +51,16 @@ function Dashboard(): JSX.Element {
         </div>
         <div className="boardCreator">
           {
-            boards.map((board) => (<BoardCard key={board.id} title={board.title} id={board.id} />))
+            boards.map((board) => (
+              <BoardCard
+                id={id}
+                key={board.id}
+                title={board.title}
+                boardId={board.id}
+                openPopover={openPopover}
+                setIsEdit={setIsEdit}
+              />
+            ))
           }
           <CreateCard
             id={id}
@@ -72,7 +82,7 @@ function Dashboard(): JSX.Element {
             horizontal: 'left',
           }}
         >
-          <PopoverWindow closePopover={closePopover} />
+          <PopoverWindow closePopover={closePopover} isEditClick={isEdit} />
         </Popover>
       </section>
     </div>

@@ -32,25 +32,42 @@ export interface IBoardData {
 
 interface IProps {
   closePopover: () => void;
+  isEditClick: boolean;
 }
 
 function PopoverWindow(props: IProps): JSX.Element {
-  const { closePopover } = props;
+  const { closePopover, isEditClick } = props;
   const dispatch = useCustomDispatch();
   const boards = useCustomSelector<IBoard[]>((store) => store.boards);
 
   const onSubmit = async (boardData: IBoardData) => {
-    const boardResponse = await boardApi.addBoard(boardData);
-    const { hasError, currentBoard } = boardResponse;
+    if (isEditClick) {
+      const editResponse = await boardApi.editBoardTitle(boardData, '1');
+      const { hasError, editedBoard } = editResponse;
 
-    if (!hasError) {
-      dispatch({
-        boards: [
-          ...boards,
-          currentBoard,
-        ],
-      });
+      if (!hasError) {
+        dispatch({
+          boards: [
+            ...boards,
+            editedBoard,
+          ],
+        });
+      }
+
       closePopover();
+    } else {
+      const boardResponse = await boardApi.addBoard(boardData);
+      const { hasError, currentBoard } = boardResponse;
+
+      if (!hasError) {
+        dispatch({
+          boards: [
+            ...boards,
+            currentBoard,
+          ],
+        });
+        closePopover();
+      }
     }
   };
 
@@ -79,12 +96,23 @@ function PopoverWindow(props: IProps): JSX.Element {
           You can add a few more boards to the workspace - 10 boards.
           In the free version, workspaces can have up to 10 open boards. To add more, subscribe.
         </p>
-        <CustomButton
-          className="addBoardBtn"
-          isDisabled={!formik.values.title.length}
-          text="Create"
-          type="submit"
-        />
+        {
+          isEditClick ? (
+            <CustomButton
+              className="addBoardBtn"
+              isDisabled={false}
+              text="Edit"
+              type="submit"
+            />
+          ) : (
+            <CustomButton
+              className="addBoardBtn"
+              isDisabled={!formik.values.title.length}
+              text="Create"
+              type="submit"
+            />
+          )
+        }
       </CustomForm>
     </div>
   );

@@ -1,38 +1,55 @@
-import React from 'react';
+import React, { MouseEvent } from 'react';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
+import DragIndicatorIcon from '@material-ui/icons/DragIndicator';
 
 import { useCustomDispatch } from '../../../../hooks/useCustomDispatch';
 import boardApi from '../../../../api/Board';
-
-import './style.scss';
 import { useCustomSelector } from '../../../../hooks/useCustomSelector';
 import { IBoard } from '../../../../store/initialStore';
 import { deleteBoardById } from '../../../../utils/boards';
 
+import './style.scss';
+
 interface IProps {
-  id: string;
+  id?: string;
+  boardId: string;
   title: string;
+  openPopover: (event: MouseEvent<HTMLDivElement>) => void;
+  setIsEdit: (status: boolean) => void;
 }
 
 function BoardCard(props: IProps): JSX.Element {
   const dispatch = useCustomDispatch();
   const boards = useCustomSelector<IBoard[]>((store) => store.boards);
 
-  const { title = '', id } = props;
+  const {
+    title = '', boardId, openPopover, id = '', setIsEdit,
+  } = props;
 
   const deleteBoard = async () => {
-    const deleteResponse = await boardApi.deleteBoard(id);
+    const deleteResponse = await boardApi.deleteBoard(boardId);
 
-    if (deleteResponse.isDeleteSuccess) {
+    if (!deleteResponse.hasError) {
       dispatch({
-        boards: deleteBoardById(boards, id),
+        boards: deleteBoardById(boards, boardId),
       });
     }
   };
+
+  const handleEditClick = (event: MouseEvent<HTMLDivElement>) => {
+    setIsEdit(true);
+    openPopover(event);
+  };
+
   return (
     <div className="boardCard">
       <p className="boardCard__title">{title}</p>
-      <div className="boardCard__logo"><DeleteOutlineIcon onClick={deleteBoard} /></div>
+      <div className="boardCard__icons">
+        <DeleteOutlineIcon onClick={deleteBoard} />
+        <div id={id} onClick={handleEditClick}>
+          <DragIndicatorIcon />
+        </div>
+      </div>
     </div>
   );
 }

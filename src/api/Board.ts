@@ -10,13 +10,19 @@ export interface IBoardResponse {
 }
 
 export interface IDeleteResponse {
-  isDeleteSuccess: boolean;
+  hasError: boolean;
+}
+
+export interface IEditResponse {
+  hasError: boolean;
+  editedBoard: IBoard;
 }
 
 export interface IBoardApi {
   fetchBoards(): Promise<IBoard[]>
   addBoard(boardData: IBoardData): Promise<IBoardResponse>;
   deleteBoard(id: string): Promise<IDeleteResponse>;
+  editBoardTitle(boardData: IBoardData, id: string): Promise<IEditResponse>;
 }
 
 const request = axios.create({
@@ -61,15 +67,40 @@ class BoardApi implements IBoardApi {
 
       if (deleteResponse.status === 200) {
         return {
-          isDeleteSuccess: true,
+          hasError: false,
         };
       }
       return {
-        isDeleteSuccess: false,
+        hasError: true,
       };
     } catch (error) {
       return {
-        isDeleteSuccess: false,
+        hasError: true,
+      };
+    }
+  }
+
+  async editBoardTitle(boardData: IBoardData, id: string): Promise<IEditResponse> {
+    try {
+      const patchUrl = `${BASE_URL}/${FETCH_URLS.boards}/${id}`;
+      const editResponse = await request.patch(patchUrl, boardData);
+
+      if (editResponse.status === 200) {
+        return {
+          hasError: false,
+          editedBoard: editResponse.data,
+        };
+      }
+      return {
+        hasError: true,
+        editedBoard: {} as IBoard,
+      };
+    } catch (error) {
+      console.log(error);
+
+      return {
+        hasError: true,
+        editedBoard: {} as IBoard,
       };
     }
   }
