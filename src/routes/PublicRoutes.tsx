@@ -1,9 +1,9 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
-import Home from '../pages/Home/Home';
-import LogIn from '../pages/LogIn/LogIn';
-import SignUp from '../pages/SignUp/SignUp';
+import Home from '../pages/Home';
+import LogIn from '../pages/LogIn';
+import SignUp from '../pages/SignUp';
 
 function PublicRoutes(): JSX.Element {
   return (

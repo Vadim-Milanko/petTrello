@@ -1,4 +1,4 @@
-import { IUserFields } from '../pages/SignUp/SignUp';
+import { IUserFields } from '../pages/SignUp';
 import { IUser } from '../store/initialStore';
 
 // eslint-disable-next-line max-len

@@ -2,8 +2,8 @@ import axios from 'axios';
 
 import { BASE_URL, VALIDATION_MESSAGES, FETCH_URLS } from './constants';
 import { getIsUserExist, getUserByEmail, checkOnRegistered } from '../utils/signUp';
-import { IUserFields } from '../pages/SignUp/SignUp';
-import { ILoginUserData } from '../pages/LogIn/LogIn';
+import { IUserFields } from '../pages/SignUp';
+import { ILoginUserData } from '../pages/LogIn';
 import { IUser } from '../store/initialStore';
 
 export interface IServerResponse {

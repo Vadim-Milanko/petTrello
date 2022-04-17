@@ -7,9 +7,9 @@ import authApi from '../../api/Auth';
 import { signUpSchema } from '../../utils/validationSchema';
 import CustomForm from '../../components/CustomForm';
 import CustomButton from '../../components/CustomButton';
-import logo from '../../assets/images/Trello_logo.svg';
 import { setUserToLS } from '../../utils/localStorage';
 import { useCustomDispatch } from '../../hooks/useCustomDispatch';
+import logo from '../../assets/images/Trello_logo.svg';
 
 import './style.scss';
 

@@ -4,13 +4,19 @@ import './style.scss';
 
 interface IProps {
   id?: string;
-  handleClick: (event: MouseEvent<HTMLDivElement>) => void;
+  openPopover: (event: MouseEvent<HTMLDivElement>) => void;
+  setIsEdit: (status: boolean) => void;
 }
 
 function CreateCard(props: IProps): JSX.Element {
   const {
-    handleClick, id,
+    openPopover, id, setIsEdit,
   } = props;
+
+  const handleClick = (event: MouseEvent<HTMLDivElement>) => {
+    setIsEdit(false);
+    openPopover(event);
+  };
 
   return (
     <div className="createCard" id={id} onClick={handleClick}>

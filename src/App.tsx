@@ -5,7 +5,7 @@ import PublicRoutes from './routes/PublicRoutes';
 import Header from './components/Header/Header';
 import CustomToast from './components/CustomToast';
 import { getUserFromLS } from './utils/localStorage';
-import Loader from './components/Loader/Loader';
+import Loader from './components/Loader';
 import { useCustomDispatch } from './hooks/useCustomDispatch';
 
 import './App.scss';

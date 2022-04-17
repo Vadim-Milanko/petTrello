@@ -14,7 +14,7 @@ interface IProps {
   id?: string;
   boardId: string;
   title: string;
-  openPopover: (event: MouseEvent<HTMLDivElement>) => void;
+  openPopover: (event: MouseEvent<HTMLDivElement>, id: string) => void;
   setIsEdit: (status: boolean) => void;
 }
 
@@ -38,7 +38,7 @@ function BoardCard(props: IProps): JSX.Element {
 
   const handleEditClick = (event: MouseEvent<HTMLDivElement>) => {
     setIsEdit(true);
-    openPopover(event);
+    openPopover(event, boardId);
   };
 
   return (

@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import { BASE_URL, FETCH_URLS } from './constants';
 import { IBoard } from '../store/initialStore';
-import { IBoardData } from '../pages/Dashboard/components/PopoverWindow/PopoverWindow';
+import { IBoardData } from '../pages/Dashboard/components/PopoverWindow';
 
 export interface IBoardResponse {
   hasError: boolean;

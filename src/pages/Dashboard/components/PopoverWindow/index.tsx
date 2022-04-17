@@ -33,23 +33,33 @@ export interface IBoardData {
 interface IProps {
   closePopover: () => void;
   isEditClick: boolean;
+  currentEditId: string;
 }
 
 function PopoverWindow(props: IProps): JSX.Element {
-  const { closePopover, isEditClick } = props;
+  const { closePopover, isEditClick, currentEditId } = props;
   const dispatch = useCustomDispatch();
   const boards = useCustomSelector<IBoard[]>((store) => store.boards);
 
   const onSubmit = async (boardData: IBoardData) => {
     if (isEditClick) {
-      const editResponse = await boardApi.editBoardTitle(boardData, '1');
+      const editResponse = await boardApi.editBoardTitle(boardData, currentEditId);
       const { hasError, editedBoard } = editResponse;
+
+      const preparedBoards = boards.map((board: IBoard) => {
+        if (board.id === editedBoard.id) {
+          return {
+            id: board.id,
+            title: editedBoard.title,
+          };
+        }
+        return board;
+      });
 
       if (!hasError) {
         dispatch({
           boards: [
-            ...boards,
-            editedBoard,
+            ...preparedBoards,
           ],
         });
       }
@@ -96,23 +106,12 @@ function PopoverWindow(props: IProps): JSX.Element {
           You can add a few more boards to the workspace - 10 boards.
           In the free version, workspaces can have up to 10 open boards. To add more, subscribe.
         </p>
-        {
-          isEditClick ? (
-            <CustomButton
-              className="addBoardBtn"
-              isDisabled={false}
-              text="Edit"
-              type="submit"
-            />
-          ) : (
-            <CustomButton
-              className="addBoardBtn"
-              isDisabled={!formik.values.title.length}
-              text="Create"
-              type="submit"
-            />
-          )
-        }
+        <CustomButton
+          className="addBoardBtn"
+          isDisabled={!formik.values.title.length}
+          text={isEditClick ? 'Edit' : 'Create'}
+          type="submit"
+        />
       </CustomForm>
     </div>
   );

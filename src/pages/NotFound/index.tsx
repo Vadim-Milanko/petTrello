@@ -1,8 +1,9 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-import './style.scss';
 import errorImg from '../../assets/images/404.png';
+
+import './style.scss';
 
 function NotFound(): JSX.Element {
   return (

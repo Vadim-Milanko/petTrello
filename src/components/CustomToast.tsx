@@ -3,8 +3,8 @@ import { Alert } from '@material-ui/lab';
 import { Snackbar } from '@material-ui/core';
 
 import { useCustomSelector } from '../hooks/useCustomSelector';
-import { IUi } from '../store/initialStore';
 import { useCustomDispatch } from '../hooks/useCustomDispatch';
+import { IUi } from '../store/initialStore';
 
 type severityType = 'success' | 'warning';
 

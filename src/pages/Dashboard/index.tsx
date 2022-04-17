@@ -1,19 +1,20 @@
 import React, { useState, MouseEvent, useEffect } from 'react';
 import { Popover } from '@material-ui/core';
 
-import CreateCard from './components/CreateCard/CreateCard';
-import PopoverWindow from './components/PopoverWindow/PopoverWindow';
-import logo from '../../assets/images/small-logo.png';
+import CreateCard from './components/CreateCard';
+import PopoverWindow from './components/PopoverWindow';
 import { useCustomSelector } from '../../hooks/useCustomSelector';
 import { IBoard } from '../../store/initialStore';
-import BoardCard from './components/BoardCard/BoardCard';
+import BoardCard from './components/BoardCard';
 import boardApi from '../../api/Board';
 import { useCustomDispatch } from '../../hooks/useCustomDispatch';
+import logo from '../../assets/images/small-logo.png';
 
 import './style.scss';
 
 function Dashboard(): JSX.Element {
   const [isEdit, setIsEdit] = useState<boolean>(false);
+  const [currentEditId, setCurrentEditId] = useState<string>('');
   const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
   const boards = useCustomSelector<IBoard[]>((store) => store.boards);
   const dispatch = useCustomDispatch();
@@ -30,8 +31,11 @@ function Dashboard(): JSX.Element {
     getBoards();
   }, []);
 
-  const openPopover = (event: MouseEvent<HTMLDivElement>) => {
+  const openPopover = (event: MouseEvent<HTMLDivElement>, id?: string) => {
     setAnchorEl(event.currentTarget);
+    if (id) {
+      setCurrentEditId(id);
+    }
   };
 
   const closePopover = () => {
@@ -64,7 +68,8 @@ function Dashboard(): JSX.Element {
           }
           <CreateCard
             id={id}
-            handleClick={openPopover}
+            openPopover={openPopover}
+            setIsEdit={setIsEdit}
           />
         </div>
 
@@ -82,7 +87,11 @@ function Dashboard(): JSX.Element {
             horizontal: 'left',
           }}
         >
-          <PopoverWindow closePopover={closePopover} isEditClick={isEdit} />
+          <PopoverWindow
+            closePopover={closePopover}
+            isEditClick={isEdit}
+            currentEditId={currentEditId}
+          />
         </Popover>
       </section>
     </div>
