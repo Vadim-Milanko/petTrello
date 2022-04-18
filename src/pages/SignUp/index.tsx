@@ -1,26 +1,33 @@
 import React from 'react';
-import { useFormik } from 'formik';
-import { Card } from '@material-ui/core';
 import { Link, useNavigate } from 'react-router-dom';
+import { Card } from '@material-ui/core';
+import { useFormik } from 'formik';
 
-import api from '../../api/Api';
+import authApi from '../../api/Auth';
+import { signUpSchema } from '../../utils/validationSchema';
 import CustomForm from '../../components/CustomForm';
 import CustomButton from '../../components/CustomButton';
-import { logInSchema } from '../../utils/validationSchema';
-import logo from '../../assets/images/Trello_logo.svg';
 import { setUserToLS } from '../../utils/localStorage';
 import { useCustomDispatch } from '../../hooks/useCustomDispatch';
+import logo from '../../assets/images/Trello_logo.svg';
 
-import '../SignUp/style.scss';
+import './style.scss';
 
 const initialValues = {
+  login: '',
   email: '',
   password: '',
+  id: '',
 };
 
-export type authFormFields = 'email' | 'password';
+export type authFormFields = 'login' | 'email' | 'password';
 
-const logInFormInfo = [
+const signUpFormInfo = [
+  {
+    id: 'outlined-login',
+    name: 'login' as authFormFields,
+    placeholder: 'Login',
+  },
   {
     id: 'outlined-email',
     name: 'email' as authFormFields,
@@ -33,30 +40,31 @@ const logInFormInfo = [
   },
 ];
 
-export interface ILoginUserData {
+export interface IUserFields {
+  login?: string;
   email: string;
-  password: string;
+  password?: string;
+  id: string;
 }
 
-function LogIn(): JSX.Element {
+function SignUp(): JSX.Element {
   const dispatch = useCustomDispatch();
   const navigate = useNavigate();
 
-  const onSubmit = async (userData: ILoginUserData) => {
-    const loginUserResponse = await api.loginUser(userData);
+  const onSubmit = async (values: IUserFields) => {
+    const userResponse = await authApi.registerUser(values);
     const {
-      message,
-      hasError,
       currentUser,
-    } = loginUserResponse;
+      hasError,
+    } = userResponse;
     const severity = hasError ? 'warning' : 'success';
 
-    if (!hasError) {
+    if (!userResponse.hasError) {
       dispatch({
         ui: {
           toast: {
             isActive: true,
-            message,
+            message: userResponse.message,
             severity,
           },
           loader: {
@@ -72,7 +80,7 @@ function LogIn(): JSX.Element {
         ui: {
           toast: {
             isActive: true,
-            message: loginUserResponse.message,
+            message: userResponse.message,
             severity,
           },
           loader: {
@@ -83,10 +91,10 @@ function LogIn(): JSX.Element {
     }
   };
 
-  const formik = useFormik<ILoginUserData>({
+  const formik = useFormik<IUserFields>({
     initialValues,
     onSubmit,
-    validationSchema: logInSchema,
+    validationSchema: signUpSchema,
   });
 
   return (
@@ -94,10 +102,10 @@ function LogIn(): JSX.Element {
       <img className="signUpWrap__mainLogo" src={logo} alt="logo" />
       <section className="signUpWrap__innerSection">
         <Card className="signUpWrap__innerSection__card">
-          <p>Login Trello</p>
-          <CustomForm
+          <p>Register an account</p>
+          <CustomForm<IUserFields>
             formClassName="signUpWrap__innerSection__form"
-            formInfo={logInFormInfo}
+            formInfo={signUpFormInfo}
             values={formik.values}
             handleBlur={formik.handleBlur}
             handleSubmit={formik.handleSubmit}
@@ -106,17 +114,17 @@ function LogIn(): JSX.Element {
             errors={formik.errors}
           >
             <CustomButton
-              buttonClassName="signUpWrap__innerSection__form__button"
+              className="signUpWrap__innerSection__form__button"
               isDisabled={false}
-              text="Login"
+              text="Continue"
               type="submit"
             />
           </CustomForm>
-          <Link className="link" to="/signup">Register an account</Link>
+          <Link className="link" to="/login">Already have an account? Login</Link>
         </Card>
       </section>
     </div>
   );
 }
 
-export default LogIn;
+export default SignUp;

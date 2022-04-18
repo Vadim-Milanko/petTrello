@@ -1,0 +1,38 @@
+@import "src/assets/sass/glob";
+
+.dashboard {
+  display: flex;
+  justify-content: center;
+  height: 948px;
+  background-image: $bg-dashboard;
+
+  &__workspace {
+    margin-top: 100px;
+    width: 800px;
+
+    &__title {
+      display: flex;
+    }
+
+    &__header {
+      display: flex;
+      align-items: center;
+
+      &__logo {
+        width: 40px;
+        height: 40px;
+      }
+
+      &__title {
+        margin-left: 10px;
+      }
+    }
+  }
+}
+
+.boardCreator {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 10px;
+  width: 100%;
+}

@@ -1,10 +1,9 @@
 import axios from 'axios';
 
-import { BASE_URL, VALIDATION_MESSAGES } from './constants';
-import { FETCH_URLS } from '../pages/SignUp/constants';
+import { BASE_URL, VALIDATION_MESSAGES, FETCH_URLS } from './constants';
 import { getIsUserExist, getUserByEmail, checkOnRegistered } from '../utils/signUp';
-import { IUserFields } from '../pages/SignUp/SignUp';
-import { ILoginUserData } from '../pages/LogIn/LogIn';
+import { IUserFields } from '../pages/SignUp';
+import { ILoginUserData } from '../pages/LogIn';
 import { IUser } from '../store/initialStore';
 
 export interface IServerResponse {
@@ -13,17 +12,17 @@ export interface IServerResponse {
   currentUser: IUser;
 }
 
-export interface IUsersApi {
-    fetchUsers():Promise<IUserFields[]>;
-    loginUser(userData: ILoginUserData): Promise<IServerResponse>;
-    registerUser(userData: IUserFields): Promise<IServerResponse>;
+export interface IAuthApi {
+  fetchUsers():Promise<IUserFields[]>;
+  loginUser(userData: ILoginUserData): Promise<IServerResponse>;
+  registerUser(userData: IUserFields): Promise<IServerResponse>;
 }
 
 const request = axios.create({
   baseURL: BASE_URL,
 });
 
-class UsersApi implements IUsersApi {
+class AuthApi implements IAuthApi {
   async fetchUsers() : Promise<IUserFields[]> {
     let response;
 
@@ -55,6 +54,7 @@ class UsersApi implements IUsersApi {
         currentUser: {
           login: '',
           email: '',
+          id: '',
         },
       };
     } catch (error) {
@@ -65,6 +65,7 @@ class UsersApi implements IUsersApi {
         currentUser: {
           login: '',
           email: '',
+          id: '',
         },
       };
     }
@@ -74,7 +75,8 @@ class UsersApi implements IUsersApi {
     try {
       const usersFromDb = await this.fetchUsers();
       const user = checkOnRegistered(usersFromDb, userData);
-      const { login = '', email } = userData;
+
+      const { login = '', email, id } = userData;
 
       if (user) {
         return {
@@ -83,6 +85,7 @@ class UsersApi implements IUsersApi {
           currentUser: {
             login: '',
             email: '',
+            id: '',
           },
         };
       }
@@ -94,6 +97,7 @@ class UsersApi implements IUsersApi {
         currentUser: {
           login,
           email,
+          id,
         },
       };
     } catch (error) {
@@ -104,12 +108,13 @@ class UsersApi implements IUsersApi {
         currentUser: {
           login: '',
           email: '',
+          id: '',
         },
       };
     }
   }
 }
 
-const api = new UsersApi();
+const authApi = new AuthApi();
 
-export default api;
+export default authApi;

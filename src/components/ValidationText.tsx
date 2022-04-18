@@ -3,14 +3,14 @@ import React from 'react';
 type visibleType = string | boolean | undefined;
 
 interface IProps {
-  validationClassName: string;
+  className: string;
   errorText: string | undefined;
   visible: visibleType;
 }
 
 function ValidationText(props: IProps): JSX.Element {
   const {
-    validationClassName, visible = false, errorText = '',
+    className, visible = false, errorText = '',
   } = props;
 
   return (
@@ -18,7 +18,7 @@ function ValidationText(props: IProps): JSX.Element {
       {
         visible
           ? (
-            <div className={validationClassName}>
+            <div className={className}>
               {errorText}
             </div>
           ) : null

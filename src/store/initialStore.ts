@@ -2,7 +2,9 @@ export const initialStore = {
   user: {
     login: '',
     email: '',
+    id: '',
   },
+  boards: [],
   ui: {
     toast: {
       isActive: false,
@@ -18,6 +20,7 @@ export const initialStore = {
 export interface IUser {
   login: string;
   email: string;
+  id: string;
 }
 
 export interface IToast {
@@ -35,7 +38,13 @@ export interface IUi {
   loader: ILoader;
 }
 
+export interface IBoard {
+  id: string;
+  title: string;
+}
+
 export interface IAppStore {
   user: IUser;
+  boards: IBoard[],
   ui: IUi;
 }

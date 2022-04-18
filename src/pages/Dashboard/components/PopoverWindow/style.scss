@@ -1,0 +1,40 @@
+@import "src/assets/sass/glob";
+
+.popoverWindow {
+  width: 275px;
+  height: 460px;
+
+  &__title {
+    text-align: center;
+    color: $c-grey;
+    line-height: 40px;
+    margin: 0 20px;
+    font-size: 14px;
+    border-bottom: 1px solid rgba(9, 30, 66, 0.13);
+  }
+
+  &__img {
+    display: block;
+    margin: 10px auto 30px;
+  }
+}
+
+.addBoardBtn {
+  width: 100%;
+  margin-top: 10px;
+  height: 32px;
+  background-color: $c-blue-200;
+  border: none;
+  color: $c-white;
+  cursor: pointer;
+  border-radius: 3px;
+
+  &:hover {
+    background-color: $c-blue-400;
+  }
+}
+
+.form {
+  margin-left: 20px;
+  width: 240px;
+}
