@@ -58,9 +58,7 @@ function PopoverWindow(props: IProps): JSX.Element {
 
       if (!hasError) {
         dispatch({
-          boards: [
-            ...preparedBoards,
-          ],
+          boards: preparedBoards,
         });
       }
 

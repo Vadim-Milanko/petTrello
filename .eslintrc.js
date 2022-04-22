@@ -43,6 +43,7 @@ module.exports = {
     'react/require-default-props': 'off',
     'react/button-has-type': 'off',
     'react/jsx-no-constructed-context-values': 'off',
+    'no-shadow': 'off',
 
     'import/extensions': ['error', {
       js: 'never',
