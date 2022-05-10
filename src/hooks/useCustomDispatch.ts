@@ -3,14 +3,15 @@ import { useContext } from 'react';
 import { AppContext } from '../context';
 
 export const useCustomDispatch = () => {
-  const { storeState, setStoreState } = useContext(AppContext);
+  const { dispatch } = useContext(AppContext);
 
-  function dispatch <T>(payload: T) {
-    setStoreState({
-      ...storeState,
-      ...payload,
-    });
-  }
+  const dispatchWrapper = (action: any): void => {
+    if (typeof action === 'function') {
+      dispatch(action(dispatch));
+    } else {
+      dispatch(action);
+    }
+  };
 
-  return dispatch;
+  return dispatchWrapper;
 };

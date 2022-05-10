@@ -1,5 +1,5 @@
-import { UserActionTypes as types } from '../../actionTypes/auth';
 import { IServerResponse } from '../../../api/Auth';
+import { UiActionTypes as types } from '../../actionTypes/ui';
 
 interface IUiActionResponse {
   uiResponse: IServerResponse;
@@ -7,27 +7,32 @@ interface IUiActionResponse {
 }
 
 export interface IUiLoginUserSuccess {
-  type: types.LOGIN_USER_SUCCESS;
+  type: types.LOGIN_UI_SUCCESS;
   payload: IUiActionResponse;
 }
 
 export interface IUiLoginUserError {
-  type: types.LOGIN_USER_ERROR;
+  type: types.LOGIN_UI_ERROR;
   payload: IUiActionResponse;
 }
 
 export interface IUiRegisterUserSuccess {
-  type: types.REGISTER_USER_SUCCESS;
+  type: types.REGISTER_UI_SUCCESS;
   payload: IUiActionResponse;
 }
 
 export interface IUiRegisterUserError {
-  type: types.REGISTER_USER_ERROR;
+  type: types.REGISTER_UI_ERROR;
   payload: IUiActionResponse;
 }
 
-export type TAuthUiActions =
+export interface ICloseToastAction {
+  type: types.CLOSE_TOAST;
+}
+
+export type TUiActions =
   IUiLoginUserSuccess
   | IUiLoginUserError
   | IUiRegisterUserSuccess
-  | IUiRegisterUserError;
+  | IUiRegisterUserError
+  | ICloseToastAction;

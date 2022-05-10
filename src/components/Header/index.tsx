@@ -1,24 +1,22 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { initialStore } from '../../store/initialStore';
 import { clearUserFromLS, getUserFromLS } from '../../utils/localStorage';
-import logo from '../../assets/images/Trello_logo.svg';
 import { useCustomDispatch } from '../../hooks/useCustomDispatch';
+import { logoutUserAction } from '../../store/actionsCreators/user';
+import logo from '../../assets/images/Trello_logo.svg';
 
 import './style.scss';
 
 function Header(): JSX.Element {
   const dispatch = useCustomDispatch();
-
   const navigate = useNavigate();
 
   const isHasUserInLS = getUserFromLS();
 
   const logOut = () => {
     clearUserFromLS();
-    dispatch(initialStore);
-    navigate('/home');
+    dispatch(logoutUserAction(() => navigate('/home')));
   };
 
   return (

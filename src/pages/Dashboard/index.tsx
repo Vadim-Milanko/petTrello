@@ -6,8 +6,8 @@ import PopoverWindow from './components/PopoverWindow';
 import { useCustomSelector } from '../../hooks/useCustomSelector';
 import { IBoard } from '../../store/initialStore';
 import BoardCard from './components/BoardCard';
-import boardApi from '../../api/Board';
 import { useCustomDispatch } from '../../hooks/useCustomDispatch';
+import { fetchBoards } from '../../store/sideEffects/board';
 import logo from '../../assets/images/small-logo.png';
 
 import './style.scss';
@@ -19,12 +19,8 @@ function Dashboard(): JSX.Element {
   const boards = useCustomSelector<IBoard[]>((store) => store.boards);
   const dispatch = useCustomDispatch();
 
-  const getBoards = async (): Promise<void> => {
-    const fetchedBoards = await boardApi.fetchBoards();
-
-    dispatch({
-      boards: fetchedBoards,
-    });
+  const getBoards = () => {
+    dispatch(fetchBoards());
   };
 
   useEffect(() => {
@@ -65,7 +61,7 @@ function Dashboard(): JSX.Element {
                 setIsEdit={setIsEdit}
               />
             ))
-          }
+            }
           <CreateCard
             id={id}
             openPopover={openPopover}

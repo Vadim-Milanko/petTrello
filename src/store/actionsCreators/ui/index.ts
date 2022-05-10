@@ -1,39 +1,40 @@
-import authApi, { IServerResponse } from '../../../api/Auth';
-import { UserActionTypes as types } from '../../actionTypes/auth';
-import { ILoginUserData } from '../../../pages/LogIn';
-import { IUserFields } from '../../../pages/SignUp';
+import { IServerResponse } from '../../../api/Auth';
+import { UiActionTypes as types } from '../../actionTypes/ui';
 
-export const loginUserUiAction = async (payload: ILoginUserData) => {
-  const loginResponse: IServerResponse = await authApi.loginUser(payload);
-  const severity = loginResponse.hasError ? 'warning' : 'success';
+export const loginUiAction = async (payload: IServerResponse) => {
+  const severity = payload.hasError ? 'warning' : 'success';
 
-  if (!loginResponse.hasError) {
+  console.log(payload);
+
+  if (!payload.hasError) {
     return {
-      type: types.LOGIN_USER_SUCCESS,
-      payload: { loginResponse, severity },
+      type: types.LOGIN_UI_SUCCESS,
+      payload: { payload, severity },
     };
   }
 
   return {
-    type: types.LOGIN_USER_ERROR,
-    payload: { loginResponse, severity },
+    type: types.LOGIN_UI_ERROR,
+    payload: { payload, severity },
   };
 };
 
-export const registerUserUiAction = async (payload: IUserFields) => {
-  const registerResponse: IServerResponse = await authApi.registerUser(payload);
+export const registerUiAction = (payload: IServerResponse) => {
+  const severity = payload.hasError ? 'warning' : 'success';
 
-  const severity = registerResponse.hasError ? 'warning' : 'success';
-
-  if (!registerResponse.hasError) {
+  if (!payload.hasError) {
     return {
-      type: types.REGISTER_USER_SUCCESS,
-      payload: { registerResponse, severity },
+      type: types.REGISTER_UI_SUCCESS,
+      payload: { payload, severity },
     };
   }
 
   return {
-    type: types.REGISTER_USER_ERROR,
-    payload: { registerResponse, severity },
+    type: types.REGISTER_UI_ERROR,
+    payload: { payload, severity },
   };
 };
+
+export const closeToastAction = () => ({
+  type: types.CLOSE_TOAST,
+});

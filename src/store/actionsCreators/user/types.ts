@@ -1,4 +1,4 @@
-import { UserActionTypes as types } from '../../actionTypes/auth';
+import { UserActionTypes as types } from '../../actionTypes/user';
 import { IServerResponse } from '../../../api/Auth';
 
 export interface ILoginUserSuccess {
@@ -11,6 +11,11 @@ export interface IRegisterUserSuccess {
   payload: IServerResponse;
 }
 
+export interface ILogoutUserAction {
+  type: types.LOGOUT_USER_SUCCESS;
+}
+
 export type TAuthUserActions =
   ILoginUserSuccess
-  | IRegisterUserSuccess
+  | ILogoutUserAction
+  | IRegisterUserSuccess;

@@ -3,12 +3,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Card } from '@material-ui/core';
 import { useFormik } from 'formik';
 
-import authApi from '../../api/Auth';
 import { signUpSchema } from '../../utils/validationSchema';
 import CustomForm from '../../components/CustomForm';
 import CustomButton from '../../components/CustomButton';
-import { setUserToLS } from '../../utils/localStorage';
 import { useCustomDispatch } from '../../hooks/useCustomDispatch';
+import { registerUser } from '../../store/sideEffects/user';
+import { registerUi } from '../../store/sideEffects/ui';
 import logo from '../../assets/images/Trello_logo.svg';
 
 import './style.scss';
@@ -52,43 +52,8 @@ function SignUp(): JSX.Element {
   const navigate = useNavigate();
 
   const onSubmit = async (values: IUserFields) => {
-    const userResponse = await authApi.registerUser(values);
-    const {
-      currentUser,
-      hasError,
-    } = userResponse;
-    const severity = hasError ? 'warning' : 'success';
-
-    if (!userResponse.hasError) {
-      dispatch({
-        ui: {
-          toast: {
-            isActive: true,
-            message: userResponse.message,
-            severity,
-          },
-          loader: {
-            isActive: true,
-          },
-        },
-        user: currentUser,
-      });
-      setUserToLS('user', currentUser);
-      navigate('/dashboard');
-    } else {
-      dispatch({
-        ui: {
-          toast: {
-            isActive: true,
-            message: userResponse.message,
-            severity,
-          },
-          loader: {
-            isActive: false,
-          },
-        },
-      });
-    }
+    dispatch(registerUser(values, () => navigate('/dashboard')));
+    dispatch(registerUi(values));
   };
 
   const formik = useFormik<IUserFields>({
