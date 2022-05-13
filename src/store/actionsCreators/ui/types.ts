@@ -6,24 +6,32 @@ interface IUiActionResponse {
   severity: string;
 }
 
-export interface IUiLoginUserSuccess {
-  type: types.LOGIN_UI_SUCCESS;
+export interface ILoginToastSuccess {
+  type: types.LOGIN_TOAST_SUCCESS;
   payload: IUiActionResponse;
 }
 
-export interface IUiLoginUserError {
-  type: types.LOGIN_UI_ERROR;
+export interface ILoginToastError {
+  type: types.LOGIN_TOAST_ERROR;
   payload: IUiActionResponse;
 }
 
-export interface IUiRegisterUserSuccess {
-  type: types.REGISTER_UI_SUCCESS;
+export interface IRegisterToastSuccess {
+  type: types.REGISTER_TOAST_SUCCESS;
   payload: IUiActionResponse;
 }
 
-export interface IUiRegisterUserError {
-  type: types.REGISTER_UI_ERROR;
+export interface IRegisterToastError {
+  type: types.REGISTER_TOAST_ERROR;
   payload: IUiActionResponse;
+}
+
+export interface ILoaderOn {
+  type: types.LOADER_ON;
+}
+
+export interface ILoaderOff {
+  type: types.LOADER_OFF;
 }
 
 export interface ICloseToastAction {
@@ -31,8 +39,10 @@ export interface ICloseToastAction {
 }
 
 export type TUiActions =
-  IUiLoginUserSuccess
-  | IUiLoginUserError
-  | IUiRegisterUserSuccess
-  | IUiRegisterUserError
-  | ICloseToastAction;
+  ILoginToastSuccess
+  | ILoginToastError
+  | IRegisterToastSuccess
+  | IRegisterToastError
+  | ICloseToastAction
+  | ILoaderOn
+  | ILoaderOff;

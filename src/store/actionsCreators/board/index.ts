@@ -1,4 +1,4 @@
-import { IBoardResponse, IDeleteResponse, IEditResponse } from '../../../api/Board';
+import { IBoardResponse } from '../../../api/Board';
 import { BoardActionTypes as types } from '../../actionTypes/board';
 import { IBoard } from '../../initialStore';
 
@@ -7,58 +7,32 @@ export const fetchBoardsSuccess = (payload: IBoard[]) => ({
   payload,
 });
 
-export const addBoardSuccess = (payload: IBoardResponse, boards: IBoard[]) => {
-  const { currentBoard, hasError } = payload;
+export const addBoardSuccess = (payload: IBoardResponse) => ({
+  type: types.ADD_BOARD_SUCCESS,
+  payload: payload.currentBoard,
+});
 
-  if (!hasError) {
-    return {
-      type: types.ADD_BOARD_SUCCESS,
-      payload: currentBoard,
-    };
-  }
+export const addBoardError = (boards: IBoard[]) => ({
+  type: types.ADD_BOARD_ERROR,
+  payload: boards,
+});
 
-  return {
-    type: types.ADD_BOARD_ERROR,
-    payload: boards,
-  };
-};
+export const deleteBoardSuccess = (remainingBoards: IBoard[]) => ({
+  type: types.DELETE_BOARD_SUCCESS,
+  payload: remainingBoards,
+});
 
-export const deleteBoardSuccess = (
-  payload: IDeleteResponse,
-  remainingBoards: IBoard[],
-  boards: IBoard[],
-) => {
-  const { hasError } = payload;
+export const deleteBoardError = (boards: IBoard[]) => ({
+  type: types.DELETE_BOARD_ERROR,
+  payload: boards,
+});
 
-  if (!hasError) {
-    return {
-      type: types.DELETE_BOARD_SUCCESS,
-      payload: remainingBoards,
-    };
-  }
+export const editBoardTitleSuccess = (preparedBoards: IBoard[]) => ({
+  type: types.EDIT_BOARD_SUCCESS,
+  payload: preparedBoards,
+});
 
-  return {
-    type: types.DELETE_BOARD_ERROR,
-    payload: boards,
-  };
-};
-
-export const editBoardTitleSuccess = async (
-  payload: IEditResponse,
-  preparedBoards: IBoard[],
-  boards: IBoard[],
-) => {
-  const { hasError } = payload;
-
-  if (!hasError) {
-    return {
-      type: types.EDIT_BOARD_SUCCESS,
-      payload: preparedBoards,
-    };
-  }
-
-  return {
-    type: types.EDIT_BOARD_ERROR,
-    payload: boards,
-  };
-};
+export const editBoardTitleError = (boards: IBoard[]) => ({
+  type: types.EDIT_BOARD_ERROR,
+  payload: boards,
+});

@@ -1,8 +1,9 @@
 import { Dispatch } from 'react';
 
 import {
-  addBoardSuccess,
-  deleteBoardSuccess,
+  addBoardError,
+  addBoardSuccess, deleteBoardError,
+  deleteBoardSuccess, editBoardTitleError,
   editBoardTitleSuccess,
   fetchBoardsSuccess,
 } from '../actionsCreators/board';
@@ -20,7 +21,11 @@ export const fetchBoards = () => async (dispatch: any) => {
 export const addBoard = (payload: IBoardData, boards: IBoard[]) => async (dispatch: any) => {
   const addResponse = await boardApi.addBoard(payload);
 
-  dispatch(addBoardSuccess(addResponse, boards));
+  if (!addResponse.hasError) {
+    dispatch(addBoardSuccess(addResponse));
+  } else {
+    dispatch(addBoardError(boards));
+  }
 };
 
 export const deleteBoard = (boardId: string, boards: IBoard[]) => async (dispatch: any) => {
@@ -28,7 +33,11 @@ export const deleteBoard = (boardId: string, boards: IBoard[]) => async (dispatc
 
   const preparedBoards = deleteBoardById(boards, boardId);
 
-  dispatch(deleteBoardSuccess(deleteResponse, preparedBoards, boards));
+  if (!deleteResponse.hasError) {
+    dispatch(deleteBoardSuccess(preparedBoards));
+  } else {
+    dispatch(deleteBoardError(boards));
+  }
 };
 
 export const editBoardTitle = (
@@ -50,5 +59,9 @@ export const editBoardTitle = (
     return board;
   });
 
-  dispatch(editBoardTitleSuccess(editResponse, preparedBoards, boards));
+  if (!editResponse.hasError) {
+    dispatch(editBoardTitleSuccess(preparedBoards));
+  } else {
+    dispatch(editBoardTitleError(boards));
+  }
 };

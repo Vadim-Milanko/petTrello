@@ -1,14 +1,13 @@
 import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import { Card } from '@material-ui/core';
-import { Link, useNavigate } from 'react-router-dom';
 
 import CustomForm from '../../components/CustomForm';
 import CustomButton from '../../components/CustomButton';
 import { logInSchema } from '../../utils/validationSchema';
 import { useCustomDispatch } from '../../hooks/useCustomDispatch';
 import { loginUser } from '../../store/sideEffects/user';
-import { loginUi } from '../../store/sideEffects/ui';
 import logo from '../../assets/images/Trello_logo.svg';
 
 import '../SignUp/style.scss';
@@ -46,7 +45,6 @@ function LogIn(): JSX.Element {
 
   const onSubmit = (userData: ILoginUserData) => {
     dispatch(loginUser(userData, () => navigate('/dashboard')));
-    dispatch(loginUi(userData));
   };
 
   const formik = useFormik<ILoginUserData>({

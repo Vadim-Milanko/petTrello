@@ -1,14 +1,13 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Card } from '@material-ui/core';
 import { useFormik } from 'formik';
+import { Card } from '@material-ui/core';
 
 import { signUpSchema } from '../../utils/validationSchema';
 import CustomForm from '../../components/CustomForm';
 import CustomButton from '../../components/CustomButton';
 import { useCustomDispatch } from '../../hooks/useCustomDispatch';
 import { registerUser } from '../../store/sideEffects/user';
-import { registerUi } from '../../store/sideEffects/ui';
 import logo from '../../assets/images/Trello_logo.svg';
 
 import './style.scss';
@@ -53,7 +52,6 @@ function SignUp(): JSX.Element {
 
   const onSubmit = async (values: IUserFields) => {
     dispatch(registerUser(values, () => navigate('/dashboard')));
-    dispatch(registerUi(values));
   };
 
   const formik = useFormik<IUserFields>({

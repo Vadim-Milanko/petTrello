@@ -1,40 +1,34 @@
 import { IServerResponse } from '../../../api/Auth';
 import { UiActionTypes as types } from '../../actionTypes/ui';
 
-export const loginUiAction = async (payload: IServerResponse) => {
-  const severity = payload.hasError ? 'warning' : 'success';
+export const loginToastSuccess = (payload: IServerResponse, severity: string) => ({
+  type: types.LOGIN_TOAST_SUCCESS,
+  payload: { uiResponse: payload, severity },
+});
 
-  console.log(payload);
+export const loginToastError = (payload: IServerResponse, severity: string) => ({
+  type: types.LOGIN_TOAST_ERROR,
+  payload: { uiResponse: payload, severity },
+});
 
-  if (!payload.hasError) {
-    return {
-      type: types.LOGIN_UI_SUCCESS,
-      payload: { payload, severity },
-    };
-  }
+export const registerToastSuccess = (payload: IServerResponse, severity: string) => ({
+  type: types.REGISTER_TOAST_SUCCESS,
+  payload: { uiResponse: payload, severity },
+});
 
-  return {
-    type: types.LOGIN_UI_ERROR,
-    payload: { payload, severity },
-  };
-};
-
-export const registerUiAction = (payload: IServerResponse) => {
-  const severity = payload.hasError ? 'warning' : 'success';
-
-  if (!payload.hasError) {
-    return {
-      type: types.REGISTER_UI_SUCCESS,
-      payload: { payload, severity },
-    };
-  }
-
-  return {
-    type: types.REGISTER_UI_ERROR,
-    payload: { payload, severity },
-  };
-};
+export const registerToastSError = (payload: IServerResponse, severity: string) => ({
+  type: types.REGISTER_TOAST_ERROR,
+  payload: { uiResponse: payload, severity },
+});
 
 export const closeToastAction = () => ({
   type: types.CLOSE_TOAST,
+});
+
+export const loaderOn = () => ({
+  type: types.LOADER_ON,
+});
+
+export const loaderOff = () => ({
+  type: types.LOADER_OFF,
 });

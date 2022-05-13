@@ -1,66 +1,79 @@
-import { IAppStore } from '../initialStore';
+import { IAppStore, initialStore } from '../initialStore';
 import { TUiActions } from '../actionsCreators/ui/types';
 import { UiActionTypes as types } from '../actionTypes/ui';
 
-export function uiReducer(state: IAppStore, action: TUiActions) {
+// eslint-disable-next-line default-param-last
+export function uiReducer(state: IAppStore = initialStore, action: TUiActions) {
   switch (action.type) {
-    case types.LOGIN_UI_SUCCESS:
+    case types.LOGIN_TOAST_SUCCESS:
       return {
         ...state,
         ui: {
+          ...state.ui.loader,
           toast: {
             isActive: true,
             message: action.payload.uiResponse.message,
             severity: action.payload.severity,
           },
+        },
+      };
+    case types.LOGIN_TOAST_ERROR:
+      return {
+        ...state,
+        ui: {
+          ...state.ui.loader,
+          toast: {
+            isActive: true,
+            message: action.payload.uiResponse.message,
+            severity: action.payload.severity,
+          },
+        },
+      };
+    case types.REGISTER_TOAST_SUCCESS:
+      return {
+        ...state,
+        ui: {
+          ...state.ui.loader,
+          toast: {
+            isActive: true,
+            message: action.payload.uiResponse.message,
+            severity: action.payload.severity,
+          },
+        },
+      };
+    case types.REGISTER_TOAST_ERROR:
+      return {
+        ...state,
+        ui: {
+          ...state.ui.loader,
+          toast: {
+            isActive: true,
+            message: action.payload.uiResponse.message,
+            severity: action.payload.severity,
+          },
+        },
+      };
+    case types.LOADER_ON:
+      return {
+        ...state,
+        ui: {
+          ...state.ui.toast,
           loader: {
             isActive: true,
           },
         },
       };
-    case types.LOGIN_UI_ERROR:
+    case types.LOADER_OFF:
       return {
         ...state,
         ui: {
-          toast: {
-            isActive: true,
-            message: action.payload.uiResponse.message,
-            severity: action.payload.severity,
-          },
+          ...state.ui.toast,
           loader: {
             isActive: false,
           },
         },
       };
-    case types.REGISTER_UI_SUCCESS:
-      return {
-        ...state,
-        ui: {
-          toast: {
-            isActive: true,
-            message: action.payload.uiResponse.message,
-            severity: action.payload.severity,
-          },
-          loader: {
-            isActive: true,
-          },
-        },
-      };
-    case types.REGISTER_UI_ERROR:
-      return {
-        ...state,
-        ui: {
-          toast: {
-            isActive: true,
-            message: action.payload.uiResponse.message,
-            severity: action.payload.severity,
-          },
-          loader: {
-            isActive: false,
-          },
-        },
-      };
-    case types.CLOSE_TOAST:
+    case types.CLOSE_TOAST: {
       return {
         ...state,
         ui: {
@@ -71,6 +84,7 @@ export function uiReducer(state: IAppStore, action: TUiActions) {
           },
         },
       };
+    }
 
     default:
       return state;
