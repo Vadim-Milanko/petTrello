@@ -5,7 +5,6 @@ import { userReducer } from './user';
 
 export const rootReducer = combineReducers({
   boardReducer,
-  // @ts-ignore
   uiReducer,
   userReducer,
 });

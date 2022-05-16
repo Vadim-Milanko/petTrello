@@ -6,8 +6,6 @@ import boardPreview from '../../../../assets/images/board-preview-skeleton.svg';
 import { newBoardSchema } from '../../../../utils/validationSchema';
 import CustomButton from '../../../../components/CustomButton';
 import { useCustomDispatch } from '../../../../hooks/useCustomDispatch';
-import { useCustomSelector } from '../../../../hooks/useCustomSelector';
-import { IBoard } from '../../../../store/initialStore';
 import { addBoard, editBoardTitle } from '../../../../store/sideEffects/board';
 
 import './style.scss';
@@ -39,14 +37,13 @@ interface IProps {
 function PopoverWindow(props: IProps): JSX.Element {
   const { closePopover, isEditClick, currentEditId } = props;
   const dispatch = useCustomDispatch();
-  const boards = useCustomSelector<IBoard[]>((store) => store.boards);
 
-  const onSubmit = async (boardData: IBoardData) => {
+  const onSubmit = (boardData: IBoardData) => {
     if (isEditClick) {
-      dispatch(editBoardTitle(boardData, currentEditId, boards));
+      dispatch(editBoardTitle(boardData, currentEditId));
       closePopover();
     } else {
-      dispatch(addBoard(boardData, boards));
+      dispatch(addBoard(boardData));
       closePopover();
     }
   };

@@ -1,8 +1,7 @@
-import { IServerResponse } from '../../../api/Auth';
 import { UiActionTypes as types } from '../../actionTypes/ui';
 
 interface IUiActionResponse {
-  uiResponse: IServerResponse;
+  message: string;
   severity: string;
 }
 

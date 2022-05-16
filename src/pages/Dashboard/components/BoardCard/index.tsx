@@ -3,8 +3,6 @@ import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import DragIndicatorIcon from '@material-ui/icons/DragIndicator';
 
 import { useCustomDispatch } from '../../../../hooks/useCustomDispatch';
-import { useCustomSelector } from '../../../../hooks/useCustomSelector';
-import { IBoard } from '../../../../store/initialStore';
 import { deleteBoard } from '../../../../store/sideEffects/board';
 
 import './style.scss';
@@ -19,14 +17,13 @@ interface IProps {
 
 function BoardCard(props: IProps): JSX.Element {
   const dispatch = useCustomDispatch();
-  const boards = useCustomSelector<IBoard[]>((store) => store.boards);
 
   const {
     title = '', boardId, openPopover, id = '', setIsEdit,
   } = props;
 
-  const deleteBoardCard = async () => {
-    dispatch(deleteBoard(boardId, boards));
+  const deleteBoardCard = () => {
+    dispatch(deleteBoard(boardId));
   };
 
   const handleEditClick = (event: MouseEvent<HTMLDivElement>) => {

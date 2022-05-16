@@ -50,7 +50,7 @@ function SignUp(): JSX.Element {
   const dispatch = useCustomDispatch();
   const navigate = useNavigate();
 
-  const onSubmit = async (values: IUserFields) => {
+  const onSubmit = (values: IUserFields) => {
     dispatch(registerUser(values, () => navigate('/dashboard')));
   };
 

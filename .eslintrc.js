@@ -44,8 +44,8 @@ module.exports = {
     'react/button-has-type': 'off',
     'react/jsx-no-constructed-context-values': 'off',
     'no-shadow': 'off',
-    'require-await': 'off',
-    // '@typescript-eslint/require-await': 'error',
+    'default-param-last': 'off',
+    'require-await': 'error',
     'import/extensions': ['error', {
       js: 'never',
       jsx: 'never',
