@@ -1,8 +1,7 @@
 import React, { createContext, Dispatch, useReducer } from 'react';
 
 import { IAppStore } from './store/initialStore';
-import { ActionTypes } from './store/rootReducer/combineReducer';
-import { rootReducer } from './store/reducers';
+import { RootActions, rootReducer } from './store/reducers';
 
 export interface IProps {
   store: IAppStore;
@@ -11,7 +10,7 @@ export interface IProps {
 
 export interface IStoreState {
   storeState: IAppStore;
-  dispatch: Dispatch<ActionTypes>;
+  dispatch: Dispatch<RootActions | Promise<RootActions>>;
 }
 
 export const AppContext = createContext<IStoreState>({} as IStoreState);

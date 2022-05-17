@@ -1,22 +1,3 @@
-export const initialStore = {
-  user: {
-    login: '',
-    email: '',
-    id: '',
-  },
-  boards: [],
-  ui: {
-    toast: {
-      isActive: false,
-      message: '',
-      severity: '',
-    },
-    loader: {
-      isActive: false,
-    },
-  },
-};
-
 export interface IUser {
   login: string;
   email: string;
@@ -48,3 +29,22 @@ export interface IAppStore {
   boards: IBoard[],
   ui: IUi;
 }
+
+export const initialStore = {
+  user: {
+    login: '',
+    email: '',
+    id: '',
+  },
+  boards: [] as IBoard[],
+  ui: {
+    toast: {
+      isActive: false,
+      message: '',
+      severity: '',
+    },
+    loader: {
+      isActive: false,
+    },
+  },
+};

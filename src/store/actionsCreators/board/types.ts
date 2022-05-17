@@ -8,7 +8,6 @@ interface IFetchBoardsAction {
 
 interface IAddBoardsAction {
   type: types.ADD_BOARD_ACTION;
-  // type
   payload: IBoard;
 }
 

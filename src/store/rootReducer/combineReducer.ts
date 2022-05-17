@@ -1,26 +1,20 @@
-import { TBoardActions } from '../actionsCreators/board/types';
-import { TUiActions } from '../actionsCreators/ui/types';
-import { TAuthUserActions } from '../actionsCreators/user/types';
 import { IAppStore } from '../initialStore';
+import { IReducers, RootActions } from '../reducers';
 
-export type ActionTypes = TBoardActions | TUiActions | TAuthUserActions;
-
-type ReducerType<T> = (state: IAppStore, action: T) => IAppStore;
-
-interface IReducers {
-  boardReducer: ReducerType<TBoardActions>;
-  userReducer: ReducerType<TAuthUserActions>;
-  uiReducer: ReducerType<TUiActions>;
-}
+type StateSlice = ValueOf<IAppStore>
+type Action = RootActions | Promise<RootActions>;
 
 export const combineReducers = (reducers: IReducers) => (
-  state: IAppStore,
-  action: ActionTypes | Promise<ActionTypes>,
-) => Object.keys(reducers).reduce(
-  (acc, prop) => ({
-    ...acc,
-    // @ts-ignore
-    ...reducers[prop]({ [prop]: acc[prop] }, action),
-  }),
-  state,
+  (state: IAppStore, action: Action): IAppStore => (
+    Object.keys(reducers).reduce((prevReducers, reducerKey) => {
+      const slicedState = state[reducerKey as keyof IAppStore];
+      const reducer = reducers[reducerKey as keyof IAppStore] as
+        (prevState: StateSlice, action: Action) => StateSlice;
+
+      return ({
+        ...prevReducers,
+        [reducerKey]: reducer(slicedState, action),
+      });
+    }, {} as IAppStore)
+  )
 );
