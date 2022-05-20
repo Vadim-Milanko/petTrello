@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import CloseIcon from '@material-ui/icons/Close';
 import TextField from '@material-ui/core/TextField';
+
+import { useCustomDispatch } from '../../hooks/useCustomDispatch';
+import { fetchTodoList } from '../../store/sideEffects/todos';
 
 import './style.scss';
 
@@ -12,13 +15,15 @@ const ButtonClassNames = {
 
 function Todos(): JSX.Element {
   const [isButtonClicked, setIsButtonClicked] = useState<boolean>(false);
-  // const getBoards = () => {
-  //   dispatch(fetchTodos))
-  // };
-  //
-  // useEffect(() => {
-  //   getTodos();
-  // }, []);
+  const dispatch = useCustomDispatch();
+
+  const getTodos = () => {
+    dispatch(fetchTodoList());
+  };
+
+  useEffect(() => {
+    getTodos();
+  }, []);
 
   const onOpenForm = () => {
     setIsButtonClicked(true);
