@@ -15,13 +15,16 @@ export const fetchBoards = () => async (dispatch: any) => {
   dispatch(fetchBoardsAction(boardsList));
 };
 
-export const addBoard = (payload: IBoardData) => async (dispatch: any) => {
-  const addResponse = await boardApi.addBoard(payload);
+export const addBoard = (payload: IBoardData, todosNavigate: () => void) => (
+  async (dispatch: any) => {
+    const addResponse = await boardApi.addBoard(payload);
 
-  if (!addResponse.hasError) {
-    dispatch(addBoardAction(addResponse.currentBoard));
+    if (!addResponse.hasError) {
+      dispatch(addBoardAction(addResponse.currentBoard));
+      todosNavigate();
+    }
   }
-};
+);
 
 export const deleteBoard = (boardId: string) => async (dispatch: any) => {
   const deleteResponse = await boardApi.deleteBoard(boardId);

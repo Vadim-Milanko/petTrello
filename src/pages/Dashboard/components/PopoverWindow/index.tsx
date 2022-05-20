@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 
 import CustomForm from '../../../../components/CustomForm';
@@ -35,6 +36,7 @@ interface IProps {
 }
 
 function PopoverWindow(props: IProps): JSX.Element {
+  const navigate = useNavigate();
   const { closePopover, isEditClick, currentEditId } = props;
   const dispatch = useCustomDispatch();
 
@@ -43,7 +45,7 @@ function PopoverWindow(props: IProps): JSX.Element {
       dispatch(editBoardTitle(boardData, currentEditId));
       closePopover();
     } else {
-      dispatch(addBoard(boardData));
+      dispatch(addBoard(boardData, () => navigate('/todos')));
       closePopover();
     }
   };

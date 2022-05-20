@@ -24,10 +24,16 @@ export interface IBoard {
   title: string;
 }
 
+export interface ITodo {
+  id: string;
+  title: string;
+}
+
 export interface IAppStore {
   user: IUser;
-  boards: IBoard[],
+  boards: IBoard[];
   ui: IUi;
+  todos: ITodo[];
 }
 
 export const initialStore = {
@@ -47,4 +53,5 @@ export const initialStore = {
       isActive: false,
     },
   },
+  todos: [] as ITodo[],
 };

@@ -3,12 +3,12 @@
 .dashboard {
   display: flex;
   justify-content: center;
-  height: 948px;
+  height: 980px;
   background-image: $bg-dashboard;
 
   &__workspace {
     margin-top: 100px;
-    width: 800px;
+    max-width: 800px;
 
     &__title {
       display: flex;

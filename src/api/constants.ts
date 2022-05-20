@@ -11,4 +11,5 @@ export const VALIDATION_MESSAGES = {
 export const FETCH_URLS = {
   users: 'users',
   boards: 'boards',
+  todos: 'todos',
 };

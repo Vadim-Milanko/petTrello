@@ -1,0 +1,4 @@
+export enum TodosActionTypes {
+  FETCH_TODO_LIST_SUCCESS = 'FETCH_TODO_LIST_SUCCESS',
+  ADD_TODO_ACTION = 'ADD_TODO_ACTION',
+}

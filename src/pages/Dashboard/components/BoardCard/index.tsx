@@ -1,4 +1,5 @@
 import React, { MouseEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import DragIndicatorIcon from '@material-ui/icons/DragIndicator';
 
@@ -16,6 +17,7 @@ interface IProps {
 }
 
 function BoardCard(props: IProps): JSX.Element {
+  const navigate = useNavigate();
   const dispatch = useCustomDispatch();
 
   const {
@@ -31,8 +33,12 @@ function BoardCard(props: IProps): JSX.Element {
     openPopover(event, boardId);
   };
 
+  const onBoardClick = () => {
+    navigate('/todos');
+  };
+
   return (
-    <div className="boardCard">
+    <div className="boardCard" onClick={onBoardClick}>
       <p className="boardCard__title">{title}</p>
       <div className="boardCard__icons">
         <DeleteOutlineIcon onClick={deleteBoardCard} />
