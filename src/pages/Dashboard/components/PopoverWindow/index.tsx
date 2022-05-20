@@ -5,10 +5,8 @@ import CustomForm from '../../../../components/CustomForm';
 import boardPreview from '../../../../assets/images/board-preview-skeleton.svg';
 import { newBoardSchema } from '../../../../utils/validationSchema';
 import CustomButton from '../../../../components/CustomButton';
-import boardApi from '../../../../api/Board';
 import { useCustomDispatch } from '../../../../hooks/useCustomDispatch';
-import { useCustomSelector } from '../../../../hooks/useCustomSelector';
-import { IBoard } from '../../../../store/initialStore';
+import { addBoard, editBoardTitle } from '../../../../store/sideEffects/board';
 
 import './style.scss';
 
@@ -39,45 +37,14 @@ interface IProps {
 function PopoverWindow(props: IProps): JSX.Element {
   const { closePopover, isEditClick, currentEditId } = props;
   const dispatch = useCustomDispatch();
-  const boards = useCustomSelector<IBoard[]>((store) => store.boards);
 
-  const onSubmit = async (boardData: IBoardData) => {
+  const onSubmit = (boardData: IBoardData) => {
     if (isEditClick) {
-      const editResponse = await boardApi.editBoardTitle(boardData, currentEditId);
-      const { hasError, editedBoard } = editResponse;
-
-      const preparedBoards = boards.map((board: IBoard) => {
-        if (board.id === editedBoard.id) {
-          return {
-            id: board.id,
-            title: editedBoard.title,
-          };
-        }
-        return board;
-      });
-
-      if (!hasError) {
-        dispatch({
-          boards: [
-            ...preparedBoards,
-          ],
-        });
-      }
-
+      dispatch(editBoardTitle(boardData, currentEditId));
       closePopover();
     } else {
-      const boardResponse = await boardApi.addBoard(boardData);
-      const { hasError, currentBoard } = boardResponse;
-
-      if (!hasError) {
-        dispatch({
-          boards: [
-            ...boards,
-            currentBoard,
-          ],
-        });
-        closePopover();
-      }
+      dispatch(addBoard(boardData));
+      closePopover();
     }
   };
 

@@ -1,15 +1,16 @@
-import React, { useState, createContext } from 'react';
+import React, { createContext, Dispatch, useReducer } from 'react';
 
 import { IAppStore } from './store/initialStore';
+import { RootActions, rootReducer } from './store/reducers';
 
 export interface IProps {
-  children: JSX.Element;
   store: IAppStore;
+  children: JSX.Element;
 }
 
 export interface IStoreState {
   storeState: IAppStore;
-  setStoreState: (value: IAppStore) => void;
+  dispatch: Dispatch<RootActions | Promise<RootActions>>;
 }
 
 export const AppContext = createContext<IStoreState>({} as IStoreState);
@@ -17,12 +18,12 @@ export const AppContext = createContext<IStoreState>({} as IStoreState);
 function AppContextProvider(props: IProps) {
   const { children, store } = props;
 
-  const [storeState, setStoreState] = useState(store);
+  const [storeState, dispatch] = useReducer(rootReducer, store);
 
   return (
     <AppContext.Provider value={{
       storeState,
-      setStoreState,
+      dispatch,
     }}
     >{children}
     </AppContext.Provider>

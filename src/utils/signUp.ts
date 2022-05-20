@@ -1,8 +1,11 @@
 import { IUserFields } from '../pages/SignUp';
 import { IUser } from '../store/initialStore';
 
-// eslint-disable-next-line max-len
-export const checkOnRegistered = (dbUsers: IUserFields[], newUser: IUserFields | IUser) => dbUsers.find((user) => user.email === newUser.email);
+export const checkOnRegistered = (dbUsers: IUserFields[], newUser: IUserFields | IUser) => {
+  const { email } = newUser;
+
+  return dbUsers.find((user) => user.email === email);
+};
 
 export const getIsUserExist = (dbUsers: IUserFields[], newUser: IUserFields): any => {
   const user = checkOnRegistered(dbUsers, newUser);

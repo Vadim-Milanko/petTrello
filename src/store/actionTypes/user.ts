@@ -1,0 +1,4 @@
+export enum UserActionTypes {
+  AUTH_USER_ACTION = 'AUTH_USER_ACTION',
+  LOGOUT_USER_ACTION = 'LOGOUT_USER_ACTION',
+}

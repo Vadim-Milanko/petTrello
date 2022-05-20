@@ -32,6 +32,7 @@ module.exports = {
     },
   ],
   rules: {
+    'function-paren-newline': ['error', 'multiline'],
     'react/jsx-filename-extension': [2, { extensions: ['.js', '.jsx', '.ts', '.tsx'] }],
     'no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': ['error'],
@@ -43,7 +44,9 @@ module.exports = {
     'react/require-default-props': 'off',
     'react/button-has-type': 'off',
     'react/jsx-no-constructed-context-values': 'off',
-
+    'no-shadow': 'off',
+    'default-param-last': 'off',
+    'require-await': 'error',
     'import/extensions': ['error', {
       js: 'never',
       jsx: 'never',
