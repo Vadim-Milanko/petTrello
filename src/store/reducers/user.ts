@@ -4,16 +4,7 @@ import { TAuthUserActions } from '../actionsCreators/user/types';
 
 export function userReducer(_state: IUser, action: TAuthUserActions) {
   switch (action.type) {
-    case types.LOGIN_USER_SUCCESS:
-      return action.payload;
-
-    case types.LOGIN_USER_ERROR:
-      return action.payload;
-
-    case types.REGISTER_USER_SUCCESS:
-      return action.payload;
-
-    case types.REGISTER_USER_ERROR:
+    case types.AUTH_USER_ACTION:
       return action.payload;
 
     case types.LOGOUT_USER_ACTION:

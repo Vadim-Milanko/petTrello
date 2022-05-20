@@ -1,10 +1,6 @@
 import { ILoginUserData } from '../../pages/LogIn';
 import authApi, { IServerResponse } from '../../api/Auth';
-import {
-  loginUserError,
-  loginUserSuccess,
-  registerUserAction, registerUserError,
-} from '../actionsCreators/user';
+import { authUserAction } from '../actionsCreators/user';
 import { IUserFields } from '../../pages/SignUp';
 import {
   loaderOff,
@@ -24,14 +20,13 @@ export const loginUser = (payload: ILoginUserData, dashboardNavigate: () => void
 
     if (!loginResponse.hasError) {
       setUserToLS('user', loginResponse.currentUser);
-      dispatch(loginUserSuccess(loginResponse.currentUser));
       dispatch(loginToastSuccess(loginResponse.message, severity));
       dashboardNavigate();
     } else {
-      dispatch(loginUserError(loginResponse.currentUser));
       dispatch(loginToastError(loginResponse.message, severity));
     }
 
+    authUserAction(loginResponse.currentUser);
     dispatch(loaderOff());
   }
 );
@@ -45,15 +40,14 @@ export const registerUser = (payload: IUserFields, dashboardNavigate: () => void
 
     if (!registerResponse.hasError) {
       setUserToLS('user', registerResponse.currentUser);
-      dispatch(registerUserAction(registerResponse.currentUser));
       dispatch(registerToastSuccess(registerResponse.message, severity));
 
       dashboardNavigate();
     } else {
-      dispatch(registerUserError(registerResponse.currentUser));
       dispatch(registerToastSError(registerResponse.message, severity));
     }
 
+    authUserAction(registerResponse.currentUser);
     dispatch(loaderOff());
   }
 );
