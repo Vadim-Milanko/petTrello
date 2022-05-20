@@ -5,9 +5,7 @@ import { IUserFields } from '../../pages/SignUp';
 import {
   loaderOff,
   loaderOn,
-  loginToastError,
-  loginToastSuccess,
-  registerToastSError, registerToastSuccess,
+  openToastAction,
 } from '../actionsCreators/ui';
 import { setUserToLS } from '../../utils/localStorage';
 
@@ -20,13 +18,11 @@ export const loginUser = (payload: ILoginUserData, dashboardNavigate: () => void
 
     if (!loginResponse.hasError) {
       setUserToLS('user', loginResponse.currentUser);
-      dispatch(loginToastSuccess(loginResponse.message, severity));
       dashboardNavigate();
-    } else {
-      dispatch(loginToastError(loginResponse.message, severity));
     }
 
-    authUserAction(loginResponse.currentUser);
+    dispatch(openToastAction(loginResponse.message, severity));
+    dispatch(authUserAction(loginResponse.currentUser));
     dispatch(loaderOff());
   }
 );
@@ -40,14 +36,11 @@ export const registerUser = (payload: IUserFields, dashboardNavigate: () => void
 
     if (!registerResponse.hasError) {
       setUserToLS('user', registerResponse.currentUser);
-      dispatch(registerToastSuccess(registerResponse.message, severity));
-
       dashboardNavigate();
-    } else {
-      dispatch(registerToastSError(registerResponse.message, severity));
     }
 
-    authUserAction(registerResponse.currentUser);
+    dispatch(openToastAction(registerResponse.message, severity));
+    dispatch(authUserAction(registerResponse.currentUser));
     dispatch(loaderOff());
   }
 );

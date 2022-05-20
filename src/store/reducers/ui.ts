@@ -4,7 +4,7 @@ import { UiActionTypes as types } from '../actionTypes/ui';
 
 export function uiReducer(state: IUi, action: TUiActions) {
   switch (action.type) {
-    case types.LOGIN_TOAST_SUCCESS:
+    case types.OPEN_TOAST_ACTION:
       return {
         ...state,
         toast: {
@@ -14,37 +14,13 @@ export function uiReducer(state: IUi, action: TUiActions) {
         },
       };
 
-    case types.LOGIN_TOAST_ERROR:
+    case types.CLOSE_TOAST_ACTION:
       return {
         ...state,
-        toast: {
-          isActive: true,
-          message: action.payload.message,
-          severity: action.payload.severity,
-        },
+        toast: initialStore.ui.toast,
       };
 
-    case types.REGISTER_TOAST_SUCCESS:
-      return {
-        ...state,
-        toast: {
-          isActive: true,
-          message: action.payload.message,
-          severity: action.payload.severity,
-        },
-      };
-
-    case types.REGISTER_TOAST_ERROR:
-      return {
-        ...state,
-        toast: {
-          isActive: true,
-          message: action.payload.message,
-          severity: action.payload.severity,
-        },
-      };
-
-    case types.LOADER_ON:
+    case types.LOADER_ON_ACTION:
       return {
         ...state,
         loader: {
@@ -52,18 +28,12 @@ export function uiReducer(state: IUi, action: TUiActions) {
         },
       };
 
-    case types.LOADER_OFF:
+    case types.LOADER_OFF_ACTION:
       return {
         ...state,
         loader: {
           isActive: false,
         },
-      };
-
-    case types.CLOSE_TOAST:
-      return {
-        ...state,
-        toast: initialStore.ui.toast,
       };
 
     default:

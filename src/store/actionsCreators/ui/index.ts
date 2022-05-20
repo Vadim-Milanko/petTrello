@@ -1,35 +1,18 @@
 import { UiActionTypes as types } from '../../actionTypes/ui';
 
-export const loginToastSuccess = (message: string, severity: string) => ({
-  type: types.LOGIN_TOAST_SUCCESS,
+export const openToastAction = (message: string, severity: string) => ({
+  type: types.OPEN_TOAST_ACTION,
   payload: { message, severity },
 });
-
-export const loginToastError = (message: string, severity: string) => ({
-  type: types.LOGIN_TOAST_ERROR,
-  payload: { message, severity },
-});
-
-export const registerToastSuccess = (message: string, severity: string) => ({
-  type: types.REGISTER_TOAST_SUCCESS,
-  payload: { message, severity },
-});
-
-export const registerToastSError = (message: string, severity: string) => ({
-  type: types.REGISTER_TOAST_ERROR,
-  payload: { message, severity },
-});
-
-// rewrite on 2 actions
 
 export const closeToastAction = () => ({
-  type: types.CLOSE_TOAST,
+  type: types.CLOSE_TOAST_ACTION,
 });
 
 export const loaderOn = () => ({
-  type: types.LOADER_ON,
+  type: types.LOADER_ON_ACTION,
 });
 
 export const loaderOff = () => ({
-  type: types.LOADER_OFF,
+  type: types.LOADER_OFF_ACTION,
 });

@@ -5,43 +5,25 @@ interface IUiActionResponse {
   severity: string;
 }
 
-export interface ILoginToastSuccess {
-  type: types.LOGIN_TOAST_SUCCESS;
-  payload: IUiActionResponse;
-}
-
-export interface ILoginToastError {
-  type: types.LOGIN_TOAST_ERROR;
-  payload: IUiActionResponse;
-}
-
-export interface IRegisterToastSuccess {
-  type: types.REGISTER_TOAST_SUCCESS;
-  payload: IUiActionResponse;
-}
-
-export interface IRegisterToastError {
-  type: types.REGISTER_TOAST_ERROR;
-  payload: IUiActionResponse;
-}
-
 export interface ILoaderOn {
-  type: types.LOADER_ON;
+  type: types.LOADER_ON_ACTION;
 }
 
 export interface ILoaderOff {
-  type: types.LOADER_OFF;
+  type: types.LOADER_OFF_ACTION;
+}
+
+export interface IOpenToastAction {
+  type: types.OPEN_TOAST_ACTION;
+  payload: IUiActionResponse;
 }
 
 export interface ICloseToastAction {
-  type: types.CLOSE_TOAST;
+  type: types.CLOSE_TOAST_ACTION;
 }
 
 export type TUiActions =
-  ILoginToastSuccess
-  | ILoginToastError
-  | IRegisterToastSuccess
-  | IRegisterToastError
+  | IOpenToastAction
   | ICloseToastAction
   | ILoaderOn
   | ILoaderOff;
