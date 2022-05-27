@@ -1,10 +1,16 @@
 import { TodosActionTypes as types } from '../../actionTypes/todos';
-import { ITodo } from '../../initialStore';
+import { ITodoColumn } from '../../initialStore';
 
-interface IFetchTodoListAction {
-  type: types.FETCH_TODO_LIST_SUCCESS;
-  payload: ITodo[];
+interface IGetTodoColumnsAction {
+  type: types.GET_TODO_COLUMNS_ACTION;
+  payload: ITodoColumn[];
+}
+
+interface IAddTodoColumnAction {
+  type: types.ADD_TODO_COLUMN_ACTION;
+  payload: ITodoColumn;
 }
 
 export type TTodosActions =
-  IFetchTodoListAction;
+  IGetTodoColumnsAction
+  | IAddTodoColumnAction;

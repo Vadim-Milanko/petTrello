@@ -1,28 +1,40 @@
-import React, { useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import CloseIcon from '@material-ui/icons/Close';
-import TextField from '@material-ui/core/TextField';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
 
 import { useCustomDispatch } from '../../hooks/useCustomDispatch';
-import { fetchTodoList } from '../../store/sideEffects/todos';
+import { useCustomSelector } from '../../hooks/useCustomSelector';
+import { addTodoColumn, getTodoColumns } from '../../store/sideEffects/todos';
+import TodoColumnCard from './components/TodoColumnCard';
 
 import './style.scss';
 
+export interface ITodoColumnData {
+  title: string;
+}
+
+const initialColumnTitle = {
+  title: '',
+};
+
 const ButtonClassNames = {
-  containedPrimary: 'addTodoBtn',
+  root: 'addColumnBtn',
+};
+
+export const InputClassNames = {
+  root: 'addInput',
 };
 
 function Todos(): JSX.Element {
   const [isButtonClicked, setIsButtonClicked] = useState<boolean>(false);
+  const [columnTitle, setColumnTitle] = useState<ITodoColumnData>(initialColumnTitle);
+  const todos = useCustomSelector((store) => store.todos);
   const dispatch = useCustomDispatch();
 
-  const getTodos = () => {
-    dispatch(fetchTodoList());
-  };
-
   useEffect(() => {
-    getTodos();
+    dispatch(getTodoColumns());
   }, []);
 
   const onOpenForm = () => {
@@ -33,33 +45,52 @@ function Todos(): JSX.Element {
     setIsButtonClicked(false);
   };
 
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setColumnTitle({
+      title: event.target.value,
+    });
+  };
+
+  const handleAddColumn = () => {
+    if (columnTitle.title.length === 0) return;
+
+    dispatch(addTodoColumn(columnTitle));
+    setColumnTitle(initialColumnTitle);
+  };
+
   return (
     <div className="todos">
       <section className="todos__workspace">
         {
+          todos.map((todo) => (
+            <TodoColumnCard
+              key={todo.id}
+              todoTitle={todo.title}
+            />
+          ))
+         }
+        {
           isButtonClicked ? (
-            <div>
-              <div>
-                <TextField
-                  id="outlined-basic"
-                  placeholder="Enter list title"
-                  variant="outlined"
-                />
-              </div>
-              <div className="addListBtnWrap">
-                <Button>Add List</Button>
-                <CloseIcon onClick={onCloseForm} />
+            <div className="addColumnWrap">
+              <OutlinedInput
+                id="outlined-basic"
+                placeholder="Enter list title"
+                classes={InputClassNames}
+                onChange={handleInputChange}
+                value={columnTitle.title}
+              />
+              <div className="addColumnBtnWrap">
+                <Button classes={ButtonClassNames} onClick={handleAddColumn}>Add Column</Button>
+                <CloseIcon className="addIcon" onClick={onCloseForm} />
               </div>
             </div>
           ) : (
             <Button
-              variant="contained"
-              color="primary"
               classes={ButtonClassNames}
               onClick={onOpenForm}
             >
               <AddIcon />
-              <div className="addTodoBtn__title">Add another column</div>
+              <div className="addColumnBtn__title">Add another column</div>
             </Button>
           )
         }

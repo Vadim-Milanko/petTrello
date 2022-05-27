@@ -1,12 +1,24 @@
 import { Dispatch } from 'react';
 
 import {
-  fetchTodoListAction,
+  addTodoColumnAction,
+  getTodoColumnsAction,
 } from '../actionsCreators/todos';
 import todosApi from '../../api/Todos';
+import { ITodoColumnData } from '../../pages/Todos';
 
-export const fetchTodoList = () => async (dispatch: Dispatch<any>) => {
-  const todoList = await todosApi.fetchTodoList();
+export const getTodoColumns = () => async (dispatch: Dispatch<any>) => {
+  const todoList = await todosApi.fetchTodoColumns();
 
-  dispatch(fetchTodoListAction(todoList));
+  dispatch(getTodoColumnsAction(todoList));
 };
+
+export const addTodoColumn = (payload: ITodoColumnData) => (
+  async (dispatch: any) => {
+    const addTodoResponse = await todosApi.addTodoColumn(payload);
+
+    if (!addTodoResponse.hasError) {
+      dispatch(addTodoColumnAction(addTodoResponse.currentTodoColumn));
+    }
+  }
+);

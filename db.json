@@ -75,13 +75,17 @@
   ],
   "boards": [
     {
-      "title": "dad",
+      "title": "k",
       "id": 1
+    },
+    {
+      "title": "ad",
+      "id": 2
     }
   ],
   "todos": [
     {
-      "title": "dad",
+      "title": "фыв",
       "id": 1
     }
   ]

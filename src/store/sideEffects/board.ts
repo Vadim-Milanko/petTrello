@@ -4,7 +4,7 @@ import {
   addBoardAction,
   deleteBoardAction,
   editBoardTitleAction,
-  fetchBoardsAction,
+  getBoardsAction,
 } from '../actionsCreators/board';
 import boardApi from '../../api/Board';
 import { IBoardData } from '../../pages/Dashboard/components/PopoverWindow';
@@ -12,7 +12,7 @@ import { IBoardData } from '../../pages/Dashboard/components/PopoverWindow';
 export const fetchBoards = () => async (dispatch: any) => {
   const boardsList = await boardApi.fetchBoards();
 
-  dispatch(fetchBoardsAction(boardsList));
+  dispatch(getBoardsAction(boardsList));
 };
 
 export const addBoard = (payload: IBoardData, todosNavigate: () => void) => (

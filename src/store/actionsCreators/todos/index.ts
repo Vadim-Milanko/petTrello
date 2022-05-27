@@ -1,13 +1,13 @@
 import { TodosActionTypes as types } from '../../actionTypes/todos';
-import { ITodo } from '../../initialStore';
-import { IBoardData } from '../../../pages/Dashboard/components/PopoverWindow';
+import { ITodoColumn } from '../../initialStore';
+import { ITodoColumnData } from '../../../pages/Todos';
 
-export const fetchTodoListAction = (payload: ITodo[]) => ({
-  type: types.FETCH_TODO_LIST_SUCCESS,
+export const getTodoColumnsAction = (payload: ITodoColumn[]) => ({
+  type: types.GET_TODO_COLUMNS_ACTION,
   payload,
 });
 
-export const addBoardAction = (payload: IBoardData) => ({
-  type: types.ADD_TODO_ACTION,
+export const addTodoColumnAction = (payload: ITodoColumnData) => ({
+  type: types.ADD_TODO_COLUMN_ACTION,
   payload,
 });

@@ -4,7 +4,7 @@ import { TBoardActions } from '../actionsCreators/board/types';
 
 export function boardReducer(state: IBoard[], action: TBoardActions) {
   switch (action.type) {
-    case types.FETCH_BOARDS_SUCCESS:
+    case types.GET_BOARDS_SUCCESS:
       return action.payload;
 
     case types.ADD_BOARD_ACTION:

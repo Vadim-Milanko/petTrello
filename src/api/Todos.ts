@@ -1,18 +1,20 @@
-import axios from 'axios';
+import { FETCH_URLS } from './constants';
+import { ITodoColumn } from '../store/initialStore';
+import { request } from './request';
+import { ITodoColumnData } from '../pages/Todos';
 
-import { BASE_URL, FETCH_URLS } from './constants';
-import { ITodo } from '../store/initialStore';
-
-export interface ITodosApi {
-  fetchTodoList(): Promise<ITodo[]>
+export interface ITodoColumnResponse {
+  hasError: boolean;
+  currentTodoColumn: ITodoColumnData;
 }
 
-const request = axios.create({
-  baseURL: BASE_URL,
-});
+export interface ITodosApi {
+  fetchTodoColumns(): Promise<ITodoColumn[]>
+  addTodoColumn(todoColumnData: ITodoColumnData): Promise<ITodoColumnResponse>
+}
 
 class TodosApi implements ITodosApi {
-  async fetchTodoList() : Promise<ITodo[]> {
+  async fetchTodoColumns() : Promise<ITodoColumn[]> {
     let response;
 
     try {
@@ -22,6 +24,24 @@ class TodosApi implements ITodosApi {
     }
 
     return response?.data;
+  }
+
+  async addTodoColumn(todoColumnData: ITodoColumnData): Promise<ITodoColumnResponse> {
+    try {
+      const postedTodoColumn = await request.post(FETCH_URLS.todos, todoColumnData);
+
+      return {
+        hasError: false,
+        currentTodoColumn: postedTodoColumn.data,
+      };
+    } catch (error) {
+      return {
+        hasError: true,
+        currentTodoColumn: {
+          title: '',
+        },
+      };
+    }
   }
 }
 

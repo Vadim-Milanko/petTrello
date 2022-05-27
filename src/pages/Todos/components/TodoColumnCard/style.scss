@@ -1,0 +1,28 @@
+@import "src/assets/sass/glob";
+
+.todoColumnCard {
+  display: flex;
+  flex-direction: column;
+  margin-right: 15px;
+  width: 285px;
+  max-height: 125px;
+  background-color: #B4DBFF;
+}
+
+.addTodoBtn {
+  background: #A6C9FF;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  width: 150px;
+  max-height: 30px;
+  margin-top: 5px;
+
+  &__title {
+    margin-left: 5px;
+  }
+
+  &:hover {
+    background-color: #73A7F6;
+  }
+}

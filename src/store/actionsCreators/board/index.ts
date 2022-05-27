@@ -2,8 +2,8 @@ import { BoardActionTypes as types } from '../../actionTypes/board';
 import { IBoard } from '../../initialStore';
 import { IBoardData } from '../../../pages/Dashboard/components/PopoverWindow';
 
-export const fetchBoardsAction = (payload: IBoard[]) => ({
-  type: types.FETCH_BOARDS_SUCCESS,
+export const getBoardsAction = (payload: IBoard[]) => ({
+  type: types.GET_BOARDS_SUCCESS,
   payload,
 });
 

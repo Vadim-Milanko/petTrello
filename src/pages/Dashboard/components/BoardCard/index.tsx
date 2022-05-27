@@ -24,13 +24,15 @@ function BoardCard(props: IProps): JSX.Element {
     title = '', boardId, openPopover, id = '', setIsEdit,
   } = props;
 
-  const deleteBoardCard = () => {
+  const deleteBoardCard = (event: MouseEvent<SVGSVGElement>) => {
     dispatch(deleteBoard(boardId));
+    event.stopPropagation();
   };
 
   const handleEditClick = (event: MouseEvent<HTMLDivElement>) => {
     setIsEdit(true);
     openPopover(event, boardId);
+    event.stopPropagation();
   };
 
   const onBoardClick = () => {
@@ -41,9 +43,9 @@ function BoardCard(props: IProps): JSX.Element {
     <div className="boardCard" onClick={onBoardClick}>
       <p className="boardCard__title">{title}</p>
       <div className="boardCard__icons">
-        <DeleteOutlineIcon onClick={deleteBoardCard} />
+        <DeleteOutlineIcon className="boardIcon" onClick={deleteBoardCard} />
         <div id={id} onClick={handleEditClick}>
-          <DragIndicatorIcon />
+          <DragIndicatorIcon className="boardIcon" />
         </div>
       </div>
     </div>

@@ -1,8 +1,7 @@
-import axios from 'axios';
-
 import { BASE_URL, FETCH_URLS } from './constants';
 import { IBoard } from '../store/initialStore';
 import { IBoardData } from '../pages/Dashboard/components/PopoverWindow';
+import { request } from './request';
 
 export interface IBoardResponse {
   hasError: boolean;
@@ -24,10 +23,6 @@ export interface IBoardApi {
   deleteBoard(id: string): Promise<IDeleteResponse>;
   editBoardTitle(boardData: IBoardData, id: string): Promise<IEditResponse>;
 }
-
-const request = axios.create({
-  baseURL: BASE_URL,
-});
 
 class BoardApi implements IBoardApi {
   async fetchBoards() : Promise<IBoard[]> {
