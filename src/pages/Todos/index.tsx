@@ -1,23 +1,20 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { MouseEvent, useEffect, useState } from 'react';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
-import CloseIcon from '@material-ui/icons/Close';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
+import { Popover } from '@material-ui/core';
+import DeleteSweepIcon from '@material-ui/icons/DeleteSweep';
 
 import { useCustomDispatch } from '../../hooks/useCustomDispatch';
 import { useCustomSelector } from '../../hooks/useCustomSelector';
-import { addTodoColumn, getTodoColumns } from '../../store/sideEffects/todos';
+import { deleteTodoColumn, getTodoColumns } from '../../store/sideEffects/todos';
 import TodoColumnCard from './components/TodoColumnCard';
+import AddTodoForm from './components/AddTodoForm';
 
 import './style.scss';
 
 export interface ITodoColumnData {
   title: string;
 }
-
-const initialColumnTitle = {
-  title: '',
-};
 
 const ButtonClassNames = {
   root: 'addColumnBtn',
@@ -29,7 +26,8 @@ export const InputClassNames = {
 
 function Todos(): JSX.Element {
   const [isButtonClicked, setIsButtonClicked] = useState<boolean>(false);
-  const [columnTitle, setColumnTitle] = useState<ITodoColumnData>(initialColumnTitle);
+  const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
+  const [currentColumnId, setCurrentColumnId] = useState<string>('');
   const todos = useCustomSelector((store) => store.todos);
   const dispatch = useCustomDispatch();
 
@@ -41,22 +39,25 @@ function Todos(): JSX.Element {
     setIsButtonClicked(true);
   };
 
-  const onCloseForm = () => {
-    setIsButtonClicked(false);
+  const openPopover = (event: MouseEvent<HTMLDivElement>, id?: string) => {
+    setAnchorEl(event.currentTarget);
+
+    if (id) {
+      setCurrentColumnId(id);
+    }
   };
 
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setColumnTitle({
-      title: event.target.value,
-    });
+  const closePopover = () => {
+    setAnchorEl(null);
   };
 
-  const handleAddColumn = () => {
-    if (columnTitle.title.length === 0) return;
-
-    dispatch(addTodoColumn(columnTitle));
-    setColumnTitle(initialColumnTitle);
+  const handleDeleteTodoColumn = () => {
+    dispatch(deleteTodoColumn(currentColumnId));
+    closePopover();
   };
+
+  const open = Boolean(anchorEl);
+  const id = open ? 'popover' : undefined;
 
   return (
     <div className="todos">
@@ -64,26 +65,21 @@ function Todos(): JSX.Element {
         {
           todos.map((todo) => (
             <TodoColumnCard
+              id={id}
+              todoColumnId={todo.id}
               key={todo.id}
               todoTitle={todo.title}
+              openPopover={openPopover}
             />
           ))
          }
         {
           isButtonClicked ? (
-            <div className="addColumnWrap">
-              <OutlinedInput
-                id="outlined-basic"
-                placeholder="Enter list title"
-                classes={InputClassNames}
-                onChange={handleInputChange}
-                value={columnTitle.title}
-              />
-              <div className="addColumnBtnWrap">
-                <Button classes={ButtonClassNames} onClick={handleAddColumn}>Add Column</Button>
-                <CloseIcon className="addIcon" onClick={onCloseForm} />
-              </div>
-            </div>
+            <AddTodoForm
+              setIsButtonClicked={setIsButtonClicked}
+              buttonLabel="add column"
+              placeholder="Enter column title"
+            />
           ) : (
             <Button
               classes={ButtonClassNames}
@@ -95,6 +91,21 @@ function Todos(): JSX.Element {
           )
         }
 
+        <Popover
+          id={id}
+          open={open}
+          onClose={closePopover}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'left',
+          }}
+        >
+          <DeleteSweepIcon onClick={handleDeleteTodoColumn} />
+        </Popover>
       </section>
     </div>
   );

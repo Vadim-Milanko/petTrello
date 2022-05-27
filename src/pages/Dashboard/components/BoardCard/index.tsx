@@ -12,7 +12,7 @@ interface IProps {
   id?: string;
   boardId: string;
   title: string;
-  openPopover: (event: MouseEvent<HTMLDivElement>, id: string) => void;
+  openPopover: (event: MouseEvent<HTMLDivElement>, id?: string) => void;
   setIsEdit: (status: boolean) => void;
 }
 

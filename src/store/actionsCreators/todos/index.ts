@@ -11,3 +11,8 @@ export const addTodoColumnAction = (payload: ITodoColumnData) => ({
   type: types.ADD_TODO_COLUMN_ACTION,
   payload,
 });
+
+export const deleteTodoColumnAction = (todoColumn: string) => ({
+  type: types.DELETE_TODO_COLUMN_ACTION,
+  payload: todoColumn,
+});

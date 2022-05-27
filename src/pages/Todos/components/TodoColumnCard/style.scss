@@ -1,15 +1,28 @@
 @import "src/assets/sass/glob";
 
-.todoColumnCard {
+.todoColumnCardWrap {
   display: flex;
-  flex-direction: column;
-  margin-right: 15px;
   width: 285px;
-  max-height: 125px;
   background-color: #B4DBFF;
+  border-radius: 5px;
+  padding: 10px 3px 10px 10px;
+  margin-right: 20px;
+  max-height: 130px;
 }
 
-.addTodoBtn {
+.todoColumnCard {
+  display: flex;
+  align-items: start;
+  flex-direction: column;
+  width: 90%;
+
+  &__title {
+    padding: 5px;
+  }
+
+}
+
+body .addTodoBtn {
   background: #A6C9FF;
   display: flex;
   justify-content: start;
@@ -24,5 +37,22 @@
 
   &:hover {
     background-color: #73A7F6;
+  }
+}
+
+.settings {
+  display: flex;
+  justify-content: center;
+  width: 10%;
+}
+
+.settingsIcon {
+  padding: 2px;
+  margin-left: 5px;
+
+  &:hover {
+    border-radius: 5px;
+    background-color: #73A7F6;
+    cursor: pointer;
   }
 }

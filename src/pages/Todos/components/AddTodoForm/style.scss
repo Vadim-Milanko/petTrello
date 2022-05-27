@@ -1,0 +1,23 @@
+.addColumnWrap {
+  background-color: #B4DBFF;
+  width: 250px;
+  max-height: 80px;
+  border-radius: 5px;
+}
+
+.addColumnBtnWrap {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+  margin-top: 5px;
+}
+
+.addIcon {
+  padding: 5px;
+  border-radius: 3px;
+
+  &:hover {
+    background-color: #73A7F6;;
+    cursor: pointer;
+  }
+}

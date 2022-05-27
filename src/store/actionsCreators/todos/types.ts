@@ -11,6 +11,12 @@ interface IAddTodoColumnAction {
   payload: ITodoColumn;
 }
 
+interface IDeleteTodoColumnAction {
+  type: types.DELETE_TODO_COLUMN_ACTION;
+  payload: string;
+}
+
 export type TTodosActions =
   IGetTodoColumnsAction
-  | IAddTodoColumnAction;
+  | IAddTodoColumnAction
+  | IDeleteTodoColumnAction;

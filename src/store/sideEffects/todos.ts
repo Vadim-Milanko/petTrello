@@ -1,7 +1,7 @@
 import { Dispatch } from 'react';
 
 import {
-  addTodoColumnAction,
+  addTodoColumnAction, deleteTodoColumnAction,
   getTodoColumnsAction,
 } from '../actionsCreators/todos';
 import todosApi from '../../api/Todos';
@@ -22,3 +22,11 @@ export const addTodoColumn = (payload: ITodoColumnData) => (
     }
   }
 );
+
+export const deleteTodoColumn = (todoColumnId: string) => async (dispatch: any) => {
+  const deleteResponse = await todosApi.deleteTodoColumn(todoColumnId);
+
+  if (!deleteResponse.hasError) {
+    dispatch(deleteTodoColumnAction(todoColumnId));
+  }
+};

@@ -1,4 +1,4 @@
-import { FETCH_URLS } from './constants';
+import { BASE_URL, FETCH_URLS } from './constants';
 import { ITodoColumn } from '../store/initialStore';
 import { request } from './request';
 import { ITodoColumnData } from '../pages/Todos';
@@ -8,9 +8,14 @@ export interface ITodoColumnResponse {
   currentTodoColumn: ITodoColumnData;
 }
 
+export interface IDeleteResponse {
+  hasError: boolean;
+}
+
 export interface ITodosApi {
   fetchTodoColumns(): Promise<ITodoColumn[]>
   addTodoColumn(todoColumnData: ITodoColumnData): Promise<ITodoColumnResponse>
+  deleteTodoColumn(id: string): Promise<IDeleteResponse>;
 }
 
 class TodosApi implements ITodosApi {
@@ -40,6 +45,27 @@ class TodosApi implements ITodosApi {
         currentTodoColumn: {
           title: '',
         },
+      };
+    }
+  }
+
+  async deleteTodoColumn(id: string): Promise<IDeleteResponse> {
+    try {
+      const deleteUrl = `${BASE_URL}/${FETCH_URLS.todos}/${id}`;
+      const deleteResponse = await request.delete(deleteUrl);
+
+      if (deleteResponse.status === 200) {
+        return {
+          hasError: false,
+        };
+      }
+
+      return {
+        hasError: true,
+      };
+    } catch (error) {
+      return {
+        hasError: true,
       };
     }
   }

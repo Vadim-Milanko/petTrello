@@ -65,6 +65,7 @@ class BoardApi implements IBoardApi {
           hasError: false,
         };
       }
+
       return {
         hasError: true,
       };
