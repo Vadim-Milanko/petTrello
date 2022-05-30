@@ -24,9 +24,15 @@ export interface IBoard {
   title: string;
 }
 
+export interface ITodoList {
+  id: string;
+  title: string;
+}
+
 export interface ITodoColumn {
   id: string;
   title: string;
+  todoList: ITodoList[]
 }
 
 export interface IAppStore {

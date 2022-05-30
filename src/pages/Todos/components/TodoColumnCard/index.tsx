@@ -1,39 +1,40 @@
-import React, { MouseEvent, useState } from 'react';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
+import React, { useState } from 'react';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import AddIcon from '@material-ui/icons/Add';
 import Button from '@material-ui/core/Button';
+import DeleteSweepIcon from '@material-ui/icons/DeleteSweep';
 
 import { InputClassNames } from '../../index';
 import AddTodoForm from '../AddTodoForm';
+import { deleteTodoColumn } from '../../../../store/sideEffects/todos';
+import { useCustomDispatch } from '../../../../hooks/useCustomDispatch';
 
 import './style.scss';
 
 interface IProps {
-  id?: string;
   todoColumnId: string;
-  openPopover: (event: MouseEvent<HTMLDivElement>, id?: string) => void
   todoTitle: string;
 }
 
 function TodoColumnCard(props: IProps): JSX.Element {
   const [isButtonClicked, setIsButtonClicked] = useState<boolean>(false);
+  const dispatch = useCustomDispatch();
   const {
-    todoTitle, id, openPopover, todoColumnId,
+    todoTitle, todoColumnId,
   } = props;
+
+  const handleDeleteTodoColumn = () => {
+    dispatch(deleteTodoColumn(todoColumnId));
+  };
 
   const onOpenForm = () => {
     setIsButtonClicked(true);
   };
 
-  const handleSettingsClick = (event: MouseEvent<HTMLDivElement>) => {
-    openPopover(event, todoColumnId);
-  };
-
   return (
     <div className="todoColumnCardWrap">
       <div className="todoColumnCard">
-        <span className="todoColumnCard__title">{todoTitle}</span>
+        <div className="todoColumnCard__title">{todoTitle}</div>
         <OutlinedInput
           id="outlined-basic"
           classes={InputClassNames}
@@ -57,9 +58,7 @@ function TodoColumnCard(props: IProps): JSX.Element {
         }
 
       </div>
-      <div id={id} onClick={handleSettingsClick}>
-        <MoreVertIcon className="settingsIcon" />
-      </div>
+      <DeleteSweepIcon className="deleteIcon" onClick={handleDeleteTodoColumn} />
     </div>
   );
 }

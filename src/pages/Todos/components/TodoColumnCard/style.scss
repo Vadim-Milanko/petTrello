@@ -2,12 +2,13 @@
 
 .todoColumnCardWrap {
   display: flex;
-  width: 285px;
+  width: 290px;
+  min-width: 280px;
   background-color: #B4DBFF;
   border-radius: 5px;
   padding: 10px 3px 10px 10px;
   margin-right: 20px;
-  max-height: 130px;
+  max-height: 135px;
 }
 
 .todoColumnCard {
@@ -15,9 +16,17 @@
   align-items: start;
   flex-direction: column;
   width: 90%;
+  padding-left: 5px;
 
   &__title {
+    width: 95%;
+    margin-left: 5px;
     padding: 5px;
+    text-align: start;
+
+    &:hover {
+      cursor: pointer;
+    }
   }
 
 }
@@ -30,6 +39,7 @@ body .addTodoBtn {
   width: 150px;
   max-height: 30px;
   margin-top: 5px;
+  margin-left: 5px;
 
   &__title {
     margin-left: 5px;
@@ -40,15 +50,9 @@ body .addTodoBtn {
   }
 }
 
-.settings {
-  display: flex;
-  justify-content: center;
-  width: 10%;
-}
-
-.settingsIcon {
-  padding: 2px;
-  margin-left: 5px;
+.deleteIcon {
+  padding: 3px;
+  margin-right: 3px;
 
   &:hover {
     border-radius: 5px;
