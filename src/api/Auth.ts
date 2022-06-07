@@ -43,6 +43,7 @@ class AuthApi implements IAuthApi {
           currentUser: user,
         };
       }
+
       return {
         hasError: true,
         message: VALIDATION_MESSAGES.FAILED_LOGIN_USER,
@@ -54,6 +55,7 @@ class AuthApi implements IAuthApi {
       };
     } catch (error) {
       console.log(error);
+
       return {
         hasError: true,
         message: VALIDATION_MESSAGES.FAILED_MASSAGE,

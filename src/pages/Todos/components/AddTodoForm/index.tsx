@@ -4,8 +4,6 @@ import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Button from '@material-ui/core/Button';
 
 import { InputClassNames, ITodoColumnData } from '../../index';
-import { useCustomDispatch } from '../../../../hooks/useCustomDispatch';
-import { addTodoColumn } from '../../../../store/sideEffects/todos';
 
 import './style.scss';
 
@@ -13,6 +11,7 @@ interface IProps {
   setIsButtonClicked: (status: boolean) => void;
   buttonLabel: string;
   placeholder: string;
+  handleAdd: (title: ITodoColumnData) => void;
 }
 
 const ButtonClassNames = {
@@ -24,10 +23,14 @@ const initialColumnTitle = {
 };
 
 function TodoColumnCard(props: IProps): JSX.Element {
-  const [columnTitle, setColumnTitle] = useState<ITodoColumnData>(initialColumnTitle);
-  const dispatch = useCustomDispatch();
+  const {
+    setIsButtonClicked,
+    buttonLabel,
+    placeholder,
+    handleAdd,
+  } = props;
 
-  const { setIsButtonClicked, buttonLabel, placeholder } = props;
+  const [columnTitle, setColumnTitle] = useState<ITodoColumnData>(initialColumnTitle);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setColumnTitle({
@@ -38,7 +41,7 @@ function TodoColumnCard(props: IProps): JSX.Element {
   const handleAddColumn = () => {
     if (columnTitle.title.length === 0) return;
 
-    dispatch(addTodoColumn(columnTitle));
+    handleAdd(columnTitle);
     setColumnTitle(initialColumnTitle);
   };
 
@@ -54,6 +57,7 @@ function TodoColumnCard(props: IProps): JSX.Element {
         classes={InputClassNames}
         onChange={handleInputChange}
         value={columnTitle.title}
+        autoFocus
       />
       <div className="addColumnBtnWrap">
         <Button classes={ButtonClassNames} onClick={handleAddColumn}>{buttonLabel}</Button>

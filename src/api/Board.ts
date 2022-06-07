@@ -87,6 +87,7 @@ class BoardApi implements IBoardApi {
           editedBoard: editResponse.data,
         };
       }
+
       return {
         hasError: true,
         editedBoard: {} as IBoard,

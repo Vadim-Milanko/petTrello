@@ -4,7 +4,7 @@ import AddIcon from '@material-ui/icons/Add';
 
 import { useCustomDispatch } from '../../hooks/useCustomDispatch';
 import { useCustomSelector } from '../../hooks/useCustomSelector';
-import { getTodoColumns } from '../../store/sideEffects/todos';
+import { addTodoColumn, getTodoColumns } from '../../store/sideEffects/todos';
 import TodoColumnCard from './components/TodoColumnCard';
 import AddTodoForm from './components/AddTodoForm';
 
@@ -20,6 +20,7 @@ const ButtonClassNames = {
 
 export const InputClassNames = {
   root: 'addInput',
+  input: 'inputHelp',
 };
 
 function Todos(): JSX.Element {
@@ -33,6 +34,10 @@ function Todos(): JSX.Element {
 
   const onOpenForm = () => {
     setIsButtonClicked(true);
+  };
+
+  const handleAddTodoColumn = (columnTitle: ITodoColumnData) => {
+    dispatch(addTodoColumn(columnTitle));
   };
 
   return (
@@ -53,6 +58,7 @@ function Todos(): JSX.Element {
               setIsButtonClicked={setIsButtonClicked}
               buttonLabel="add column"
               placeholder="Enter column title"
+              handleAdd={handleAddTodoColumn}
             />
           ) : (
             <Button

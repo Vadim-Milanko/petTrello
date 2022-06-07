@@ -16,6 +16,19 @@ export function todosReducer(state: ITodoColumn[], action: TTodosActions) {
     case types.DELETE_TODO_COLUMN_ACTION:
       return state.filter((todoColumn) => todoColumn.id !== action.payload);
 
+    case types.EDIT_TODO_COLUMN_TITLE_ACTION:
+      return state.map((todoColumn) => {
+        if (todoColumn.id === action.payload.id) {
+          return {
+            id: todoColumn.id,
+            title: action.payload.title,
+            todoList: todoColumn.todoList,
+          };
+        }
+
+        return todoColumn;
+      });
+
     default:
       return state;
   }

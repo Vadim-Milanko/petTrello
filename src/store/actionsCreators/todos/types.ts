@@ -16,7 +16,13 @@ interface IDeleteTodoColumnAction {
   payload: string;
 }
 
+interface IEditTodoColumnTitleAction {
+  type: types.EDIT_TODO_COLUMN_TITLE_ACTION;
+  payload: ITodoColumn;
+}
+
 export type TTodosActions =
   IGetTodoColumnsAction
   | IAddTodoColumnAction
-  | IDeleteTodoColumnAction;
+  | IDeleteTodoColumnAction
+  | IEditTodoColumnTitleAction;

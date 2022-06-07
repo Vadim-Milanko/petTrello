@@ -12,10 +12,16 @@ export interface IDeleteResponse {
   hasError: boolean;
 }
 
+export interface IEditResponse {
+  hasError: boolean;
+  editedTodoColumn: ITodoColumn;
+}
+
 export interface ITodosApi {
   fetchTodoColumns(): Promise<ITodoColumn[]>
   addTodoColumn(todoColumnData: ITodoColumnData): Promise<ITodoColumnResponse>
   deleteTodoColumn(id: string): Promise<IDeleteResponse>;
+  editTodoColumnTitle(todoColumnData: ITodoColumnData, id: string): Promise<IEditResponse>;
 }
 
 class TodosApi implements ITodosApi {
@@ -66,6 +72,32 @@ class TodosApi implements ITodosApi {
     } catch (error) {
       return {
         hasError: true,
+      };
+    }
+  }
+
+  async editTodoColumnTitle(todoColumnData: ITodoColumnData, id: string): Promise<IEditResponse> {
+    try {
+      const patchUrl = `${BASE_URL}/${FETCH_URLS.todos}/${id}`;
+      const editResponse = await request.patch(patchUrl, todoColumnData);
+
+      if (editResponse.status === 200) {
+        return {
+          hasError: false,
+          editedTodoColumn: editResponse.data,
+        };
+      }
+
+      return {
+        hasError: true,
+        editedTodoColumn: {} as ITodoColumn,
+      };
+    } catch (error) {
+      console.log(error);
+
+      return {
+        hasError: true,
+        editedTodoColumn: {} as ITodoColumn,
       };
     }
   }

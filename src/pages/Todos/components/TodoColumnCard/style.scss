@@ -60,3 +60,18 @@ body .addTodoBtn {
     cursor: pointer;
   }
 }
+
+.editIcons {
+  padding: 2px;
+
+  &:hover {
+    border-radius: 5px;
+    background-color: #73A7F6;
+    cursor: pointer;
+  }
+}
+
+.editSettings {
+  display: flex;
+  align-items: center;
+}

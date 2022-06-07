@@ -1,7 +1,7 @@
 import { Dispatch } from 'react';
 
 import {
-  addTodoColumnAction, deleteTodoColumnAction,
+  addTodoColumnAction, deleteTodoColumnAction, editTodoColumnTitleAction,
   getTodoColumnsAction,
 } from '../actionsCreators/todos';
 import todosApi from '../../api/Todos';
@@ -30,3 +30,15 @@ export const deleteTodoColumn = (todoColumnId: string) => async (dispatch: any) 
     dispatch(deleteTodoColumnAction(todoColumnId));
   }
 };
+
+export const editBoardTitle = (todoColumnData: ITodoColumnData, id: string) => (
+  async (dispatch: Dispatch<any>) => {
+    const editResponse = await todosApi.editTodoColumnTitle(todoColumnData, id);
+
+    const { editedTodoColumn } = editResponse;
+
+    if (!editResponse.hasError) {
+      dispatch(editTodoColumnTitleAction(editedTodoColumn));
+    }
+  }
+);
