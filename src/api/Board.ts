@@ -18,18 +18,18 @@ export interface IEditResponse {
 }
 
 export interface IBoardApi {
-  fetchBoards(): Promise<IBoard[]>
-  addBoard(boardData: IBoardData): Promise<IBoardResponse>;
+  fetchBoards(userId: string): Promise<IBoard[]>
+  addBoard(boardData: IBoardData, userId: string): Promise<IBoardResponse>;
   deleteBoard(id: string): Promise<IDeleteResponse>;
   editBoardTitle(boardData: IBoardData, id: string): Promise<IEditResponse>;
 }
 
 class BoardApi implements IBoardApi {
-  async fetchBoards() : Promise<IBoard[]> {
+  async fetchBoards(userId: string) : Promise<IBoard[]> {
     let response;
 
     try {
-      response = await request.get(FETCH_URLS.boards);
+      response = await request.get(`${FETCH_URLS.users}/${userId}/${FETCH_URLS.boards}`);
     } catch (error) {
       console.log(error);
     }
@@ -37,9 +37,10 @@ class BoardApi implements IBoardApi {
     return response?.data;
   }
 
-  async addBoard(boardData: IBoardData): Promise<IBoardResponse> {
+  async addBoard(boardData: IBoardData, userId: string): Promise<IBoardResponse> {
     try {
-      const postedBoard = await request.post(FETCH_URLS.boards, boardData);
+      const url = `${FETCH_URLS.users}/${userId}/${FETCH_URLS.boards}`;
+      const postedBoard = await request.post(url, boardData);
 
       return {
         hasError: false,

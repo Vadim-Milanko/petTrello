@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 
 import { useCustomDispatch } from '../../hooks/useCustomDispatch';
 import { useCustomSelector } from '../../hooks/useCustomSelector';
-import { addTodoColumn, getTodoColumns } from '../../store/sideEffects/todos';
+import { addTodoColumn, getTodoColumns } from '../../store/sideEffects/todoColumn';
 import TodoColumnCard from './components/TodoColumnCard';
 import AddTodoForm from './components/AddTodoForm';
 
 import './style.scss';
 
-export interface ITodoColumnData {
+export interface ITodoTitleData {
   title: string;
 }
 
@@ -25,19 +26,20 @@ export const InputClassNames = {
 
 function Todos(): JSX.Element {
   const [isButtonClicked, setIsButtonClicked] = useState<boolean>(false);
-  const todos = useCustomSelector((store) => store.todos);
+  const todos = useCustomSelector((store) => store.todoColumn);
   const dispatch = useCustomDispatch();
+  const params = useParams();
 
   useEffect(() => {
-    dispatch(getTodoColumns());
+    dispatch(getTodoColumns(params.id as string));
   }, []);
 
   const onOpenForm = () => {
     setIsButtonClicked(true);
   };
 
-  const handleAddTodoColumn = (columnTitle: ITodoColumnData) => {
-    dispatch(addTodoColumn(columnTitle));
+  const handleAddTodoColumn = (columnTitle: ITodoTitleData) => {
+    dispatch(addTodoColumn(columnTitle, params.id as string));
   };
 
   return (

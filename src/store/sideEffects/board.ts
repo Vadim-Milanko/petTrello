@@ -9,15 +9,15 @@ import {
 import boardApi from '../../api/Board';
 import { IBoardData } from '../../pages/Dashboard/components/PopoverWindow';
 
-export const fetchBoards = () => async (dispatch: any) => {
-  const boardsList = await boardApi.fetchBoards();
+export const fetchBoards = (userId: string) => async (dispatch: any) => {
+  const boardsList = await boardApi.fetchBoards(userId);
 
   dispatch(getBoardsAction(boardsList));
 };
 
-export const addBoard = (payload: IBoardData, todosNavigate: () => void) => (
+export const addBoard = (payload: IBoardData, todosNavigate: () => void, userId: string) => (
   async (dispatch: any) => {
-    const addResponse = await boardApi.addBoard(payload);
+    const addResponse = await boardApi.addBoard(payload, userId);
 
     if (!addResponse.hasError) {
       dispatch(addBoardAction(addResponse.currentBoard));

@@ -1,11 +1,11 @@
 import { BASE_URL, FETCH_URLS } from './constants';
 import { ITodoColumn } from '../store/initialStore';
 import { request } from './request';
-import { ITodoColumnData } from '../pages/Todos';
+import { ITodoTitleData } from '../pages/Todos';
 
 export interface ITodoColumnResponse {
   hasError: boolean;
-  currentTodoColumn: ITodoColumnData;
+  currentTodoColumn: ITodoTitleData;
 }
 
 export interface IDeleteResponse {
@@ -18,18 +18,18 @@ export interface IEditResponse {
 }
 
 export interface ITodosApi {
-  fetchTodoColumns(): Promise<ITodoColumn[]>
-  addTodoColumn(todoColumnData: ITodoColumnData): Promise<ITodoColumnResponse>
+  fetchTodoColumns(boardId: string): Promise<ITodoColumn[]>
+  addTodoColumn(todoColumnData: ITodoTitleData, todoId: string): Promise<ITodoColumnResponse>
   deleteTodoColumn(id: string): Promise<IDeleteResponse>;
-  editTodoColumnTitle(todoColumnData: ITodoColumnData, id: string): Promise<IEditResponse>;
+  editTodoColumnTitle(todoColumnData: ITodoTitleData, id: string): Promise<IEditResponse>;
 }
 
 class TodosApi implements ITodosApi {
-  async fetchTodoColumns() : Promise<ITodoColumn[]> {
+  async fetchTodoColumns(boardId: string) : Promise<ITodoColumn[]> {
     let response;
 
     try {
-      response = await request.get(FETCH_URLS.todos);
+      response = await request.get(`${FETCH_URLS.boards}/${boardId}/${FETCH_URLS.todoColumns}`);
     } catch (error) {
       console.log(error);
     }
@@ -37,9 +37,14 @@ class TodosApi implements ITodosApi {
     return response?.data;
   }
 
-  async addTodoColumn(todoColumnData: ITodoColumnData): Promise<ITodoColumnResponse> {
+  async addTodoColumn(
+    todoColumnData: ITodoTitleData,
+    boardId: string,
+  ): Promise<ITodoColumnResponse> {
     try {
-      const postedTodoColumn = await request.post(FETCH_URLS.todos, todoColumnData);
+      const url = `${FETCH_URLS.boards}/${boardId}/${FETCH_URLS.todoColumns}`;
+
+      const postedTodoColumn = await request.post(url, todoColumnData);
 
       return {
         hasError: false,
@@ -57,7 +62,7 @@ class TodosApi implements ITodosApi {
 
   async deleteTodoColumn(id: string): Promise<IDeleteResponse> {
     try {
-      const deleteUrl = `${BASE_URL}/${FETCH_URLS.todos}/${id}`;
+      const deleteUrl = `${BASE_URL}/${FETCH_URLS.todoColumns}/${id}`;
       const deleteResponse = await request.delete(deleteUrl);
 
       if (deleteResponse.status === 200) {
@@ -76,9 +81,9 @@ class TodosApi implements ITodosApi {
     }
   }
 
-  async editTodoColumnTitle(todoColumnData: ITodoColumnData, id: string): Promise<IEditResponse> {
+  async editTodoColumnTitle(todoColumnData: ITodoTitleData, id: string): Promise<IEditResponse> {
     try {
-      const patchUrl = `${BASE_URL}/${FETCH_URLS.todos}/${id}`;
+      const patchUrl = `${BASE_URL}/${id}/${FETCH_URLS.todoColumns}`;
       const editResponse = await request.patch(patchUrl, todoColumnData);
 
       if (editResponse.status === 200) {

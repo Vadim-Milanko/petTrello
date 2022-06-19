@@ -6,12 +6,12 @@ import DeleteSweepIcon from '@material-ui/icons/DeleteSweep';
 import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
 
-import { InputClassNames, ITodoColumnData } from '../../index';
+import { InputClassNames, ITodoTitleData } from '../../index';
 import AddTodoForm from '../AddTodoForm';
 import {
   deleteTodoColumn,
   editBoardTitle,
-} from '../../../../store/sideEffects/todos';
+} from '../../../../store/sideEffects/todoColumn';
 import { useCustomDispatch } from '../../../../hooks/useCustomDispatch';
 
 import './style.scss';
@@ -28,7 +28,7 @@ function TodoColumnCard(props: IProps): JSX.Element {
 
   const [isButtonClicked, setIsButtonClicked] = useState<boolean>(false);
   const [isTitleChanging, setIsTitleChanging] = useState<boolean>(false);
-  const [title, setTitle] = useState<ITodoColumnData>({ title: todoTitle });
+  const [title, setTitle] = useState<ITodoTitleData>({ title: todoTitle });
   const dispatch = useCustomDispatch();
 
   const handleDeleteTodoColumn = () => {
@@ -61,7 +61,7 @@ function TodoColumnCard(props: IProps): JSX.Element {
     event.stopPropagation();
   };
 
-  const handleAddTodoList = (todoListTitle: ITodoColumnData) => {
+  const handleAddTodoList = (todoListTitle: ITodoTitleData) => {
     console.log(todoListTitle);
   };
 

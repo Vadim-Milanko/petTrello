@@ -1,13 +1,13 @@
-import { TodosActionTypes as types } from '../../actionTypes/todos';
+import { TodoColumnActionTypes as types } from '../../actionTypes/todoColumn';
 import { ITodoColumn } from '../../initialStore';
-import { ITodoColumnData } from '../../../pages/Todos';
+import { ITodoTitleData } from '../../../pages/Todos';
 
 export const getTodoColumnsAction = (payload: ITodoColumn[]) => ({
   type: types.GET_TODO_COLUMNS_ACTION,
   payload,
 });
 
-export const addTodoColumnAction = (payload: ITodoColumnData) => ({
+export const addTodoColumnAction = (payload: ITodoTitleData) => ({
   type: types.ADD_TODO_COLUMN_ACTION,
   payload,
 });

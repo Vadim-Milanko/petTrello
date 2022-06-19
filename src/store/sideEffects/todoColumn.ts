@@ -3,19 +3,19 @@ import { Dispatch } from 'react';
 import {
   addTodoColumnAction, deleteTodoColumnAction, editTodoColumnTitleAction,
   getTodoColumnsAction,
-} from '../actionsCreators/todos';
+} from '../actionsCreators/todoColumn';
 import todosApi from '../../api/Todos';
-import { ITodoColumnData } from '../../pages/Todos';
+import { ITodoTitleData } from '../../pages/Todos';
 
-export const getTodoColumns = () => async (dispatch: Dispatch<any>) => {
-  const todoList = await todosApi.fetchTodoColumns();
+export const getTodoColumns = (boardId: string) => async (dispatch: Dispatch<any>) => {
+  const todoList = await todosApi.fetchTodoColumns(boardId);
 
   dispatch(getTodoColumnsAction(todoList));
 };
 
-export const addTodoColumn = (payload: ITodoColumnData) => (
+export const addTodoColumn = (payload: ITodoTitleData, boardId: string) => (
   async (dispatch: any) => {
-    const addTodoResponse = await todosApi.addTodoColumn(payload);
+    const addTodoResponse = await todosApi.addTodoColumn(payload, boardId);
 
     if (!addTodoResponse.hasError) {
       dispatch(addTodoColumnAction(addTodoResponse.currentTodoColumn));
@@ -31,7 +31,7 @@ export const deleteTodoColumn = (todoColumnId: string) => async (dispatch: any) 
   }
 };
 
-export const editBoardTitle = (todoColumnData: ITodoColumnData, id: string) => (
+export const editBoardTitle = (todoColumnData: ITodoTitleData, id: string) => (
   async (dispatch: Dispatch<any>) => {
     const editResponse = await todosApi.editTodoColumnTitle(todoColumnData, id);
 

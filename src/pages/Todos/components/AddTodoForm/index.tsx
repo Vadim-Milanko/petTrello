@@ -3,7 +3,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Button from '@material-ui/core/Button';
 
-import { InputClassNames, ITodoColumnData } from '../../index';
+import { InputClassNames, ITodoTitleData } from '../../index';
 
 import './style.scss';
 
@@ -11,7 +11,7 @@ interface IProps {
   setIsButtonClicked: (status: boolean) => void;
   buttonLabel: string;
   placeholder: string;
-  handleAdd: (title: ITodoColumnData) => void;
+  handleAdd: (title: ITodoTitleData) => void;
 }
 
 const ButtonClassNames = {
@@ -30,7 +30,7 @@ function TodoColumnCard(props: IProps): JSX.Element {
     handleAdd,
   } = props;
 
-  const [columnTitle, setColumnTitle] = useState<ITodoColumnData>(initialColumnTitle);
+  const [columnTitle, setColumnTitle] = useState<ITodoTitleData>(initialColumnTitle);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setColumnTitle({

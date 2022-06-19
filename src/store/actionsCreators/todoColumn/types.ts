@@ -1,4 +1,4 @@
-import { TodosActionTypes as types } from '../../actionTypes/todos';
+import { TodoColumnActionTypes as types } from '../../actionTypes/todoColumn';
 import { ITodoColumn } from '../../initialStore';
 
 interface IGetTodoColumnsAction {
@@ -21,7 +21,7 @@ interface IEditTodoColumnTitleAction {
   payload: ITodoColumn;
 }
 
-export type TTodosActions =
+export type TTodoColumnActions =
   IGetTodoColumnsAction
   | IAddTodoColumnAction
   | IDeleteTodoColumnAction

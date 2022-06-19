@@ -24,7 +24,7 @@ export interface IBoard {
   title: string;
 }
 
-export interface ITodoList {
+export interface ITodoItem {
   id: string;
   title: string;
 }
@@ -32,14 +32,14 @@ export interface ITodoList {
 export interface ITodoColumn {
   id: string;
   title: string;
-  todoList: ITodoList[]
 }
 
 export interface IAppStore {
   user: IUser;
   boards: IBoard[];
   ui: IUi;
-  todos: ITodoColumn[];
+  todoColumn: ITodoColumn[];
+  todoItem: ITodoItem[];
 }
 
 export const initialStore = {
@@ -59,5 +59,6 @@ export const initialStore = {
       isActive: false,
     },
   },
-  todos: [] as ITodoColumn[],
+  todoColumn: [] as ITodoColumn[],
+  todoItem: [] as ITodoItem[],
 };

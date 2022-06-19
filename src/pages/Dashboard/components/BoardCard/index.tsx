@@ -36,7 +36,7 @@ function BoardCard(props: IProps): JSX.Element {
   };
 
   const onBoardClick = () => {
-    navigate('/todos');
+    navigate(`/todos/${boardId}`);
   };
 
   return (

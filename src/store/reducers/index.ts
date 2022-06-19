@@ -4,31 +4,35 @@ import { TBoardActions } from '../actionsCreators/board/types';
 import { TUiActions } from '../actionsCreators/ui/types';
 import { TAuthUserActions } from '../actionsCreators/user/types';
 import {
-  IBoard, ITodoColumn, IUi, IUser,
+  IBoard, ITodoColumn, ITodoItem, IUi, IUser,
 } from '../initialStore';
 import { combineReducers } from '../rootReducer/combineReducer';
 import { boardReducer } from './board';
 import { uiReducer } from './ui';
 import { userReducer } from './user';
-import { todosReducer } from './todos';
-import { TTodosActions } from '../actionsCreators/todos/types';
+import { todoColumnReducer } from './todoColumn';
+import { TTodoColumnActions } from '../actionsCreators/todoColumn/types';
+import { todoItemReducer } from './todoItem';
+import { TTodoItemActions } from '../actionsCreators/todoItem/types';
 
 export type RootActions =
   TBoardActions
   | TUiActions
   | TAuthUserActions
-  | TTodosActions;
+  | TTodoColumnActions;
 
 export interface IReducers {
   boards: Reducer<IBoard[], TBoardActions>
   ui: Reducer<IUi, TUiActions>
   user: Reducer<IUser, TAuthUserActions>
-  todos: Reducer<ITodoColumn[], TTodosActions>
+  todoColumn: Reducer<ITodoColumn[], TTodoColumnActions>
+  todoItem: Reducer<ITodoItem[], TTodoItemActions>
 }
 
 export const rootReducer = combineReducers({
   boards: boardReducer,
   ui: uiReducer,
   user: userReducer,
-  todos: todosReducer,
+  todoColumn: todoColumnReducer,
+  todoItem: todoItemReducer,
 });
