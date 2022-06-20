@@ -21,19 +21,6 @@
   ],
   "boards": [
     {
-      "userId": "2",
-      "title": "1111",
-      "id": 4
-    },
-    {
-      "title": "2222",
-      "id": 5
-    },
-    {
-      "title": "11222",
-      "id": 6
-    },
-    {
       "title": "wwww",
       "userId": "1",
       "id": 8
@@ -42,18 +29,17 @@
       "title": "www1",
       "userId": "1",
       "id": 9
-    }
-  ],
-  "todoColumns": [
-    {
-      "title": "111",
-      "boardId": "4",
-      "id": 1
     },
     {
-      "title": "222",
-      "boardId": "5",
-      "id": 2
+      "title": "WW",
+      "userId": "2",
+      "id": 10
+    },
+    {
+      "title": "2222",
+      "userId": "2",
+      "id": 12
     }
-  ]
+  ],
+  "todoColumns": []
 }

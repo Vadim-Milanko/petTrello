@@ -47,6 +47,7 @@ function PopoverWindow(props: IProps): JSX.Element {
       dispatch(editBoardTitle(boardData, currentEditId));
       closePopover();
     } else {
+      console.log(boardData);
       dispatch(addBoard(boardData, () => navigate('/todos/1'), currentUser.id));
       closePopover();
     }
