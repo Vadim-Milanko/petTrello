@@ -12,7 +12,7 @@ interface IProps {
   todoItem: ITodoItem;
 }
 
-function TodoColumnCard(props: IProps): JSX.Element {
+function TodoItem(props: IProps): JSX.Element {
   const { todoItem: { id, title } } = props;
   const dispatch = useCustomDispatch();
 
@@ -36,4 +36,4 @@ function TodoColumnCard(props: IProps): JSX.Element {
   );
 }
 
-export default TodoColumnCard;
+export default TodoItem;

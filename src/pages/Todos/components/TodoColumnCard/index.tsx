@@ -13,9 +13,9 @@ import { deleteTodoColumn, editBoardTitle } from '../../../../store/sideEffects/
 import { addTodoItem } from '../../../../store/sideEffects/todoItem';
 import { useCustomDispatch } from '../../../../hooks/useCustomDispatch';
 import { ITodoItem } from '../../../../store/initialStore';
+import TodoItem from '../TodoItem';
 
 import './style.scss';
-import TodoItem from '../TodoItem';
 
 interface IProps {
   todoColumnId: string;
