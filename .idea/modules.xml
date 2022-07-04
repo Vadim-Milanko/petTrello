@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/myTrello.iml" filepath="$PROJECT_DIR$/.idea/myTrello.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/pettrello.iml" filepath="$PROJECT_DIR$/.idea/pettrello.iml" />
     </modules>
   </component>
 </project>

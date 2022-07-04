@@ -4,24 +4,27 @@ import {
   addBoardAction,
   deleteBoardAction,
   editBoardTitleAction,
-  fetchBoardsAction,
+  getBoardsAction,
 } from '../actionsCreators/board';
 import boardApi from '../../api/Board';
 import { IBoardData } from '../../pages/Dashboard/components/PopoverWindow';
 
-export const fetchBoards = () => async (dispatch: any) => {
-  const boardsList = await boardApi.fetchBoards();
+export const fetchBoards = (userId: string) => async (dispatch: any) => {
+  const boardsList = await boardApi.fetchBoards(userId);
 
-  dispatch(fetchBoardsAction(boardsList));
+  dispatch(getBoardsAction(boardsList));
 };
 
-export const addBoard = (payload: IBoardData) => async (dispatch: any) => {
-  const addResponse = await boardApi.addBoard(payload);
+export const addBoard = (payload: IBoardData, todoNav: (id: string) => void, userId: string) => (
+  async (dispatch: any) => {
+    const addResponse = await boardApi.addBoard(payload, userId);
 
-  if (!addResponse.hasError) {
-    dispatch(addBoardAction(addResponse.currentBoard));
+    if (!addResponse.hasError) {
+      dispatch(addBoardAction(addResponse.currentBoard));
+      todoNav(addResponse.currentBoard.id);
+    }
   }
-};
+);
 
 export const deleteBoard = (boardId: string) => async (dispatch: any) => {
   const deleteResponse = await boardApi.deleteBoard(boardId);

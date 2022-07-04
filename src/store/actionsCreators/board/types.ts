@@ -1,8 +1,8 @@
 import { IBoard } from '../../initialStore';
 import { BoardActionTypes as types } from '../../actionTypes/board';
 
-interface IFetchBoardsAction {
-  type: types.FETCH_BOARDS_SUCCESS;
+interface IGetBoardsAction {
+  type: types.GET_BOARDS_SUCCESS;
   payload: IBoard[];
 }
 
@@ -22,7 +22,7 @@ interface IEditBoardTitleAction {
 }
 
 export type TBoardActions =
-  IFetchBoardsAction
+  IGetBoardsAction
   | IAddBoardsAction
   | IDeleteBoardsAction
   | IEditBoardTitleAction;

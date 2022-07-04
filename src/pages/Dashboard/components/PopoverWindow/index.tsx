@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 
 import CustomForm from '../../../../components/CustomForm';
@@ -7,6 +8,7 @@ import { newBoardSchema } from '../../../../utils/validationSchema';
 import CustomButton from '../../../../components/CustomButton';
 import { useCustomDispatch } from '../../../../hooks/useCustomDispatch';
 import { addBoard, editBoardTitle } from '../../../../store/sideEffects/board';
+import { getUserFromLS } from '../../../../utils/localStorage';
 
 import './style.scss';
 
@@ -35,15 +37,17 @@ interface IProps {
 }
 
 function PopoverWindow(props: IProps): JSX.Element {
+  const navigate = useNavigate();
   const { closePopover, isEditClick, currentEditId } = props;
   const dispatch = useCustomDispatch();
+  const currentUser = getUserFromLS();
 
   const onSubmit = (boardData: IBoardData) => {
     if (isEditClick) {
       dispatch(editBoardTitle(boardData, currentEditId));
       closePopover();
     } else {
-      dispatch(addBoard(boardData));
+      dispatch(addBoard(boardData, (id) => navigate(`/todos/${id}`), currentUser.id));
       closePopover();
     }
   };

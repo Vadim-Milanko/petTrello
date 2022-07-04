@@ -1,12 +1,11 @@
-import axios from 'axios';
-
 import { BASE_URL, FETCH_URLS } from './constants';
 import { IBoard } from '../store/initialStore';
 import { IBoardData } from '../pages/Dashboard/components/PopoverWindow';
+import { request } from './request';
 
 export interface IBoardResponse {
   hasError: boolean;
-  currentBoard: IBoardData;
+  currentBoard: IBoard;
 }
 
 export interface IDeleteResponse {
@@ -19,22 +18,18 @@ export interface IEditResponse {
 }
 
 export interface IBoardApi {
-  fetchBoards(): Promise<IBoard[]>
-  addBoard(boardData: IBoardData): Promise<IBoardResponse>;
+  fetchBoards(userId: string): Promise<IBoard[]>
+  addBoard(boardData: IBoardData, userId: string): Promise<IBoardResponse>;
   deleteBoard(id: string): Promise<IDeleteResponse>;
   editBoardTitle(boardData: IBoardData, id: string): Promise<IEditResponse>;
 }
 
-const request = axios.create({
-  baseURL: BASE_URL,
-});
-
 class BoardApi implements IBoardApi {
-  async fetchBoards() : Promise<IBoard[]> {
+  async fetchBoards(userId: string) : Promise<IBoard[]> {
     let response;
 
     try {
-      response = await request.get(FETCH_URLS.boards);
+      response = await request.get(`${FETCH_URLS.users}/${userId}/${FETCH_URLS.boards}`);
     } catch (error) {
       console.log(error);
     }
@@ -42,9 +37,10 @@ class BoardApi implements IBoardApi {
     return response?.data;
   }
 
-  async addBoard(boardData: IBoardData): Promise<IBoardResponse> {
+  async addBoard(boardData: IBoardData, userId: string): Promise<IBoardResponse> {
     try {
-      const postedBoard = await request.post(FETCH_URLS.boards, boardData);
+      const url = `${FETCH_URLS.users}/${userId}/${FETCH_URLS.boards}`;
+      const postedBoard = await request.post(url, boardData);
 
       return {
         hasError: false,
@@ -54,6 +50,7 @@ class BoardApi implements IBoardApi {
       return {
         hasError: true,
         currentBoard: {
+          id: '',
           title: '',
         },
       };
@@ -70,6 +67,7 @@ class BoardApi implements IBoardApi {
           hasError: false,
         };
       }
+
       return {
         hasError: true,
       };
@@ -91,6 +89,7 @@ class BoardApi implements IBoardApi {
           editedBoard: editResponse.data,
         };
       }
+
       return {
         hasError: true,
         editedBoard: {} as IBoard,

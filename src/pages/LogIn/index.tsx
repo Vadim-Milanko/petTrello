@@ -44,7 +44,7 @@ function LogIn(): JSX.Element {
   const navigate = useNavigate();
 
   const onSubmit = (userData: ILoginUserData) => {
-    dispatch(loginUser(userData, () => navigate('/dashboard')));
+    dispatch(loginUser(userData, () => navigate('/', { replace: true })));
   };
 
   const formik = useFormik<ILoginUserData>({

@@ -11,4 +11,6 @@ export const VALIDATION_MESSAGES = {
 export const FETCH_URLS = {
   users: 'users',
   boards: 'boards',
+  todoColumns: 'todoColumns',
+  todoItems: 'todoItems',
 };

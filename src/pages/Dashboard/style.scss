@@ -2,13 +2,13 @@
 
 .dashboard {
   display: flex;
-  justify-content: center;
-  height: 948px;
+  padding-left: 200px;
+  height: 980px;
   background-image: $bg-dashboard;
 
   &__workspace {
     margin-top: 100px;
-    width: 800px;
+    max-width: 1400px;
 
     &__title {
       display: flex;

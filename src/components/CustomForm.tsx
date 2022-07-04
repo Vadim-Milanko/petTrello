@@ -1,5 +1,7 @@
 import React, { FormEvent } from 'react';
-import { TextField, TextFieldProps } from '@material-ui/core';
+import {
+  OutlinedInput, OutlinedInputProps,
+} from '@material-ui/core';
 import { FormikErrors, FormikTouched } from 'formik';
 
 import ValidationText from './ValidationText';
@@ -16,7 +18,7 @@ export interface IProps<T> {
   inputClassName?: string;
   formInfo: IInputInfo<T>[];
   values: T;
-  handleBlur: (event: TextFieldProps) => void;
+  handleBlur: (event: OutlinedInputProps) => void;
   handleSubmit: () => void;
   handleChange: (value: FormEvent) => void;
   touched: FormikTouched<T>;
@@ -48,19 +50,20 @@ function CustomForm<T>(props: IProps<T>): JSX.Element {
         const inputValue = isInputFilled
           ? values[name] as unknown as string
           : (values[name] as unknown as string).trim();
+        const type = (name === 'password' ? name : 'text');
 
         return (
           <div key={id} className="form-control">
-            <TextField
+            <OutlinedInput
               className={inputClassName}
               id={id}
               name={name as string}
               placeholder={placeholder}
-              variant="outlined"
               onChange={handleChange}
               value={inputValue}
               onBlur={handleBlur}
               autoFocus={focus}
+              type={type as string}
             />
             <ValidationText
               className="form-control__error"

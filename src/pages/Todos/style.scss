@@ -1,0 +1,42 @@
+@import "src/assets/sass/glob";
+
+.todos {
+  display: flex;
+  flex-direction: row;
+  background-image: $bg-todos;
+  height: 980px;
+
+  &__workspace {
+    display: flex;
+    padding: 100px;
+    max-width: 1400px;
+    height: max-content;
+  }
+}
+
+body .addColumnBtn {
+  background-color: #A6C9FF;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  max-height: 32px;
+  margin-right: 5px;
+
+  &:hover {
+    background-color: #73A7F6;
+  }
+
+  &__title {
+    margin-left: 5px;
+  }
+}
+
+.addInput {
+  margin-top: 5px;
+  margin-left: 5px;
+  max-height: 30px;
+}
+
+body .inputHelp {
+  padding: 5px;
+}
