@@ -1,11 +1,16 @@
 import { BASE_URL, FETCH_URLS } from './constants';
-import { ITodoColumn } from '../store/initialStore';
+import { ITodoColumn, ITodoItem } from '../store/initialStore';
 import { request } from './request';
 import { ITodoTitleData } from '../pages/Todos';
 
 export interface ITodoColumnResponse {
   hasError: boolean;
   currentTodoColumn: ITodoTitleData;
+}
+
+export interface ITodoItemResponse {
+  hasError: boolean;
+  currentTodoItem: ITodoTitleData;
 }
 
 export interface IDeleteResponse {
@@ -19,9 +24,12 @@ export interface IEditResponse {
 
 export interface ITodosApi {
   fetchTodoColumns(boardId: string): Promise<ITodoColumn[]>
-  addTodoColumn(todoColumnData: ITodoTitleData, todoId: string): Promise<ITodoColumnResponse>
+  addTodoColumn(todoColumnData: ITodoTitleData, todoId: string): Promise<ITodoColumnResponse>;
   deleteTodoColumn(id: string): Promise<IDeleteResponse>;
   editTodoColumnTitle(todoColumnData: ITodoTitleData, id: string): Promise<IEditResponse>;
+  fetchTodoItems(boardId: string): Promise<ITodoItem[]>;
+  addTodoItem(todoItemData: ITodoTitleData, boardId: string): Promise<ITodoItemResponse>;
+  deleteTodoItem(id: string): Promise<IDeleteResponse>;
 }
 
 class TodosApi implements ITodosApi {
@@ -103,6 +111,59 @@ class TodosApi implements ITodosApi {
       return {
         hasError: true,
         editedTodoColumn: {} as ITodoColumn,
+      };
+    }
+  }
+
+  async fetchTodoItems(boardId: string) : Promise<ITodoItem[]> {
+    let response;
+
+    try {
+      response = await request.get(`${FETCH_URLS.boards}/${boardId}/${FETCH_URLS.todoItems}`);
+    } catch (error) {
+      console.log(error);
+    }
+
+    return response?.data;
+  }
+
+  async addTodoItem(todoItemData: ITodoTitleData, boardId: string): Promise<ITodoItemResponse> {
+    try {
+      const url = `${FETCH_URLS.boards}/${boardId}/${FETCH_URLS.todoItems}`;
+
+      const postedTodoItem = await request.post(url, todoItemData);
+
+      return {
+        hasError: false,
+        currentTodoItem: postedTodoItem.data,
+      };
+    } catch (error) {
+      return {
+        hasError: true,
+        currentTodoItem: {
+          title: '',
+        },
+      };
+    }
+  }
+
+  async deleteTodoItem(id: string): Promise<IDeleteResponse> {
+    try {
+      const deleteUrl = `${BASE_URL}/${FETCH_URLS.todoItems}/${id}`;
+      const deleteResponse = await request.delete(deleteUrl);
+
+      if (deleteResponse.status === 200) {
+        return {
+          hasError: false,
+        };
+      }
+
+      return {
+        hasError: true,
+      };
+    } catch (error) {
+      return {
+        hasError: true,
       };
     }
   }

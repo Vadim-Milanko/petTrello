@@ -1,4 +1,5 @@
 import React, { ChangeEvent, MouseEvent, useState } from 'react';
+import { useParams } from 'react-router';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import AddIcon from '@material-ui/icons/Add';
 import Button from '@material-ui/core/Button';
@@ -8,28 +9,28 @@ import CloseIcon from '@material-ui/icons/Close';
 
 import { InputClassNames, ITodoTitleData } from '../../index';
 import AddTodoForm from '../AddTodoForm';
-import {
-  deleteTodoColumn,
-  editBoardTitle,
-} from '../../../../store/sideEffects/todoColumn';
+import { deleteTodoColumn, editBoardTitle } from '../../../../store/sideEffects/todoColumn';
+import { addTodoItem } from '../../../../store/sideEffects/todoItem';
 import { useCustomDispatch } from '../../../../hooks/useCustomDispatch';
+import { ITodoItem } from '../../../../store/initialStore';
 
 import './style.scss';
+import TodoItem from '../TodoItem';
 
 interface IProps {
   todoColumnId: string;
   todoTitle: string;
+  todoItems: ITodoItem[];
 }
 
 function TodoColumnCard(props: IProps): JSX.Element {
-  const {
-    todoTitle, todoColumnId,
-  } = props;
+  const { todoTitle, todoColumnId, todoItems } = props;
 
   const [isButtonClicked, setIsButtonClicked] = useState<boolean>(false);
   const [isTitleChanging, setIsTitleChanging] = useState<boolean>(false);
   const [title, setTitle] = useState<ITodoTitleData>({ title: todoTitle });
   const dispatch = useCustomDispatch();
+  const params = useParams();
 
   const handleDeleteTodoColumn = () => {
     dispatch(deleteTodoColumn(todoColumnId));
@@ -46,7 +47,7 @@ function TodoColumnCard(props: IProps): JSX.Element {
   };
 
   const handleChangeColumnTitle = () => {
-    dispatch(editBoardTitle(title, todoColumnId));
+    dispatch(editBoardTitle(title, params.id as string));
     setIsTitleChanging(true);
   };
 
@@ -61,8 +62,8 @@ function TodoColumnCard(props: IProps): JSX.Element {
     event.stopPropagation();
   };
 
-  const handleAddTodoList = (todoListTitle: ITodoTitleData) => {
-    console.log(todoListTitle);
+  const handleAddTodoList = (todoItemTitle: ITodoTitleData) => {
+    dispatch(addTodoItem(todoItemTitle, params.id as string));
   };
 
   return (
@@ -90,6 +91,11 @@ function TodoColumnCard(props: IProps): JSX.Element {
           )
         }
         {
+          todoItems.map((item) => (
+            <TodoItem key={item.id} todoItem={item} />
+          ))
+        }
+        {
           isButtonClicked ? (
             <AddTodoForm
               setIsButtonClicked={setIsButtonClicked}
@@ -107,7 +113,6 @@ function TodoColumnCard(props: IProps): JSX.Element {
             </Button>
           )
         }
-
       </div>
       <DeleteSweepIcon className="deleteIcon" onClick={handleDeleteTodoColumn} />
     </div>

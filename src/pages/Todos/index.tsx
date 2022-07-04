@@ -10,6 +10,8 @@ import TodoColumnCard from './components/TodoColumnCard';
 import AddTodoForm from './components/AddTodoForm';
 
 import './style.scss';
+import { getTodoItems } from '../../store/sideEffects/todoItem';
+import { ITodoItem } from '../../store/initialStore';
 
 export interface ITodoTitleData {
   title: string;
@@ -26,12 +28,14 @@ export const InputClassNames = {
 
 function Todos(): JSX.Element {
   const [isButtonClicked, setIsButtonClicked] = useState<boolean>(false);
-  const todos = useCustomSelector((store) => store.todoColumn);
+  const todoColumns = useCustomSelector((store) => store.todoColumn);
+  const todoItems = useCustomSelector<ITodoItem[]>((store) => store.todoItem);
   const dispatch = useCustomDispatch();
   const params = useParams();
 
   useEffect(() => {
     dispatch(getTodoColumns(params.id as string));
+    dispatch(getTodoItems(params.id as string));
   }, []);
 
   const onOpenForm = () => {
@@ -46,11 +50,12 @@ function Todos(): JSX.Element {
     <div className="todos">
       <section className="todos__workspace">
         {
-          todos.map((todo) => (
+          todoColumns.map((todoColumn) => (
             <TodoColumnCard
-              todoColumnId={todo.id}
-              key={todo.id}
-              todoTitle={todo.title}
+              key={todoColumn.id}
+              todoColumnId={todoColumn.id}
+              todoTitle={todoColumn.title}
+              todoItems={todoItems}
             />
           ))
          }

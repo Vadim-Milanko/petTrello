@@ -21,25 +21,22 @@
   ],
   "boards": [
     {
-      "title": "wwww",
-      "userId": "1",
-      "id": 8
-    },
-    {
-      "title": "www1",
-      "userId": "1",
-      "id": 9
-    },
-    {
-      "title": "WW",
+      "title": "1",
       "userId": "2",
-      "id": 10
+      "id": 1
     },
     {
-      "title": "2222",
+      "title": "2",
       "userId": "2",
-      "id": 12
+      "id": 2
     }
   ],
-  "todoColumns": []
+  "todoColumns": [
+    {
+      "title": "!\"",
+      "boardId": "1",
+      "id": 1
+    }
+  ],
+  "todoItems": []
 }

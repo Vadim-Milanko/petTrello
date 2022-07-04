@@ -15,13 +15,13 @@ export const fetchBoards = (userId: string) => async (dispatch: any) => {
   dispatch(getBoardsAction(boardsList));
 };
 
-export const addBoard = (payload: IBoardData, todosNavigate: () => void, userId: string) => (
+export const addBoard = (payload: IBoardData, todoNav: (id: string) => void, userId: string) => (
   async (dispatch: any) => {
     const addResponse = await boardApi.addBoard(payload, userId);
 
     if (!addResponse.hasError) {
       dispatch(addBoardAction(addResponse.currentBoard));
-      todosNavigate();
+      todoNav(addResponse.currentBoard.id);
     }
   }
 );

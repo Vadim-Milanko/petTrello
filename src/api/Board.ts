@@ -5,7 +5,7 @@ import { request } from './request';
 
 export interface IBoardResponse {
   hasError: boolean;
-  currentBoard: IBoardData;
+  currentBoard: IBoard;
 }
 
 export interface IDeleteResponse {
@@ -50,6 +50,7 @@ class BoardApi implements IBoardApi {
       return {
         hasError: true,
         currentBoard: {
+          id: '',
           title: '',
         },
       };

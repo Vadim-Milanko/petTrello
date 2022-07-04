@@ -13,6 +13,9 @@ export function todoItemReducer(state: ITodoItem[], action: TTodoItemActions) {
         action.payload,
       ];
 
+    case types.DELETE_TODO_ITEM_ACTION:
+      return state.filter((todoItem) => todoItem.id !== action.payload);
+
     default:
       return state;
   }
