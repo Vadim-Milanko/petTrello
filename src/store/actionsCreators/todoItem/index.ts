@@ -17,7 +17,7 @@ export const deleteTodoItemAction = (todoItem: string) => ({
   payload: todoItem,
 });
 
-export const editTodoItemTitleAction = (editedTodoItem: ITodoItem) => ({
+export const editTodoItemTitleAction = (editedTodoItemTitle: ITodoItem) => ({
   type: types.EDIT_TODO_ITEM_TITLE_ACTION,
-  payload: editedTodoItem,
+  payload: editedTodoItemTitle,
 });

@@ -3,6 +3,11 @@ import { ITodoColumn, ITodoItem } from '../store/initialStore';
 import { request } from './request';
 import { ITodoTitleData } from '../pages/Todos';
 
+export interface ITodoItemData {
+  title: string;
+  columnId: string;
+}
+
 export interface ITodoColumnResponse {
   hasError: boolean;
   currentTodoColumn: ITodoTitleData;
@@ -10,7 +15,7 @@ export interface ITodoColumnResponse {
 
 export interface ITodoItemResponse {
   hasError: boolean;
-  currentTodoItem: ITodoTitleData;
+  currentTodoItem: ITodoItemData;
 }
 
 export interface IDeleteResponse {
@@ -22,14 +27,21 @@ export interface IEditResponse {
   editedTodoColumn: ITodoColumn;
 }
 
+export interface IEditTodoItemTitleResponse {
+  hasError: boolean;
+  editedTodoItem: ITodoItem;
+  columnId: string;
+}
+
 export interface ITodosApi {
   fetchTodoColumns(boardId: string): Promise<ITodoColumn[]>
   addTodoColumn(todoColumnData: ITodoTitleData, todoId: string): Promise<ITodoColumnResponse>;
   deleteTodoColumn(id: string): Promise<IDeleteResponse>;
-  editTodoColumnTitle(todoColumnData: ITodoTitleData, id: string): Promise<IEditResponse>;
+  editTodoColumnTitle(todoColumnData: string, id: string): Promise<IEditResponse>;
   fetchTodoItems(boardId: string): Promise<ITodoItem[]>;
-  addTodoItem(todoItemData: ITodoTitleData, boardId: string): Promise<ITodoItemResponse>;
+  addTodoItem(todoItemData: ITodoItemData, boardId: string): Promise<ITodoItemResponse>;
   deleteTodoItem(id: string): Promise<IDeleteResponse>;
+  editTodoItemTitle(todoItemData: string, id: string): Promise<IEditTodoItemTitleResponse>
 }
 
 class TodosApi implements ITodosApi {
@@ -89,10 +101,10 @@ class TodosApi implements ITodosApi {
     }
   }
 
-  async editTodoColumnTitle(todoColumnData: ITodoTitleData, id: string): Promise<IEditResponse> {
+  async editTodoColumnTitle(todoColumnData: string, id: string): Promise<IEditResponse> {
     try {
-      const patchUrl = `${BASE_URL}/${id}/${FETCH_URLS.todoColumns}`;
-      const editResponse = await request.patch(patchUrl, todoColumnData);
+      const patchUrl = `${BASE_URL}/${FETCH_URLS.todoColumns}/${id}`;
+      const editResponse = await request.patch(patchUrl, { title: todoColumnData });
 
       if (editResponse.status === 200) {
         return {
@@ -127,7 +139,7 @@ class TodosApi implements ITodosApi {
     return response?.data;
   }
 
-  async addTodoItem(todoItemData: ITodoTitleData, boardId: string): Promise<ITodoItemResponse> {
+  async addTodoItem(todoItemData: ITodoItemData, boardId: string): Promise<ITodoItemResponse> {
     try {
       const url = `${FETCH_URLS.boards}/${boardId}/${FETCH_URLS.todoItems}`;
 
@@ -142,6 +154,7 @@ class TodosApi implements ITodosApi {
         hasError: true,
         currentTodoItem: {
           title: '',
+          columnId: '',
         },
       };
     }
@@ -164,6 +177,35 @@ class TodosApi implements ITodosApi {
     } catch (error) {
       return {
         hasError: true,
+      };
+    }
+  }
+
+  async editTodoItemTitle(todoItemData: string, id: string): Promise<IEditTodoItemTitleResponse> {
+    try {
+      const patchUrl = `${BASE_URL}/${FETCH_URLS.todoItems}/${id}`;
+      const editResponse = await request.patch(patchUrl, { title: todoItemData });
+
+      if (editResponse.status === 200) {
+        return {
+          hasError: false,
+          editedTodoItem: editResponse.data,
+          columnId: '',
+        };
+      }
+
+      return {
+        hasError: true,
+        editedTodoItem: {} as ITodoItem,
+        columnId: '',
+      };
+    } catch (error) {
+      console.log(error);
+
+      return {
+        hasError: true,
+        editedTodoItem: {} as ITodoItem,
+        columnId: '',
       };
     }
   }

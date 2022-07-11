@@ -27,6 +27,7 @@ export interface IBoard {
 export interface ITodoItem {
   id: string;
   title: string;
+  columnId: number;
 }
 
 export interface ITodoColumn {

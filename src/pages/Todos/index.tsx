@@ -8,10 +8,9 @@ import { useCustomSelector } from '../../hooks/useCustomSelector';
 import { addTodoColumn, getTodoColumns } from '../../store/sideEffects/todoColumn';
 import TodoColumnCard from './components/TodoColumnCard';
 import AddTodoForm from './components/AddTodoForm';
+import { getTodoItems } from '../../store/sideEffects/todoItem';
 
 import './style.scss';
-import { getTodoItems } from '../../store/sideEffects/todoItem';
-import { ITodoItem } from '../../store/initialStore';
 
 export interface ITodoTitleData {
   title: string;
@@ -27,9 +26,8 @@ export const InputClassNames = {
 };
 
 function Todos(): JSX.Element {
-  const [isButtonClicked, setIsButtonClicked] = useState<boolean>(false);
+  const [isButtonClicked, setIsButtonClicked] = useState(false);
   const todoColumns = useCustomSelector((store) => store.todoColumn);
-  const todoItems = useCustomSelector<ITodoItem[]>((store) => store.todoItem);
   const dispatch = useCustomDispatch();
   const params = useParams();
 
@@ -54,8 +52,7 @@ function Todos(): JSX.Element {
             <TodoColumnCard
               key={todoColumn.id}
               todoColumnId={todoColumn.id}
-              todoTitle={todoColumn.title}
-              todoItems={todoItems}
+              todoColumnTitle={todoColumn.title}
             />
           ))
          }

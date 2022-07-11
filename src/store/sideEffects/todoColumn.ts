@@ -31,7 +31,7 @@ export const deleteTodoColumn = (todoColumnId: string) => async (dispatch: any) 
   }
 };
 
-export const editBoardTitle = (todoColumnData: ITodoTitleData, id: string) => (
+export const editTodoColumnTitle = (todoColumnData: string, id: string) => (
   async (dispatch: Dispatch<any>) => {
     const editResponse = await todosApi.editTodoColumnTitle(todoColumnData, id);
 

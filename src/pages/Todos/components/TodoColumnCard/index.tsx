@@ -9,61 +9,62 @@ import CloseIcon from '@material-ui/icons/Close';
 
 import { InputClassNames, ITodoTitleData } from '../../index';
 import AddTodoForm from '../AddTodoForm';
-import { deleteTodoColumn, editBoardTitle } from '../../../../store/sideEffects/todoColumn';
+import TodoItem from '../TodoItem';
+import { deleteTodoColumn, editTodoColumnTitle } from '../../../../store/sideEffects/todoColumn';
 import { addTodoItem } from '../../../../store/sideEffects/todoItem';
 import { useCustomDispatch } from '../../../../hooks/useCustomDispatch';
+import { useCustomSelector } from '../../../../hooks/useCustomSelector';
 import { ITodoItem } from '../../../../store/initialStore';
-import TodoItem from '../TodoItem';
 
 import './style.scss';
 
 interface IProps {
   todoColumnId: string;
-  todoTitle: string;
-  todoItems: ITodoItem[];
+  todoColumnTitle: string;
 }
 
 function TodoColumnCard(props: IProps): JSX.Element {
-  const { todoTitle, todoColumnId, todoItems } = props;
+  const { todoColumnTitle, todoColumnId } = props;
 
-  const [isButtonClicked, setIsButtonClicked] = useState<boolean>(false);
-  const [isTitleChanging, setIsTitleChanging] = useState<boolean>(false);
-  const [title, setTitle] = useState<ITodoTitleData>({ title: todoTitle });
+  const [isButtonClicked, setIsButtonClicked] = useState(false);
+  const [isTitleChanging, setIsTitleChanging] = useState(false);
+  const [columnCardTitle, setColumnCardTitle] = useState(todoColumnTitle);
+  const todoItems = useCustomSelector<ITodoItem[]>((store) => store.todoItem);
   const dispatch = useCustomDispatch();
   const params = useParams();
+
+  const currentTodoItems = todoItems.filter((item) => item.columnId === +todoColumnId);
 
   const handleDeleteTodoColumn = () => {
     dispatch(deleteTodoColumn(todoColumnId));
   };
 
-  const onOpenForm = () => {
+  const handleOpenForm = () => {
     setIsButtonClicked(true);
   };
 
   const handleChangeTitle = (event: ChangeEvent<HTMLInputElement>) => {
-    setTitle({
-      title: event.target.value,
-    });
+    setColumnCardTitle(event.target.value);
   };
 
-  const handleChangeColumnTitle = () => {
-    dispatch(editBoardTitle(title, params.id as string));
+  const handleTitleChanging = () => {
     setIsTitleChanging(true);
   };
 
   const handleCancelTitleChanging = (event: MouseEvent<SVGSVGElement>) => {
     setIsTitleChanging(false);
-    setTitle({ title: todoTitle });
+    setColumnCardTitle(todoColumnTitle);
     event.stopPropagation();
   };
 
   const handleSaveTitleChanging = (event: MouseEvent<SVGSVGElement>) => {
     setIsTitleChanging(false);
+    dispatch(editTodoColumnTitle(columnCardTitle, todoColumnId));
     event.stopPropagation();
   };
 
   const handleAddTodoList = (todoItemTitle: ITodoTitleData) => {
-    dispatch(addTodoItem(todoItemTitle, params.id as string));
+    dispatch(addTodoItem({ ...todoItemTitle, columnId: todoColumnId }, params.id as string));
   };
 
   return (
@@ -75,7 +76,7 @@ function TodoColumnCard(props: IProps): JSX.Element {
               id="outlined-basic"
               classes={InputClassNames}
               onChange={handleChangeTitle}
-              value={title.title}
+              value={columnCardTitle}
               autoFocus
               endAdornment={(
                 <div className="editSettings">
@@ -85,13 +86,13 @@ function TodoColumnCard(props: IProps): JSX.Element {
               )}
             />
           ) : (
-            <div className="todoColumnCard__title" onClick={handleChangeColumnTitle}>
-              {title.title}
+            <div className="todoColumnCard__title" onClick={handleTitleChanging}>
+              {columnCardTitle}
             </div>
           )
         }
         {
-          todoItems.map((item) => (
+          currentTodoItems.map((item) => (
             <TodoItem key={item.id} todoItem={item} />
           ))
         }
@@ -106,7 +107,7 @@ function TodoColumnCard(props: IProps): JSX.Element {
           ) : (
             <Button
               className="addTodoBtn"
-              onClick={onOpenForm}
+              onClick={handleOpenForm}
             >
               <AddIcon />
               <div className="addTodoBtn__title">Add todo</div>
