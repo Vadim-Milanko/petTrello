@@ -1,0 +1,76 @@
+@import "src/assets/sass/glob";
+
+.todoColumnCardWrap {
+  display: flex;
+  width: 290px;
+  min-width: 280px;
+  background-color: #B4DBFF;
+  border-radius: 5px;
+  padding: 10px 3px 10px 10px;
+  margin-right: 20px;
+}
+
+.todoColumnCard {
+  display: flex;
+  align-items: start;
+  flex-direction: column;
+  width: 90%;
+  padding-left: 5px;
+
+  &__title {
+    width: 95%;
+    margin-left: 5px;
+    padding: 5px;
+    text-align: start;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+}
+
+body .addTodoBtn {
+  background: #A6C9FF;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  width: 150px;
+  max-height: 30px;
+  margin-top: 5px;
+  margin-left: 5px;
+
+  &__title {
+    margin-left: 5px;
+  }
+
+  &:hover {
+    background-color: #73A7F6;
+  }
+}
+
+.deleteIcon {
+  padding: 3px;
+  margin-right: 3px;
+
+  &:hover {
+    border-radius: 5px;
+    background-color: #73A7F6;
+    cursor: pointer;
+  }
+}
+
+.editIcons {
+  padding: 2px;
+
+  &:hover {
+    border-radius: 5px;
+    background-color: #73A7F6;
+    cursor: pointer;
+  }
+}
+
+.editSettings {
+  display: flex;
+  align-items: center;
+}

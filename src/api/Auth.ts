@@ -1,10 +1,9 @@
-import axios from 'axios';
-
-import { BASE_URL, VALIDATION_MESSAGES, FETCH_URLS } from './constants';
+import { VALIDATION_MESSAGES, FETCH_URLS } from './constants';
 import { getIsUserExist, getUserByEmail, checkOnRegistered } from '../utils/signUp';
 import { IUserFields } from '../pages/SignUp';
 import { ILoginUserData } from '../pages/LogIn';
 import { IUser } from '../store/initialStore';
+import { request } from './request';
 
 export interface IServerResponse {
   hasError: boolean | null;
@@ -17,10 +16,6 @@ export interface IAuthApi {
   loginUser(userData: ILoginUserData): Promise<IServerResponse>;
   registerUser(userData: IUserFields): Promise<IServerResponse>;
 }
-
-const request = axios.create({
-  baseURL: BASE_URL,
-});
 
 class AuthApi implements IAuthApi {
   async fetchUsers() : Promise<IUserFields[]> {
@@ -48,6 +43,7 @@ class AuthApi implements IAuthApi {
           currentUser: user,
         };
       }
+
       return {
         hasError: true,
         message: VALIDATION_MESSAGES.FAILED_LOGIN_USER,
@@ -59,6 +55,7 @@ class AuthApi implements IAuthApi {
       };
     } catch (error) {
       console.log(error);
+
       return {
         hasError: true,
         message: VALIDATION_MESSAGES.FAILED_MASSAGE,
@@ -102,6 +99,7 @@ class AuthApi implements IAuthApi {
       };
     } catch (error) {
       console.log(error);
+
       return {
         hasError: true,
         message: VALIDATION_MESSAGES.FAILED_MASSAGE,

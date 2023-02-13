@@ -51,7 +51,7 @@ function SignUp(): JSX.Element {
   const navigate = useNavigate();
 
   const onSubmit = (values: IUserFields) => {
-    dispatch(registerUser(values, () => navigate('/dashboard')));
+    dispatch(registerUser(values, () => navigate('/')));
   };
 
   const formik = useFormik<IUserFields>({

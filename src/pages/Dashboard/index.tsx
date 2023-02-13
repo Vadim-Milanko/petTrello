@@ -8,6 +8,7 @@ import { IBoard } from '../../store/initialStore';
 import BoardCard from './components/BoardCard';
 import { useCustomDispatch } from '../../hooks/useCustomDispatch';
 import { fetchBoards } from '../../store/sideEffects/board';
+import { getUserFromLS } from '../../utils/localStorage';
 import logo from '../../assets/images/small-logo.png';
 
 import './style.scss';
@@ -18,9 +19,10 @@ function Dashboard(): JSX.Element {
   const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
   const boards = useCustomSelector<IBoard[]>((store) => store.boards);
   const dispatch = useCustomDispatch();
+  const currentUser = getUserFromLS();
 
   const getBoards = () => {
-    dispatch(fetchBoards());
+    dispatch(fetchBoards(currentUser.id));
   };
 
   useEffect(() => {
